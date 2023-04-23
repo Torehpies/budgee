@@ -88,7 +88,7 @@ public class mainFrame extends javax.swing.JFrame {
         label_logo.setText("budgee");
         label_logo.setOpaque(true);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/budgee/img/budgee_logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/budgee/img/bungee_logo.png"))); // NOI18N
 
         javax.swing.GroupLayout panel_logoLayout = new javax.swing.GroupLayout(panel_logo);
         panel_logo.setLayout(panel_logoLayout);
@@ -417,6 +417,9 @@ public class mainFrame extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
