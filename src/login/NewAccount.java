@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Insets;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -72,12 +73,14 @@ public class NewAccount extends JFrame {
 	 * Create the frame.
 	 */
 	public NewAccount() {
+		
 		Connect();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 594, 551);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(69, 92, 123));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -98,8 +101,10 @@ public class NewAccount extends JFrame {
 		contentPane.add(firstNameL);
 		
 		fname = new JTextField();
+		fname.setForeground(new Color(252, 187, 109));
 		fname.setBounds(32, 107, 270, 36);
 		fname.setBackground(new Color(66, 83, 109));
+		fname.setMargin(new Insets(10, 10, 10, 10));
 		contentPane.add(fname);
 		fname.setColumns(10);
 		
@@ -109,9 +114,11 @@ public class NewAccount extends JFrame {
 		contentPane.add(lastNameL);
 		
 		lname = new JTextField();
+		lname.setForeground(new Color(252, 187, 109));
 		lname.setBounds(31, 168, 270, 36);
 		lname.setBackground(new Color(66, 83, 109));
 		lname.setColumns(10);
+		lname.setMargin(new Insets(10, 10, 10, 10));
 		contentPane.add(lname);
 		
 		JLabel contactInfoL = new JLabel("Contact");
@@ -120,15 +127,19 @@ public class NewAccount extends JFrame {
 		contentPane.add(contactInfoL);
 		
 		contact = new JTextField();
+		contact.setForeground(new Color(252, 187, 109));
 		contact.setBounds(32, 229, 270, 36);
 		contact.setBackground(new Color(66, 83, 109));
 		contact.setColumns(10);
+		contact.setMargin(new Insets(10, 10, 10, 10));
 		contentPane.add(contact);
 		
 		username = new JTextField();
+		username.setForeground(new Color(252, 187, 109));
 		username.setBounds(32, 298, 270, 36);
 		username.setBackground(new Color(66, 83, 109));
 		username.setColumns(10);
+		username.setMargin(new Insets(10, 10, 10, 10));
 		contentPane.add(username);
 		
 		JLabel username1 = new JLabel("Username");
@@ -192,8 +203,10 @@ public class NewAccount extends JFrame {
 		contentPane.add(register);
 		
 		password = new JPasswordField();
+		password.setForeground(new Color(252, 187, 109));
 		password.setBounds(31, 361, 270, 36);
 		password.setBackground(new Color(66, 83, 109));
+		password.setMargin(new Insets(10, 10, 10, 10));
 		contentPane.add(password);
 	}
 }

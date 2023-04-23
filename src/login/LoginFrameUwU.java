@@ -52,6 +52,7 @@ public class LoginFrameUwU {
 	 */
 	public LoginFrameUwU() {
 		initialize();
+		
 	}
 
 	/**
@@ -169,5 +170,6 @@ public class LoginFrameUwU {
 		frmLoginBudgee.getContentPane().add(pass);
 		frmLoginBudgee.setBounds(100, 100, 756, 547);
 		frmLoginBudgee.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLoginBudgee.setLocationRelativeTo(null);
 	}
 }
