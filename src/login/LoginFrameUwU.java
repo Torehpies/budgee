@@ -110,7 +110,7 @@ public class LoginFrameUwU {
 		loginBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Class.forName("com.mysql.jdbc.Driver");
+					Class.forName("com.mysql.cj.jdbc.Driver");
 					Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root","root","markypogi319");
 					Statement stmt=con.createStatement();
 					
