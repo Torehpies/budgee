@@ -150,7 +150,7 @@ public class LoginFrameUwU {
 		newAccBTN = new JButton("Create new account");
 		newAccBTN.setForeground(new Color(252, 187, 109));
 		newAccBTN.setBackground(new Color(66, 83, 109));
-		newAccBTN.setFont(new Font("VALORANT", Font.PLAIN, 12));
+		newAccBTN.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 		newAccBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NewAccount newAcc = new NewAccount();
