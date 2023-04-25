@@ -83,7 +83,7 @@ public class LoginFrameUwU {
 		
 		user = new JTextField();
 		user.setBackground(new Color(66, 83, 109));
-		user.setForeground(Color.WHITE);
+		user.setForeground(new Color(252, 187, 109));
 		user.setColumns(10);
 		user.setBounds(231, 295, 307, 40);
 		user.setMargin(new Insets(10, 10, 10, 10));
