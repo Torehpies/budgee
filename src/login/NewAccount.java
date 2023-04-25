@@ -67,7 +67,38 @@ public class NewAccount extends JFrame {
 	        // Handle the exception appropriately, e.g. show an error message to the user
 	    }
 
+
 	}
+	
+	public void CreateTable() {
+		try {
+
+			String sql = "CREATE TABLE IF NOT EXISTS MyTable " +
+                    "(id INTEGER not NULL, " +
+                    " name VARCHAR(255), " +
+                    " age INTEGER, " +
+                    " PRIMARY KEY ( id ))";
+			
+			pst.executeUpdate(sql);
+	         System.out.println("Table created successfully...");
+	      } catch (SQLException se) {
+	         se.printStackTrace();
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      } finally {
+	         try {
+	            if (pst != null) pst.close();
+	         } catch (SQLException se2) {
+	         }
+	         try {
+	            if (con != null) con.close();
+	         } catch (SQLException se) {
+	            se.printStackTrace();
+	         }
+	               
+		}
+	}
+	
 	
 	/**
 	 * Create the frame.
@@ -170,6 +201,7 @@ public class NewAccount extends JFrame {
 				String passWord = new String (password.getText());
 				
 				try {
+					
 				pst = con.prepareStatement("INSERT INTO budgee_accounts.accounts1(first_name, last_name, contact, username, password) VALUE(?,?,?,?,?)");
 				pst.setString(1, first_name);
 				pst.setString(2, last_name);
@@ -177,7 +209,18 @@ public class NewAccount extends JFrame {
 				pst.setString(4, userName);
 				pst.setString(5, passWord);
 				
-				int rs=pst.executeUpdate();
+				String sql = "CREATE TABLE budgee_accounts.user_records (\r\n"
+						+ "  ID INT NOT NULL AUTO_INCREMENT,\r\n"
+						+ "  date VARCHAR(45) NOT NULL,\r\n"
+						+ "  time VARCHAR(45) NOT NULL,\r\n"
+						+ "  balance_update VARCHAR(45) NOT NULL,\r\n"
+						+ "  notes VARCHAR(300) NOT NULL,\r\n"
+						+ "  action VARCHAR(45) NOT NULL,\r\n"
+						+ "  category VARCHAR(45) NOT NULL,\r\n"
+						+ "  account VARCHAR(45) NOT NULL,\r\n"
+						+ "  PRIMARY KEY (ID))";
+				
+				int rs=pst.executeUpdate(sql);
 				
 				if (rs==1) {
 					JOptionPane.showMessageDialog(register, "You Have Successfully Registered");
