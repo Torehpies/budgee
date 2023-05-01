@@ -395,8 +395,7 @@ public class mainmain extends JFrame {
 		frmMain.add(layerpanebelow);
 		
 		JLabel lblNewLabel = new JLabel("");
-		ImageIcon loglog = new ImageIcon (this.getClass().getResource("/budgee_logo1.png"));
-		lblNewLabel.setIcon(loglog);
+		lblNewLabel.setIcon(new ImageIcon("./imgs/budgee_logo1.png"));
 		lblNewLabel.setBounds(53, 64, 100, 120);
 		frmMain.add(lblNewLabel);
 		
