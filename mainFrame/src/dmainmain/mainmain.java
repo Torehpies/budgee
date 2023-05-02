@@ -394,11 +394,11 @@ public class mainmain extends JFrame {
 		frmMain.add(rec_button);
 		frmMain.add(layerpanebelow);
 		
-		JLabel lblNewLabel = new JLabel("");
-		ImageIcon loglog = new ImageIcon (this.getClass().getResource("/budgee_logo1.png"));
-		lblNewLabel.setIcon(loglog);
-		lblNewLabel.setBounds(53, 64, 100, 120);
-		frmMain.add(lblNewLabel);
+//		JLabel logoBudgee = new JLabel("");
+//		ImageIcon loglog = new ImageIcon (this.getClass().getResource("imgs/budgee_logo1.png"));
+//		logoBudgee.setIcon(loglog);
+//		logoBudgee.setBounds(53, 64, 100, 120);
+//		frmMain.add(logoBudgee);
 		
 	}
 }
