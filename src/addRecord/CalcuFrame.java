@@ -74,7 +74,7 @@ import javax.swing.border.EtchedBorder;
 			
 			
 			
-			JPanel panel = new JPanel();
+			final JPanel panel = new JPanel();
 			panel.setBackground(new Color(69, 92, 123));
 			panel.setBounds(0, 0, 748, 516);
 			LayeredPanel.add(panel);
@@ -122,7 +122,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			JButton btnDot = new JButton(".");
+			final JButton btnDot = new JButton(".");
 			btnDot.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnDot.setBackground(new Color(71, 86, 122));
 			btnDot.setFocusable(false);
@@ -486,7 +486,7 @@ import javax.swing.border.EtchedBorder;
 			panel.add(btnCancel_1_1);
 			
 			
-			JPanel panel_2 = new JPanel();
+			final JPanel panel_2 = new JPanel();
 			panel_2.setBackground(new Color(69, 92, 123));
 			panel_2.setBounds(0, 0, 748, 516);
 			LayeredPanel.add(panel_2);
@@ -574,7 +574,7 @@ import javax.swing.border.EtchedBorder;
 			});
 			
 			
-			JButton btn9_1 = new JButton("9");
+			final JButton btn9_1 = new JButton("9");
 			btn9_1.setForeground(new Color(252, 187, 109));
 			btn9_1.setBackground(new Color(71, 86, 122));
 			btn9_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -600,7 +600,7 @@ import javax.swing.border.EtchedBorder;
 			textField_2.setBounds(10, 48, 300, 45);
 			panel_1_2.add(textField_2);
 			
-			JLabel lbl2 = new JLabel(" ");
+			final JLabel lbl2 = new JLabel(" ");
 			lbl2.setBounds(10, 11, 298, 33);
 			panel_1_2.add(lbl2);
 			
@@ -650,7 +650,7 @@ import javax.swing.border.EtchedBorder;
 					lbl2.setText(first + " /");
 				}});
 			
-			JButton btn4_1 = new JButton("4");
+			final JButton btn4_1 = new JButton("4");
 			btn4_1.setForeground(new Color(252, 187, 109));
 			btn4_1.setBackground(new Color(71, 86, 122));
 			btn4_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -664,7 +664,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			JButton btn5_1 = new JButton("5");
+			final JButton btn5_1 = new JButton("5");
 			btn5_1.setForeground(new Color(252, 187, 109));
 			btn5_1.setBackground(new Color(71, 86, 122));
 			btn5_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -678,7 +678,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			JButton btn6_1 = new JButton("6");
+			final JButton btn6_1 = new JButton("6");
 			btn6_1.setForeground(new Color(252, 187, 109));
 			btn6_1.setBackground(new Color(71, 86, 122));
 			btn6_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -692,7 +692,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			JButton btn3_1 = new JButton("3");
+			final JButton btn3_1 = new JButton("3");
 			btn3_1.setForeground(new Color(252, 187, 109));
 			btn3_1.setBackground(new Color(71, 86, 122));
 			btn3_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -706,7 +706,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			JButton btn2_1 = new JButton("2");
+			final JButton btn2_1 = new JButton("2");
 			btn2_1.setForeground(new Color(252, 187, 109));
 			btn2_1.setBackground(new Color(71, 86, 122));
 			btn2_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -720,7 +720,7 @@ import javax.swing.border.EtchedBorder;
 				}});
 			
 			
-			JButton btn1_1 = new JButton("1");
+			final JButton btn1_1 = new JButton("1");
 			btn1_1.setForeground(new Color(252, 187, 109));
 			btn1_1.setBackground(new Color(71, 86, 122));
 			btn1_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -748,7 +748,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			JButton btnDot_1 = new JButton(".");
+			final JButton btnDot_1 = new JButton(".");
 			btnDot_1.setForeground(new Color(252, 187, 109));
 			btnDot_1.setBackground(new Color(71, 86, 122));
 			btnDot_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
