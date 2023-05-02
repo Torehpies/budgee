@@ -1,4 +1,4 @@
-package dmainmain;
+package budgee;
 
 import java.awt.EventQueue;
 
@@ -23,7 +23,7 @@ import javax.swing.JRadioButton;
 
 public class LoginFrameUwU {
 
-	private JFrame frmLoginBudgee;
+	JFrame frmLoginBudgee;
 	private JTextField user;
 	private JLabel budgeeLogo;
 	private JLabel budgeeLabel;
@@ -34,18 +34,7 @@ public class LoginFrameUwU {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginFrameUwU window = new LoginFrameUwU();
-					window.frmLoginBudgee.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the application.

@@ -1,4 +1,4 @@
-package dmainmain;
+package budgee;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -193,6 +193,14 @@ public class mainmain extends JFrame {
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
 		layerpanebelow.add(rec_panel);
+		
+		JButton plusCalc = new JButton("New button");
+		plusCalc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		plusCalc.setBounds(628, 339, 127, 93);
+		rec_panel.add(plusCalc);
 		layerpanebelow.add(analytic_panel);
 		layerpanebelow.add(budget_panel);
 		layerpanebelow.add(acc_panel);
