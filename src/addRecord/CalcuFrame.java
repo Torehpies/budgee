@@ -1,4 +1,4 @@
-package loginAddrec;
+package addRecord;
 
 import java.awt.EventQueue;
 
