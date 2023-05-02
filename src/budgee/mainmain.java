@@ -6,14 +6,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicButtonUI;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -22,6 +31,13 @@ import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+
+import loginAddrec.CalcuFrame;
+import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
 
 public class mainmain extends JFrame {
 
@@ -29,10 +45,12 @@ public class mainmain extends JFrame {
 	private JTextField ex_tf;
 	private JTextField in_tf;
 	private JTextField tot_tf;
+	private final Action action = new SwingAction();
 
 	/**
 	 * Launch the application.
 	 */
+	
 
 	/**
 	 * Create the frame.
@@ -49,6 +67,7 @@ public class mainmain extends JFrame {
 		
 		JLayeredPane layerpanebelow = new JLayeredPane();
 		layerpanebelow.setBounds(208, 182, 792, 460);
+		
 		
 		final JPanel rec_panel = new JPanel();
 		rec_panel.setBackground(new Color(66, 83, 109));
@@ -182,28 +201,44 @@ public class mainmain extends JFrame {
 		layerpanebelow.setLayout(null);
 		layerpanebelow.add(rec_panel);
 		
-		JButton rec_btn = new JButton("New button");
-		rec_btn.setForeground(new Color(252, 187, 109));
-		rec_btn.setBackground(new Color(85, 111, 146));
-		rec_btn.addActionListener(new ActionListener() {
+		JButton calcu = new JButton("New button");
+
+		calcu.setForeground(new Color(252, 187, 109));
+		calcu.setBackground(new Color(85, 111, 146));
+		calcu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CalcuFrame win = new CalcuFrame();
+				win.setVisible(true);
 			}
 		});
-		rec_btn.setBounds(685, 378, 97, 70);
-		rec_panel.add(rec_btn);
+		calcu.setBounds(685, 378, 97, 70);
+		rec_panel.add(calcu);
 		layerpanebelow.add(analytic_panel);
 		
-		JButton analytic_btn = new JButton("New button");
-		analytic_btn.setBackground(new Color(85, 111, 146));
-		analytic_btn.setForeground(new Color(252, 187, 109));
-		analytic_btn.setBounds(685, 378, 97, 70);
-		analytic_panel.add(analytic_btn);
+		JButton calcu1 = new JButton("New button");
+		calcu1.setAction(action);
+		calcu1.setBackground(new Color(85, 111, 146));
+		calcu1.setForeground(new Color(252, 187, 109));
+		calcu1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CalcuFrame win = new CalcuFrame();
+				win.setVisible(true);
+			}
+		});
+		calcu1.setBounds(685, 378, 97, 70);
+		analytic_panel.add(calcu1);
 		layerpanebelow.add(budget_panel);
 		
 		JButton budget_btn = new JButton("New button");
 		budget_btn.setForeground(new Color(252, 187, 109));
 		budget_btn.setBackground(new Color(85, 111, 146));
 		budget_btn.setBounds(685, 378, 97, 70);
+		budget_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CalcuFrame win = new CalcuFrame();
+				win.setVisible(true);
+			}
+		});
 		budget_panel.add(budget_btn);
 		layerpanebelow.add(acc_panel);
 		
@@ -211,6 +246,12 @@ public class mainmain extends JFrame {
 		acc_btn.setBackground(new Color(85, 111, 146));
 		acc_btn.setForeground(new Color(252, 187, 109));
 		acc_btn.setBounds(685, 378, 97, 70);
+		acc_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CalcuFrame win = new CalcuFrame();
+				win.setVisible(true);
+			}
+		});
 		acc_panel.add(acc_btn);
 		layerpanebelow.add(categ_panel);
 		
@@ -218,6 +259,12 @@ public class mainmain extends JFrame {
 		categ_btn.setForeground(new Color(252, 187, 109));
 		categ_btn.setBackground(new Color(85, 111, 146));
 		categ_btn.setBounds(685, 378, 97, 70);
+		categ_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CalcuFrame win = new CalcuFrame();
+				win.setVisible(true);
+			}
+		});
 		categ_panel.add(categ_btn);
 		
 		JPanel exint = new JPanel();
@@ -422,5 +469,13 @@ public class mainmain extends JFrame {
 		logoBudgee.setBounds(53, 64, 100, 120);
 		frmMain.add(logoBudgee);
 		
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
 	}
 }
