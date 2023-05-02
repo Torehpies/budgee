@@ -182,17 +182,43 @@ public class mainmain extends JFrame {
 		layerpanebelow.setLayout(null);
 		layerpanebelow.add(rec_panel);
 		
-		JButton plusCalc = new JButton("New button");
-		plusCalc.addActionListener(new ActionListener() {
+		JButton rec_btn = new JButton("New button");
+		rec_btn.setForeground(new Color(252, 187, 109));
+		rec_btn.setBackground(new Color(85, 111, 146));
+		rec_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		plusCalc.setBounds(628, 339, 127, 93);
-		rec_panel.add(plusCalc);
+		rec_btn.setBounds(685, 378, 97, 70);
+		rec_panel.add(rec_btn);
 		layerpanebelow.add(analytic_panel);
+		
+		JButton analytic_btn = new JButton("New button");
+		analytic_btn.setBackground(new Color(85, 111, 146));
+		analytic_btn.setForeground(new Color(252, 187, 109));
+		analytic_btn.setBounds(685, 378, 97, 70);
+		analytic_panel.add(analytic_btn);
 		layerpanebelow.add(budget_panel);
+		
+		JButton budget_btn = new JButton("New button");
+		budget_btn.setForeground(new Color(252, 187, 109));
+		budget_btn.setBackground(new Color(85, 111, 146));
+		budget_btn.setBounds(685, 378, 97, 70);
+		budget_panel.add(budget_btn);
 		layerpanebelow.add(acc_panel);
+		
+		JButton acc_btn = new JButton("New button");
+		acc_btn.setBackground(new Color(85, 111, 146));
+		acc_btn.setForeground(new Color(252, 187, 109));
+		acc_btn.setBounds(685, 378, 97, 70);
+		acc_panel.add(acc_btn);
 		layerpanebelow.add(categ_panel);
+		
+		JButton categ_btn = new JButton("New button");
+		categ_btn.setForeground(new Color(252, 187, 109));
+		categ_btn.setBackground(new Color(85, 111, 146));
+		categ_btn.setBounds(685, 378, 97, 70);
+		categ_panel.add(categ_btn);
 		
 		JPanel exint = new JPanel();
 		exint.setBounds(675, 64, 325, 100);
@@ -390,11 +416,11 @@ public class mainmain extends JFrame {
 		frmMain.add(rec_button);
 		frmMain.add(layerpanebelow);
 		
-//		JLabel logoBudgee = new JLabel("");
-//		ImageIcon loglog = new ImageIcon (this.getClass().getResource("imgs/budgee_logo1.png"));
-//		logoBudgee.setIcon(loglog);
-//		logoBudgee.setBounds(53, 64, 100, 120);
-//		frmMain.add(logoBudgee);
+		JLabel logoBudgee = new JLabel("");
+		ImageIcon loglog = new ImageIcon ("imgs/budgee_logo1.png");
+		logoBudgee.setIcon(loglog);
+		logoBudgee.setBounds(53, 64, 100, 120);
+		frmMain.add(logoBudgee);
 		
 	}
 }
