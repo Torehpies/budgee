@@ -79,11 +79,11 @@ public class LoginFrameUwU {
 		frmLoginBudgee.getContentPane().add(user);
 		
 		
-//		budgeeLogo = new JLabel("");
-//		Image img = new ImageIcon(this.getClass().getResource("/budgeeLogo1.png")).getImage();
-//		budgeeLogo.setIcon(new ImageIcon(img));
-//		budgeeLogo.setBounds(302, -15, 180, 261);
-//		frmLoginBudgee.getContentPane().add(budgeeLogo);
+		budgeeLogo = new JLabel("");
+		ImageIcon logo = new ImageIcon("imgs/budgee_logo1.png");
+		budgeeLogo.setIcon(logo);
+		budgeeLogo.setBounds(329, 58, 180, 191);
+		frmLoginBudgee.getContentPane().add(budgeeLogo);
 		
 		
 		budgeeLabel = new JLabel("budgee");
