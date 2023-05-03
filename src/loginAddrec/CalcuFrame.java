@@ -4,31 +4,47 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
-
 import javax.swing.JComboBox;
-
-
 import javax.swing.JLayeredPane;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.UIManager;
-import javax.swing.border.LineBorder;
-import javax.swing.border.EtchedBorder;
+import budgee.NewAccount;
+
 
 
 
 	public class CalcuFrame extends JFrame {
+		
+		Connection con;
+		PreparedStatement pst;
+		ResultSet rs;
+		
+		public void Connect() {
+		try {
+		      Class.forName("com.mysql.cj.jdbc.Driver");
+		      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "markypogi319");
+		    } catch (ClassNotFoundException | SQLException ex) {
+		      Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);
+		        // Handle the exception appropriately, e.g. show an error message to the user
+		    }
+
+		}
 		
 		private JPanel contentPane;
 		private JTextField textField;
@@ -40,7 +56,7 @@ import javax.swing.border.EtchedBorder;
 		double result;
 		String operation;
 		String answer;
-		private JTextField txtAddNote, txtAddNote_2;
+		private JTextField JTFAddNote, txtAddNote_2;
 		
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
@@ -412,14 +428,14 @@ import javax.swing.border.EtchedBorder;
 			lbl1.setBounds(10, 11, 298, 33);
 			panel_1.add(lbl1);
 			
-			txtAddNote = new JTextField();
-			txtAddNote.setHorizontalAlignment(SwingConstants.LEFT);
-			txtAddNote.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			txtAddNote.setForeground(Color.BLACK);
-			txtAddNote.setText("Add Note");
-			txtAddNote.setBounds(45, 107, 662, 93);
-			panel.add(txtAddNote);
-			txtAddNote.setColumns(10);
+			JTFAddNote = new JTextField();
+			JTFAddNote.setHorizontalAlignment(SwingConstants.LEFT);
+			JTFAddNote.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			JTFAddNote.setForeground(Color.BLACK);
+			JTFAddNote.setText("Add Note");
+			JTFAddNote.setBounds(45, 107, 662, 93);
+			panel.add(JTFAddNote);
+			JTFAddNote.setColumns(10);
 			
 			JComboBox comboBox_Acc = new JComboBox();
 			comboBox_Acc.setFocusable(false);
@@ -474,6 +490,51 @@ import javax.swing.border.EtchedBorder;
 			panel.add(btnTime);
 			
 			JButton btnSave_1_1 = new JButton("Save");
+			btnSave_1_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+				         // Connect to the database
+				         Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "markypogi319");
+				         // Create a prepared statement to retrieve the latest primary key ID
+				         PreparedStatement pst = con.prepareStatement("SELECT MAX(id) FROM budgee_accounts.accounts1");
+				         
+				         // Execute the prepared statement and retrieve the result set
+				         ResultSet rs = pst.executeQuery();
+				         
+				         // Check if the result set contains any rows
+				         if (rs.next()) {
+				            // Retrieve the latest primary key ID from the result set
+				            int id = rs.getInt(1);
+				            
+				            // Print out the latest primary key ID
+				            System.out.println("The latest primary key ID is: " + id);
+				            
+				            String tableName = "user_" + id; // Get the table name from the text field
+				            
+				            String sql = "INSERT INTO budgee_accounts." + tableName + " ()";
+
+				            try {
+				                PreparedStatement pst1 = con.prepareStatement(sql);
+				                pst1.executeUpdate();
+				            } catch (SQLException e2) {
+				                System.out.println("Error creating table: " + e2.getMessage());
+				            }
+				            
+				         } else {
+				            System.out.println("No rows found in the result set.");
+				         }
+				         
+				         // Close the result set, prepared statement, and connection
+				         rs.close();
+				         pst.close();
+				         con.close();
+				      } catch (SQLException e2) {
+				         System.out.println("SQLException: " + e2.getMessage());
+				         System.out.println("SQLState: " + e2.getSQLState());
+				         System.out.println("VendorError: " + e2.getErrorCode());
+				      }
+				}
+			});
 			btnSave_1_1.setFocusable(false);
 			btnSave_1_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnSave_1_1.setBounds(616, 460, 91, 38);
@@ -920,5 +981,3 @@ import javax.swing.border.EtchedBorder;
 }
 		
 				
-
-

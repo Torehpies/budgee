@@ -108,7 +108,22 @@ public class LoginFrameUwU {
 					
 					if(rs.next()==true) {
 						/////make a condition where if login = true exe
+					PreparedStatement pst = con.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
+							+ "WHERE username='"+user.getText()+"' and password='"+pass.getText()+"'");
+					ResultSet rs3 = pst.executeQuery();
+					
+					if (rs3.next()) {
+						int id = rs3.getInt(1);
 						
+					System.out.println("The primary key ID is: " + id);
+					
+					
+					String tableID = "user_" + id;
+					
+					String sql1 = "SELECT * FROM budgee_accounts."+ tableID;
+					ResultSet rs1 = stmt.executeQuery(sql1);
+
+					}
 					mainmain main = new mainmain();
 					main.setVisible(true);
 					frmLoginBudgee.dispose();
@@ -146,7 +161,7 @@ public class LoginFrameUwU {
 		newAccBTN = new JButton("Create new account");
 		newAccBTN.setForeground(new Color(252, 187, 109));
 		newAccBTN.setBackground(new Color(66, 83, 109));
-		newAccBTN.setFont(new Font("VALORANT", Font.PLAIN, 12));
+		newAccBTN.setFont(new Font("Segoe UI Historic", Font.BOLD, 14));
 		newAccBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NewAccount newAcc = new NewAccount();
