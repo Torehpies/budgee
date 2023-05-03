@@ -100,7 +100,7 @@ public class LoginFrameUwU {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root","root","markypogi319");
+					Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root","root","P1n@gl@l@gy@nngd@t@b@s3");
 					Statement stmt=con.createStatement();
 					
 					String sql="SELECT * FROM budgee_accounts.accounts1 where username='"+user.getText()+"' and password='"+pass.getText()+"'";

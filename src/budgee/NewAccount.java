@@ -64,7 +64,7 @@ public class NewAccount extends JFrame {
 	public void Connect() {
 	try {
 	      Class.forName("com.mysql.cj.jdbc.Driver");
-	      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "markypogi319");
+	      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "P1n@gl@l@gy@nngd@t@b@s3");
 	    } catch (ClassNotFoundException | SQLException ex) {
 	      Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);
 	        // Handle the exception appropriately, e.g. show an error message to the user
