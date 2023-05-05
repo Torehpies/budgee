@@ -48,11 +48,6 @@ public class mainmain extends JFrame {
 	private final Action action = new SwingAction();
 
 	/**
-	 * Launch the application.
-	 */
-	
-
-	/**
 	 * Create the frame.
 	 */
 	public mainmain() {

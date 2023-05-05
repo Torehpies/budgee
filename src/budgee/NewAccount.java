@@ -232,6 +232,8 @@ public class NewAccount extends JFrame {
 			                    + "  action VARCHAR(45) NOT NULL,\r\n"
 			                    + "  category VARCHAR(45) NOT NULL,\r\n"
 			                    + "  account VARCHAR(45) NOT NULL,\r\n"
+			                    + " cash_value INT(45) NOT NULL, \r\n"
+			                    + " savings_value INT(45) NOT NULL,\r\n"
 			                    + "  PRIMARY KEY (ID))";
 
 			            try {
