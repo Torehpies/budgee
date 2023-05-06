@@ -38,6 +38,8 @@ import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class mainmain extends JFrame {
 
@@ -222,6 +224,19 @@ public class mainmain extends JFrame {
 		});
 		calcu1.setBounds(685, 378, 97, 70);
 		analytic_panel.add(calcu1);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(29, 46, 524, 182);
+		analytic_panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setBounds(29, 259, 524, 162);
+		analytic_panel.add(lblNewLabel_1);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Expense overview", "Income overview", "Account analysis"}));
+		comboBox.setBounds(620, 46, 132, 31);
+		analytic_panel.add(comboBox);
 		layerpanebelow.add(budget_panel);
 		
 		JButton budget_btn = new JButton("New button");
