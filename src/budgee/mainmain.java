@@ -235,7 +235,7 @@ public class mainmain extends JFrame {
 			}
 		});
 		budget_panel.add(budget_btn);
-		layerpanebelow.add(acc_panel);
+		layerpanebelow.add(acc_panel, Integer.valueOf(5));
 		
 		JButton acc_btn = new JButton("New button");
 		acc_btn.setBackground(new Color(85, 111, 146));
@@ -293,7 +293,7 @@ public class mainmain extends JFrame {
 		
 		JPanel cash_acc_panel = new JPanel();
 		cash_acc_panel.setBackground(new Color(69, 92, 123));
-		cash_acc_panel.setBounds(471, 90, 300, 82);
+		cash_acc_panel.setBounds(471, 62, 300, 112);
 		acc_panel.add(cash_acc_panel);
 		cash_acc_panel.setLayout(null);
 		
@@ -315,9 +315,15 @@ public class mainmain extends JFrame {
 		cashbal_txtfld.setBounds(103, 44, 187, 27);
 		cash_acc_panel.add(cashbal_txtfld);
 		
+		JButton cashsve_btn = new JButton("Save");
+		cashsve_btn.setForeground(new Color(252, 187, 109));
+		cashsve_btn.setBackground(new Color(85, 111, 146));
+		cashsve_btn.setBounds(154, 78, 89, 23);
+		cash_acc_panel.add(cashsve_btn);
+		
 		JPanel savings_acc_panel = new JPanel();
 		savings_acc_panel.setBackground(new Color(69, 92, 123));
-		savings_acc_panel.setBounds(471, 196, 300, 82);
+		savings_acc_panel.setBounds(471, 196, 300, 112);
 		acc_panel.add(savings_acc_panel);
 		savings_acc_panel.setLayout(null);
 		
@@ -339,6 +345,12 @@ public class mainmain extends JFrame {
 		savebal_txtfld.setBounds(103, 44, 187, 27);
 		savings_acc_panel.add(savebal_txtfld);
 		
+		JButton svngssve_btn = new JButton("Save");
+		svngssve_btn.setForeground(new Color(252, 187, 109));
+		svngssve_btn.setBackground(new Color(85, 111, 146));
+		svngssve_btn.setBounds(154, 78, 89, 23);
+		savings_acc_panel.add(svngssve_btn);
+		
 		JLabel ovrall_lbl = new JLabel("Overall");
 		ovrall_lbl.setForeground(new Color(252, 187, 109));
 		ovrall_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -348,7 +360,7 @@ public class mainmain extends JFrame {
 		JLabel accs_lbl = new JLabel("Accounts");
 		accs_lbl.setForeground(new Color(252, 187, 109));
 		accs_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
-		accs_lbl.setBounds(590, 65, 67, 14);
+		accs_lbl.setBounds(590, 37, 67, 14);
 		acc_panel.add(accs_lbl);
 		layerpanebelow.add(categ_panel);
 		
