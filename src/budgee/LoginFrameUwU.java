@@ -121,7 +121,7 @@ public class LoginFrameUwU {
 					String tableID = "user_" + id;
 					
 					String sql1 = "SELECT * FROM budgee_accounts."+ tableID;
-					ResultSet rs1 = stmt.executeQuery(sql1);
+					pst.executeQuery(sql1);
 
 					}
 					mainmain main = new mainmain();
