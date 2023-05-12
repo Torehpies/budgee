@@ -1,4 +1,5 @@
-package addRecord;
+package addrec;
+
 
 import java.awt.EventQueue;
 
@@ -12,6 +13,9 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
@@ -28,8 +32,17 @@ import javax.swing.border.EtchedBorder;
 
 
 
+
 	public class CalcuFrame extends JFrame {
 		
+	
+		private JComboBox<Integer> dayComboBox;
+		private JComboBox<Month> monthComboBox;
+	    private JComboBox<Integer> yearComboBox;
+	    private JComboBox<Integer> hourComboBox;
+	    private JComboBox<Integer> minuteComboBox;
+
+	    private static JLabel lblNewLabel;
 		private JPanel contentPane;
 		private JTextField textField;
 		private JLabel lbl1,lbl2;
@@ -41,6 +54,90 @@ import javax.swing.border.EtchedBorder;
 		String operation;
 		String answer;
 		private JTextField txtAddNote, txtAddNote_2;
+		
+		public static void datePicker(JPanel panel, int x, int y) {
+			JComboBox dayComboBox = new JComboBox<>();
+			dayComboBox.setBounds(45, 324, 49, 50);
+			panel.add(dayComboBox);
+
+			JComboBox monthComboBox = new JComboBox<>();
+			monthComboBox.setBounds(104, 324, 91, 50);
+			panel.add(monthComboBox);
+
+			JComboBox yearComboBox = new JComboBox<>();
+			yearComboBox.setBackground(new Color(255, 255, 255));
+			yearComboBox.setBounds(205, 324, 91, 50);
+			panel.add(yearComboBox);
+
+			int currentYear = LocalDate.now().getYear();
+			int startYear = currentYear - 10;
+			int endYear = currentYear + 100;
+			for (int year = startYear; year <= endYear; year++) {
+			    yearComboBox.addItem(year);
+			}
+
+			for (Month month : Month.values()) {
+			    monthComboBox.addItem(month.toString());
+			}
+
+			monthComboBox.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        int selectedYear = (int) yearComboBox.getSelectedItem();
+			        Month selectedMonth = Month.valueOf(monthComboBox.getSelectedItem().toString());
+			        int maxDays = selectedMonth.length(Year.of(selectedYear).isLeap());
+
+			        dayComboBox.removeAllItems();
+			        for (int day = 1; day <= maxDays; day++) {
+			            dayComboBox.addItem(day);
+			        }
+			    }
+			}
+			
+					);
+			
+
+			Month currentMonth = LocalDate.now().getMonth();
+			monthComboBox.setSelectedItem(currentMonth.toString());
+			yearComboBox.setSelectedItem(currentYear);
+
+			
+
+			int selectedYear = (int) yearComboBox.getSelectedItem();
+			int maxDays = currentMonth.length(Year.of(selectedYear).isLeap());
+
+			for (int day = 1; day <= maxDays; day++) {
+			    dayComboBox.addItem(day);
+			}
+			
+			
+		
+		}
+		public static void timePicker(JPanel panel, int x, int y) {
+			JLabel lblNewLabel_1 = new JLabel(":");
+			lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 50));
+			lblNewLabel_1.setBounds(161, 375, 49, 50);
+			panel.add(lblNewLabel_1);
+			
+			JComboBox<String> hourComboBox = new JComboBox<>();
+		hourComboBox.setBounds(45, 385, 117, 50);
+		panel.add(hourComboBox);
+		
+		 for (int hour = 1; hour <= 12; hour++) {
+			 hourComboBox.addItem(String.valueOf(hour));
+	        }
+		 
+		 JComboBox<String> minuteComboBox = new JComboBox<>();
+		minuteComboBox.setBounds(179, 385, 117, 50);
+		panel.add(minuteComboBox);
+		for (int minute = 0; minute <= 59; minute++) {
+	    String formattedMinute = String.format("%02d", minute);
+	    minuteComboBox.addItem(formattedMinute);
+        }
+		hourComboBox.setSelectedItem(1);
+	    minuteComboBox.setSelectedItem("00");
+		}
+		
 		
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
@@ -74,7 +171,7 @@ import javax.swing.border.EtchedBorder;
 			
 			
 			
-			final JPanel panel = new JPanel();
+			JPanel panel = new JPanel();
 			panel.setBackground(new Color(69, 92, 123));
 			panel.setBounds(0, 0, 748, 516);
 			LayeredPanel.add(panel);
@@ -122,7 +219,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btnDot = new JButton(".");
+			JButton btnDot = new JButton(".");
 			btnDot.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnDot.setBackground(new Color(71, 86, 122));
 			btnDot.setFocusable(false);
@@ -136,7 +233,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn3 = new JButton("3");
+			JButton btn3 = new JButton("3");
 			btn3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn3.setBackground(new Color(71, 86, 122));
 			btn3.setFocusable(false);
@@ -150,7 +247,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn2 = new JButton("2");
+			JButton btn2 = new JButton("2");
 			btn2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn2.setBackground(new Color(71, 86, 122));
 			btn2.setFocusable(false);
@@ -164,7 +261,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn0 = new JButton("0");
+			JButton btn0 = new JButton("0");
 			btn0.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn0.setBackground(new Color(71, 86, 122));
 			btn0.setFocusable(false);
@@ -195,7 +292,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn1 = new JButton("1");
+			JButton btn1 = new JButton("1");
 			btn1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn1.setBackground(new Color(71, 86, 122));
 			btn1.setFocusable(false);
@@ -224,7 +321,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn6 = new JButton("6");
+			JButton btn6 = new JButton("6");
 			btn6.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn6.setBackground(new Color(71, 86, 122));
 			btn6.setForeground(new Color(252, 187, 109));
@@ -238,7 +335,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn5 = new JButton("5");
+			JButton btn5 = new JButton("5");
 			btn5.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn5.setBackground(new Color(71, 86, 122));
 			btn5.setForeground(new Color(252, 187, 109));
@@ -252,7 +349,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn4 = new JButton("4");
+			JButton btn4 = new JButton("4");
 			btn4.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn4.setForeground(new Color(252, 187, 109));
 			btn4.setBackground(new Color(71, 86, 122));
@@ -266,7 +363,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btnDivide = new JButton("÷");
+			JButton btnDivide = new JButton("÷");
 			btnDivide.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnDivide.setForeground(new Color(252, 187, 109));
 			btnDivide.setBackground(new Color(71, 86, 122));
@@ -281,7 +378,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btnPlus = new JButton("+");
+			JButton btnPlus = new JButton("+");
 			btnPlus.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnPlus.setForeground(new Color(252, 187, 109));
 			btnPlus.setBackground(new Color(71, 86, 122));
@@ -297,7 +394,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn7 = new JButton("7");
+			JButton btn7 = new JButton("7");
 			btn7.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn7.setForeground(new Color(252, 187, 109));
 			btn7.setBackground(new Color(71, 86, 122));
@@ -311,7 +408,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn8 = new JButton("8");
+			JButton btn8 = new JButton("8");
 			btn8.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn8.setForeground(new Color(252, 187, 109));
 			btn8.setBackground(new Color(71, 86, 122));
@@ -325,7 +422,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn9 = new JButton("9");
+			JButton btn9 = new JButton("9");
 			btn9.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn9.setForeground(new Color(252, 187, 109));
 			btn9.setBackground(new Color(71, 86, 122));
@@ -421,27 +518,27 @@ import javax.swing.border.EtchedBorder;
 			panel.add(txtAddNote);
 			txtAddNote.setColumns(10);
 			
-			JComboBox comboBox_Acc = new JComboBox();
-			comboBox_Acc.setFocusable(false);
-			comboBox_Acc.setToolTipText("");
-			comboBox_Acc.setBounds(45, 68, 318, 35);
-			panel.add(comboBox_Acc);
+			JComboBox comboBox_ExAcc = new JComboBox();
+			comboBox_ExAcc.setFocusable(false);
+			comboBox_ExAcc.setToolTipText("");
+			comboBox_ExAcc.setBounds(45, 68, 318, 35);
+			panel.add(comboBox_ExAcc);
 			
-			comboBox_Acc.addItem("Card");
-			comboBox_Acc.addItem("Cash");
-			comboBox_Acc.addItem("Savings");
+			comboBox_ExAcc.addItem("Card");
+			comboBox_ExAcc.addItem("Cash");
+			comboBox_ExAcc.addItem("Savings");
 			
-			JComboBox comboBox_Categ = new JComboBox();
-			comboBox_Categ.setFocusable(false);
-			comboBox_Categ.setBounds(389, 68, 318, 35);
-			panel.add(comboBox_Categ);
+			JComboBox comboBox_ExCateg = new JComboBox();
+			comboBox_ExCateg.setFocusable(false);
+			comboBox_ExCateg.setBounds(389, 68, 318, 35);
+			panel.add(comboBox_ExCateg);
 			
-			comboBox_Categ.addItem("Bills");
-			comboBox_Categ.addItem("Food");
-			comboBox_Categ.addItem("Tax");
-			comboBox_Categ.addItem("Insurance");
-			comboBox_Categ.addItem("Health");
-			comboBox_Categ.addItem("Shopping");
+			comboBox_ExCateg.addItem("Bills");
+			comboBox_ExCateg.addItem("Food");
+			comboBox_ExCateg.addItem("Tax");
+			comboBox_ExCateg.addItem("Insurance");
+			comboBox_ExCateg.addItem("Health");
+			comboBox_ExCateg.addItem("Shopping");
 			
 			JLabel lblAcc = new JLabel("Account");
 			lblAcc.setForeground(new Color(255, 255, 255));
@@ -457,22 +554,9 @@ import javax.swing.border.EtchedBorder;
 			lblCategory.setBounds(385, 40, 318, 21);
 			panel.add(lblCategory);
 			
-			JButton btnDate = new JButton("*date");
-			btnDate.setForeground(new Color(252, 187, 109));
-			btnDate.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-			btnDate.setBackground(new Color(71, 86, 122));
-			btnDate.setFocusable(false);
-			btnDate.setBounds(45, 324, 251, 50);
-			panel.add(btnDate);
-			
-			JButton btnTime = new JButton("*time");
-			btnTime.setForeground(new Color(252, 187, 109));
-			btnTime.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-			btnTime.setBackground(new Color(71, 86, 122));
-			btnTime.setFocusable(false);
-			btnTime.setBounds(45, 387, 251, 48);
-			panel.add(btnTime);
-			
+			datePicker(panel, 50, 50);
+		    timePicker(panel, 50,50);
+		        
 			JButton btnSave_1_1 = new JButton("Save");
 			btnSave_1_1.setFocusable(false);
 			btnSave_1_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -486,22 +570,34 @@ import javax.swing.border.EtchedBorder;
 			panel.add(btnCancel_1_1);
 			
 			
-			final JPanel panel_2 = new JPanel();
+			JPanel panel_2 = new JPanel();
 			panel_2.setBackground(new Color(69, 92, 123));
 			panel_2.setBounds(0, 0, 748, 516);
 			LayeredPanel.add(panel_2);
 			panel_2.setLayout(null);
 			
-			JComboBox comboBox_Acc_1 = new JComboBox();
-			comboBox_Acc_1.setToolTipText("");
-			comboBox_Acc_1.setFocusable(false);
-			comboBox_Acc_1.setBounds(45, 68, 318, 35);
-			panel_2.add(comboBox_Acc_1);
+			JComboBox comboBox_InAcc = new JComboBox();
+			comboBox_InAcc.setToolTipText("");
+			comboBox_InAcc.setFocusable(false);
+			comboBox_InAcc.setBounds(45, 68, 318, 35);
+			panel_2.add(comboBox_InAcc);
 			
-			JComboBox comboBox_Categ_1 = new JComboBox();
-			comboBox_Categ_1.setFocusable(false);
-			comboBox_Categ_1.setBounds(389, 68, 318, 35);
-			panel_2.add(comboBox_Categ_1);
+			comboBox_InAcc.addItem("Card");
+			comboBox_InAcc.addItem("Cash");
+			comboBox_InAcc.addItem("Savings");
+			
+			
+			JComboBox comboBox_InCateg = new JComboBox();
+			comboBox_InCateg.setFocusable(false);
+			comboBox_InCateg.setBounds(389, 68, 318, 35);
+			panel_2.add(comboBox_InCateg);
+			
+			comboBox_InCateg.addItem("Salary");
+			comboBox_InCateg.addItem("Rental");
+			comboBox_InCateg.addItem("Sale");
+			comboBox_InCateg.addItem("Coupons");
+			comboBox_InCateg.addItem("Refunds");
+		
 			
 			JLabel lblAcc_1 = new JLabel("Account");
 			lblAcc_1.setForeground(new Color(255, 255, 255));
@@ -516,6 +612,9 @@ import javax.swing.border.EtchedBorder;
 			lblCategory_1.setFont(new Font("Stencil", Font.PLAIN, 20));
 			lblCategory_1.setBounds(385, 40, 318, 21);
 			panel_2.add(lblCategory_1);
+			
+			datePicker(panel_2, 50, 50);
+		    timePicker(panel_2, 50,50);
 			
 			txtAddNote_2 = new JTextField();
 			txtAddNote_2.setHorizontalAlignment(SwingConstants.LEFT);
@@ -543,7 +642,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn7_1 = new JButton("7");
+			JButton btn7_1 = new JButton("7");
 			btn7_1.setForeground(new Color(252, 187, 109));
 			btn7_1.setBackground(new Color(71, 86, 122));
 			btn7_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -558,7 +657,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn8_1 = new JButton("8");
+			JButton btn8_1 = new JButton("8");
 			btn8_1.setForeground(new Color(252, 187, 109));
 			btn8_1.setBackground(new Color(71, 86, 122));
 			btn8_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -574,7 +673,7 @@ import javax.swing.border.EtchedBorder;
 			});
 			
 			
-			final JButton btn9_1 = new JButton("9");
+			JButton btn9_1 = new JButton("9");
 			btn9_1.setForeground(new Color(252, 187, 109));
 			btn9_1.setBackground(new Color(71, 86, 122));
 			btn9_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -600,7 +699,7 @@ import javax.swing.border.EtchedBorder;
 			textField_2.setBounds(10, 48, 300, 45);
 			panel_1_2.add(textField_2);
 			
-			final JLabel lbl2 = new JLabel(" ");
+			JLabel lbl2 = new JLabel(" ");
 			lbl2.setBounds(10, 11, 298, 33);
 			panel_1_2.add(lbl2);
 			
@@ -650,7 +749,7 @@ import javax.swing.border.EtchedBorder;
 					lbl2.setText(first + " /");
 				}});
 			
-			final JButton btn4_1 = new JButton("4");
+			JButton btn4_1 = new JButton("4");
 			btn4_1.setForeground(new Color(252, 187, 109));
 			btn4_1.setBackground(new Color(71, 86, 122));
 			btn4_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -664,7 +763,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn5_1 = new JButton("5");
+			JButton btn5_1 = new JButton("5");
 			btn5_1.setForeground(new Color(252, 187, 109));
 			btn5_1.setBackground(new Color(71, 86, 122));
 			btn5_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -678,7 +777,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn6_1 = new JButton("6");
+			JButton btn6_1 = new JButton("6");
 			btn6_1.setForeground(new Color(252, 187, 109));
 			btn6_1.setBackground(new Color(71, 86, 122));
 			btn6_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -692,7 +791,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn3_1 = new JButton("3");
+			JButton btn3_1 = new JButton("3");
 			btn3_1.setForeground(new Color(252, 187, 109));
 			btn3_1.setBackground(new Color(71, 86, 122));
 			btn3_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -706,7 +805,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn2_1 = new JButton("2");
+			JButton btn2_1 = new JButton("2");
 			btn2_1.setForeground(new Color(252, 187, 109));
 			btn2_1.setBackground(new Color(71, 86, 122));
 			btn2_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -720,7 +819,7 @@ import javax.swing.border.EtchedBorder;
 				}});
 			
 			
-			final JButton btn1_1 = new JButton("1");
+			JButton btn1_1 = new JButton("1");
 			btn1_1.setForeground(new Color(252, 187, 109));
 			btn1_1.setBackground(new Color(71, 86, 122));
 			btn1_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -734,7 +833,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btn0_1 = new JButton("0");
+			JButton btn0_1 = new JButton("0");
 			btn0_1.setForeground(new Color(252, 187, 109));
 			btn0_1.setBackground(new Color(71, 86, 122));
 			btn0_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -748,7 +847,7 @@ import javax.swing.border.EtchedBorder;
 				}
 			});
 			
-			final JButton btnDot_1 = new JButton(".");
+			JButton btnDot_1 = new JButton(".");
 			btnDot_1.setForeground(new Color(252, 187, 109));
 			btnDot_1.setBackground(new Color(71, 86, 122));
 			btnDot_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -847,22 +946,7 @@ import javax.swing.border.EtchedBorder;
 			panel_2.add(btnCancel_1);
 			btnCancel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnCancel_1.setFocusable(false);
-			
-			JButton btnDate_1 = new JButton("*date");
-			btnDate_1.setForeground(new Color(252, 187, 109));
-			btnDate_1.setFocusable(false);
-			btnDate_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-			btnDate_1.setBackground(new Color(71, 86, 122));
-			btnDate_1.setBounds(45, 324, 251, 50);
-			panel_2.add(btnDate_1);
-			
-			JButton btnTime_1 = new JButton("*time");
-			btnTime_1.setForeground(new Color(252, 187, 109));
-			btnTime_1.setFocusable(false);
-			btnTime_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-			btnTime_1.setBackground(new Color(71, 86, 122));
-			btnTime_1.setBounds(45, 387, 251, 48);
-			panel_2.add(btnTime_1);
+	
 			btnDEL.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String backSpace=null;
