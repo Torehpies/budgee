@@ -64,7 +64,7 @@ public class NewAccount extends JFrame {
 	public void Connect() {
 	try {
 	      Class.forName("com.mysql.cj.jdbc.Driver");
-	      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "P1n@gl@l@gy@nngd@t@b@s3");
+	      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "");
 	    } catch (ClassNotFoundException | SQLException ex) {
 	      Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);
 	        // Handle the exception appropriately, e.g. show an error message to the user
@@ -166,6 +166,7 @@ public class NewAccount extends JFrame {
 		final JButton register = new JButton("Create Account");
 		register.setBounds(31, 419, 270, 36);
 		register.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 				
 				
@@ -184,29 +185,34 @@ public class NewAccount extends JFrame {
 				pst.setString(4, userName);
 				pst.setString(5, passWord);
 				
+				if (first_name.isEmpty() || last_name.isEmpty() || contacts.isEmpty() || userName.isEmpty() || passWord.isEmpty()) {
+				    JOptionPane.showMessageDialog(register, "Please fill in all the required fields.");
+				    return;
+				}
 				
 				int rs=pst.executeUpdate();
 				
 				if (rs==1) {
-					JOptionPane.showMessageDialog(register, "You Have Successfully Registered");
-					fname.setText("");
-					lname.setText("");
-					contactInfo.setText("");
-					username.setText("");
-					password.setText("");
-					
+				    JOptionPane.showMessageDialog(register, "You Have Successfully Registered");
+				    fname.setText("");
+				    lname.setText("");
+				    contactInfo.setText("");
+				    username.setText("");
+				    password.setText("");
+				    dispose();
 				} else {
-					JOptionPane.showMessageDialog(register, "You Failed Now Flee");
-					
+				    JOptionPane.showMessageDialog(register, "You Failed Now Flee");
+				    dispose();
 				}
-			
+
+					
 				} catch(SQLException ex) {
 					Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);
 				}
-
+				
 				try {
 			         // Connect to the database
-			         Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "markypogi319");
+			         Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "");
 			         // Create a prepared statement to retrieve the latest primary key ID
 			         PreparedStatement pst = con.prepareStatement("SELECT MAX(id) FROM budgee_accounts.accounts1");
 			         
@@ -223,16 +229,17 @@ public class NewAccount extends JFrame {
 			            
 			            String tableName = "user_" + id; // Get the table name from the text field
 			            
-			            String sql = "CREATE TABLE budgee_accounts." + tableName + " (\r\n"
-			                    + "  ID INT NOT NULL AUTO_INCREMENT,\r\n"
-			                    + "  date VARCHAR(45) NOT NULL,\r\n"
-			                    + "  time VARCHAR(45) NOT NULL,\r\n"
-			                    + "  balance_update VARCHAR(45) NOT NULL,\r\n"
-			                    + "  notes VARCHAR(300) NOT NULL,\r\n"
-			                    + "  action VARCHAR(45) NOT NULL,\r\n"
-			                    + "  category VARCHAR(45) NOT NULL,\r\n"
-			                    + "  account VARCHAR(45) NOT NULL,\r\n"
-			                    + "  PRIMARY KEY (ID))";
+				            String sql = "CREATE TABLE budgee_accounts." + tableName + " (\r\n"
+				                    + "  ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
+				                    + "  date DATE NOT NULL,\r\n"
+				                    + "  time TIME NOT NULL,\r\n"
+				                    + "  balance_update DECIMAL(12,2) NOT NULL,\r\n"
+				                    + "  notes TEXT NOT NULL,\r\n"
+				                    + "  action ENUM('income','expense'),\r\n"
+				                    + "  category VARCHAR(45) ,\r\n"
+				                    + "  account ENUM('savings','cash'),\r\n"
+				                    + " cash_value DECIMAL(12,2) NOT NULL, \r\n"
+				                    + " savings_value DECIMAL(12,2) NOT NULL);";
 
 			            try {
 			                PreparedStatement pst1 = con.prepareStatement(sql);

@@ -38,6 +38,8 @@ import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class mainmain extends JFrame {
 
@@ -46,11 +48,11 @@ public class mainmain extends JFrame {
 	private JTextField in_tf;
 	private JTextField tot_tf;
 	private final Action action = new SwingAction();
-
-	/**
-	 * Launch the application.
-	 */
-	
+	private JTextField income_atm_txtfld;
+	private JTextField expense_atm_txtfld;
+	private JTextField totalbal_atm_txtfld;
+	private JTextField cashbal_txtfld;
+	private JTextField savebal_txtfld;
 
 	/**
 	 * Create the frame.
@@ -103,11 +105,6 @@ public class mainmain extends JFrame {
 		acc_panel.setBackground(new Color(66, 83, 109));
 		acc_panel.setBounds(0, 0, 792, 459);
 		acc_panel.setLayout(null);
-		
-		JLabel acclebel = new JLabel("ACCOUNT");
-		acclebel.setBounds(370, 5, 49, 14);
-		acclebel.setForeground(new Color(255, 255, 255));
-		acc_panel.add(acclebel);
 		
 		final JPanel categ_panel = new JPanel();
 		categ_panel.setBackground(new Color(66, 83, 109));
@@ -227,6 +224,19 @@ public class mainmain extends JFrame {
 		});
 		calcu1.setBounds(685, 378, 97, 70);
 		analytic_panel.add(calcu1);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(29, 46, 524, 182);
+		analytic_panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setBounds(29, 259, 524, 162);
+		analytic_panel.add(lblNewLabel_1);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Expense overview", "Income overview", "Account analysis"}));
+		comboBox.setBounds(620, 46, 132, 31);
+		analytic_panel.add(comboBox);
 		layerpanebelow.add(budget_panel);
 		
 		JButton budget_btn = new JButton("New button");
@@ -240,7 +250,7 @@ public class mainmain extends JFrame {
 			}
 		});
 		budget_panel.add(budget_btn);
-		layerpanebelow.add(acc_panel);
+		layerpanebelow.add(acc_panel, Integer.valueOf(5));
 		
 		JButton acc_btn = new JButton("New button");
 		acc_btn.setBackground(new Color(85, 111, 146));
@@ -253,6 +263,120 @@ public class mainmain extends JFrame {
 			}
 		});
 		acc_panel.add(acc_btn);
+		
+		JPanel overall_acc_panel = new JPanel();
+		overall_acc_panel.setBackground(new Color(69, 92, 123));
+		overall_acc_panel.setBounds(25, 62, 430, 246);
+		acc_panel.add(overall_acc_panel);
+		overall_acc_panel.setLayout(null);
+		
+		JLabel income_atm_lbl = new JLabel("Income until now");
+		income_atm_lbl.setBounds(46, 31, 128, 19);
+		income_atm_lbl.setForeground(new Color(252, 187, 109));
+		income_atm_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		overall_acc_panel.add(income_atm_lbl);
+		
+		JLabel expense_atm_lbl = new JLabel("Expense until now");
+		expense_atm_lbl.setForeground(new Color(252, 187, 109));
+		expense_atm_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		expense_atm_lbl.setBounds(253, 31, 135, 19);
+		overall_acc_panel.add(expense_atm_lbl);
+		
+		JLabel totalbal_lbl = new JLabel("Total Balance");
+		totalbal_lbl.setForeground(new Color(252, 187, 109));
+		totalbal_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		totalbal_lbl.setBounds(167, 129, 101, 19);
+		overall_acc_panel.add(totalbal_lbl);
+		
+		income_atm_txtfld = new JTextField();
+		income_atm_txtfld.setBackground(new Color(85, 111, 146));
+		income_atm_txtfld.setColumns(10);
+		income_atm_txtfld.setBounds(20, 61, 186, 57);
+		overall_acc_panel.add(income_atm_txtfld);
+		
+		expense_atm_txtfld = new JTextField();
+		expense_atm_txtfld.setBackground(new Color(85, 111, 146));
+		expense_atm_txtfld.setColumns(10);
+		expense_atm_txtfld.setBounds(223, 61, 186, 57);
+		overall_acc_panel.add(expense_atm_txtfld);
+		
+		totalbal_atm_txtfld = new JTextField();
+		totalbal_atm_txtfld.setBackground(new Color(85, 111, 146));
+		totalbal_atm_txtfld.setColumns(10);
+		totalbal_atm_txtfld.setBounds(123, 159, 186, 57);
+		overall_acc_panel.add(totalbal_atm_txtfld);
+		
+		JPanel cash_acc_panel = new JPanel();
+		cash_acc_panel.setBackground(new Color(69, 92, 123));
+		cash_acc_panel.setBounds(471, 62, 300, 112);
+		acc_panel.add(cash_acc_panel);
+		cash_acc_panel.setLayout(null);
+		
+		JLabel cash_lbl = new JLabel("Cash");
+		cash_lbl.setBounds(21, 11, 56, 19);
+		cash_lbl.setForeground(new Color(252, 187, 109));
+		cash_lbl.setFont(new Font("Tahoma", Font.BOLD, 23));
+		cash_acc_panel.add(cash_lbl);
+		
+		JLabel cashbal_lbl = new JLabel("Balance:");
+		cashbal_lbl.setForeground(new Color(252, 187, 109));
+		cashbal_lbl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		cashbal_lbl.setBounds(21, 48, 70, 19);
+		cash_acc_panel.add(cashbal_lbl);
+		
+		cashbal_txtfld = new JTextField();
+		cashbal_txtfld.setColumns(10);
+		cashbal_txtfld.setBackground(new Color(85, 111, 146));
+		cashbal_txtfld.setBounds(103, 44, 187, 27);
+		cash_acc_panel.add(cashbal_txtfld);
+		
+		JButton cashsve_btn = new JButton("Save");
+		cashsve_btn.setForeground(new Color(252, 187, 109));
+		cashsve_btn.setBackground(new Color(85, 111, 146));
+		cashsve_btn.setBounds(154, 78, 89, 23);
+		cash_acc_panel.add(cashsve_btn);
+		
+		JPanel savings_acc_panel = new JPanel();
+		savings_acc_panel.setBackground(new Color(69, 92, 123));
+		savings_acc_panel.setBounds(471, 196, 300, 112);
+		acc_panel.add(savings_acc_panel);
+		savings_acc_panel.setLayout(null);
+		
+		JLabel savings_lbl = new JLabel("Savings");
+		savings_lbl.setBounds(21, 11, 90, 28);
+		savings_lbl.setForeground(new Color(252, 187, 109));
+		savings_lbl.setFont(new Font("Tahoma", Font.BOLD, 23));
+		savings_acc_panel.add(savings_lbl);
+		
+		JLabel savebal_lbl = new JLabel("Balance:");
+		savebal_lbl.setForeground(new Color(252, 187, 109));
+		savebal_lbl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		savebal_lbl.setBounds(21, 48, 70, 19);
+		savings_acc_panel.add(savebal_lbl);
+		
+		savebal_txtfld = new JTextField();
+		savebal_txtfld.setColumns(10);
+		savebal_txtfld.setBackground(new Color(85, 111, 146));
+		savebal_txtfld.setBounds(103, 44, 187, 27);
+		savings_acc_panel.add(savebal_txtfld);
+		
+		JButton svngssve_btn = new JButton("Save");
+		svngssve_btn.setForeground(new Color(252, 187, 109));
+		svngssve_btn.setBackground(new Color(85, 111, 146));
+		svngssve_btn.setBounds(154, 78, 89, 23);
+		savings_acc_panel.add(svngssve_btn);
+		
+		JLabel ovrall_lbl = new JLabel("Overall");
+		ovrall_lbl.setForeground(new Color(252, 187, 109));
+		ovrall_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		ovrall_lbl.setBounds(211, 37, 56, 14);
+		acc_panel.add(ovrall_lbl);
+		
+		JLabel accs_lbl = new JLabel("Accounts");
+		accs_lbl.setForeground(new Color(252, 187, 109));
+		accs_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		accs_lbl.setBounds(590, 37, 67, 14);
+		acc_panel.add(accs_lbl);
 		layerpanebelow.add(categ_panel);
 		
 		JButton categ_btn = new JButton("New button");

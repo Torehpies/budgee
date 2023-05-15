@@ -27,8 +27,6 @@ import javax.swing.JLayeredPane;
 import budgee.NewAccount;
 
 
-
-
 	public class CalcuFrame extends JFrame {
 		
 		Connection con;
