@@ -1,13 +1,13 @@
 package budgee;
 
-import java.sql.*;
+import java.util.List;
 
 public interface BudgeeDAO {
 	
-	void addExpense(Expense expense);
-    void updateExpense(Expense expense);
-    void deleteExpense(int expenseId);
-    List<Expense> getAllExpenses();
-    List<Expense> getExpensesByCategory(String category);
+	void addExpense(Record record);
+    void updateExpense(Record record);
+    void deleteExpense(int recordId);
+    List<Record> getAllExpenses();
+    List<Record> getExpensesByCategory(String category);
     
 }
