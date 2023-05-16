@@ -64,7 +64,7 @@ public class NewAccount extends JFrame {
 	public void Connect() {
 	try {
 	      Class.forName("com.mysql.cj.jdbc.Driver");
-	      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "markypogi319");
+	      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
 	    } catch (ClassNotFoundException | SQLException ex) {
 	      Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);
 	        // Handle the exception appropriately, e.g. show an error message to the user
@@ -169,7 +169,6 @@ public class NewAccount extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				
 				String first_name = fname.getText();
 				String last_name = lname.getText();
 				String contacts = contactInfo.getText();
@@ -212,7 +211,7 @@ public class NewAccount extends JFrame {
 				
 				try {
 			         // Connect to the database
-			         Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "markypogi319");
+			         Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
 			         // Create a prepared statement to retrieve the latest primary key ID
 			         PreparedStatement pst = con.prepareStatement("SELECT MAX(id) FROM budgee_accounts.accounts1");
 			         

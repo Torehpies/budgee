@@ -30,20 +30,12 @@ public class LoginFrameUwU {
 	private JButton resetBTN;
 	private JButton newAccBTN;
 	private JPasswordField pass;
+	private String tableID;
 
-	/**
-	 * Launch the application.
-	 */
-	
-
-	/**
-	 * Create the application.
-	 */
 	public LoginFrameUwU() {
-		initialize();
-		
+		initialize();		
 	}
-
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -78,6 +70,7 @@ public class LoginFrameUwU {
 		user.setMargin(new Insets(10, 10, 10, 10));
 		frmLoginBudgee.getContentPane().add(user);
 		
+
 		
 		budgeeLogo = new JLabel("");
 		ImageIcon logo = new ImageIcon("imgs/budgee_logo1.png");
@@ -98,31 +91,35 @@ public class LoginFrameUwU {
 		loginBTN.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		loginBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "markypogi319");
+					Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
 					Statement stmt=con.createStatement();
 					
-					String sql="SELECT * FROM budgee_accounts.accounts1 where username='"+user.getText()+"' and password='"+pass.getText()+"'";
-					ResultSet rs=stmt.executeQuery(sql);
+					String sql = "SELECT * FROM budgee_accounts.accounts1 where username='" + user.getText()
+							+ "' and password='" + pass.getText() + "'";
+					ResultSet rs = stmt.executeQuery(sql);	
 					
-					if(rs.next()==true) {
-						/////make a condition where if login = true exe
-					PreparedStatement pst = con.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
-							+ "WHERE username='"+user.getText()+"' and password='"+pass.getText()+"'");
-					ResultSet rs3 = pst.executeQuery();
+					String text = user.getText();
+					CalcuFrame rude = new CalcuFrame();
+					rude.useText(text);
 					
-					if (rs3.next()) {
-						int id = rs3.getInt(1);
-						
-					System.out.println("The primary key ID is: " + id);
-					
-					
-					String tableID = "user_" + id;
-					
-					String sql1 = "SELECT * FROM budgee_accounts."+ tableID;
-					pst.executeQuery(sql1);
+					if (rs.next() == true) {
+						///// make a condition where if login = true exe
+						PreparedStatement pst = con.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
+								+ "WHERE username='" + user.getText() + "' and password='" + pass.getText() + "'");
+						ResultSet rs3 = pst.executeQuery();
 
+						if (rs3.next()) {
+							int id = rs3.getInt(1);
+
+							System.out.println("The primary key ID is: " + id);
+
+							String tableID = "user_" + id;
+
+							String sql1 = "SELECT * FROM budgee_accounts." + tableID;
+							pst.executeQuery(sql1);
 					}
 					mainmain main = new mainmain();
 					main.setVisible(true);
@@ -136,7 +133,9 @@ public class LoginFrameUwU {
 				}catch(Exception e1) {System.out.print(e1);}
 				
 			}
+			
 		});
+		
 		loginBTN.setBounds(290, 397, 89, 23);
 		loginBTN.setFocusable(false);
 		loginBTN.setBackground(new Color(66, 83, 109));
