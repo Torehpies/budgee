@@ -39,17 +39,12 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingConstants;
 
 public class mainmain extends JFrame {
 
 	private JPanel frmMain;
-	private JTextField ex_tf;
-	private JTextField in_tf;
-	private JTextField tot_tf;
 	private final Action action = new SwingAction();
-	private JTextField income_atm_txtfld;
-	private JTextField expense_atm_txtfld;
-	private JTextField totalbal_atm_txtfld;
 	private JTextField cashbal_txtfld;
 	private JTextField savebal_txtfld;
 
@@ -286,24 +281,27 @@ public class mainmain extends JFrame {
 		totalbal_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
 		totalbal_lbl.setBounds(167, 129, 101, 19);
 		overall_acc_panel.add(totalbal_lbl);
-
-		income_atm_txtfld = new JTextField();
-		income_atm_txtfld.setBackground(new Color(85, 111, 146));
-		income_atm_txtfld.setColumns(10);
-		income_atm_txtfld.setBounds(20, 61, 186, 57);
-		overall_acc_panel.add(income_atm_txtfld);
-
-		expense_atm_txtfld = new JTextField();
-		expense_atm_txtfld.setBackground(new Color(85, 111, 146));
-		expense_atm_txtfld.setColumns(10);
-		expense_atm_txtfld.setBounds(223, 61, 186, 57);
-		overall_acc_panel.add(expense_atm_txtfld);
-
-		totalbal_atm_txtfld = new JTextField();
-		totalbal_atm_txtfld.setBackground(new Color(85, 111, 146));
-		totalbal_atm_txtfld.setColumns(10);
-		totalbal_atm_txtfld.setBounds(123, 159, 186, 57);
-		overall_acc_panel.add(totalbal_atm_txtfld);
+		
+		JLabel income_lbl = new JLabel("");
+		income_lbl.setForeground(new Color(252, 187, 109));
+		income_lbl.setBackground(new Color(85, 111, 146));
+		income_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		income_lbl.setBounds(21, 61, 186, 57);
+		overall_acc_panel.add(income_lbl);
+		
+		JLabel expense_lbl = new JLabel("");
+		expense_lbl.setForeground(new Color(252, 187, 109));
+		expense_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		expense_lbl.setBackground(new Color(85, 111, 146));
+		expense_lbl.setBounds(226, 61, 186, 57);
+		overall_acc_panel.add(expense_lbl);
+		
+		JLabel total_lbl = new JLabel("");
+		total_lbl.setForeground(new Color(252, 187, 109));
+		total_lbl.setBounds(125, 159, 186, 57);
+		overall_acc_panel.add(total_lbl);
+		total_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		total_lbl.setBackground(new Color(85, 111, 146));
 
 		JPanel cash_acc_panel = new JPanel();
 		cash_acc_panel.setBackground(new Color(69, 92, 123));
@@ -555,23 +553,8 @@ public class mainmain extends JFrame {
 		JLabel tot_lebel = new JLabel("Total:");
 		tot_lebel.setForeground(new Color(252, 187, 109));
 		tot_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		tot_lebel.setBounds(32, 72, 36, 14);
+		tot_lebel.setBounds(27, 72, 41, 14);
 		exint.add(tot_lebel);
-
-		ex_tf = new JTextField();
-		ex_tf.setBounds(86, 11, 225, 20);
-		exint.add(ex_tf);
-		ex_tf.setColumns(10);
-
-		in_tf = new JTextField();
-		in_tf.setColumns(10);
-		in_tf.setBounds(86, 40, 225, 20);
-		exint.add(in_tf);
-
-		tot_tf = new JTextField();
-		tot_tf.setColumns(10);
-		tot_tf.setBounds(86, 69, 225, 20);
-		exint.add(tot_tf);
 		frmMain.setLayout(null);
 		frmMain.add(layeredPane);
 
@@ -580,6 +563,24 @@ public class mainmain extends JFrame {
 		frmMain.add(daily_butt);
 		frmMain.add(weekly_butt);
 		frmMain.add(exint);
+		
+		JLabel exint_EX_lbl = new JLabel("");
+		exint_EX_lbl.setForeground(new Color(252, 187, 109));
+		exint_EX_lbl.setBackground(new Color(85, 111, 146));
+		exint_EX_lbl.setBounds(86, 11, 225, 20);
+		exint.add(exint_EX_lbl);
+		
+		JLabel exint_int_lbl = new JLabel("");
+		exint_int_lbl.setForeground(new Color(252, 187, 109));
+		exint_int_lbl.setBackground(new Color(85, 111, 146));
+		exint_int_lbl.setBounds(86, 40, 225, 20);
+		exint.add(exint_int_lbl);
+		
+		JLabel exint_total_lbl = new JLabel("");
+		exint_total_lbl.setForeground(new Color(252, 187, 109));
+		exint_total_lbl.setBackground(new Color(85, 111, 146));
+		exint_total_lbl.setBounds(86, 70, 225, 20);
+		exint.add(exint_total_lbl);
 		frmMain.add(categ_button);
 		frmMain.add(acc_button);
 		frmMain.add(budget_button);
