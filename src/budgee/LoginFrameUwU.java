@@ -1,5 +1,7 @@
 package budgee;
 
+import budgee.UserSession;
+
 import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
@@ -94,33 +96,42 @@ public class LoginFrameUwU {
 				
 				try {
 					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection con=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
-					Statement stmt=con.createStatement();
+					Connection connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+					Statement statement=connection.createStatement();
 					
-					String sql = "SELECT * FROM budgee_accounts.accounts1 where username='" + user.getText()
+					String loginQuery = "SELECT * FROM budgee_accounts.accounts1 where username='" + user.getText()
 							+ "' and password='" + pass.getText() + "'";
-					ResultSet rs = stmt.executeQuery(sql);	
+					ResultSet resultLoginQuery = statement.executeQuery(loginQuery);	
 					
 					String text = user.getText();
 					CalcuFrame rude = new CalcuFrame();
 					rude.useText(text);
 					
-					if (rs.next() == true) {
-						///// make a condition where if login = true exe
-						PreparedStatement pst = con.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
+					if (resultLoginQuery != null) {
+			
+						int sessionId = 0;
+						String sessionUsername = "";
+						
+						while(resultLoginQuery.next()) {
+							sessionId = resultLoginQuery.getInt("ID");
+							sessionUsername = resultLoginQuery.getString("username");
+						}
+
+						//Setting session variables
+						UserSession session = UserSession.getInstance();
+						session.setId(sessionId);
+						session.setUsername(sessionUsername);
+	
+						String tableID = "user_" + sessionId;
+						
+						/*
+						PreparedStatement pst = connection.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
 								+ "WHERE username='" + user.getText() + "' and password='" + pass.getText() + "'");
 						ResultSet rs3 = pst.executeQuery();
-
-						if (rs3.next()) {
-							int id = rs3.getInt(1);
-
-							System.out.println("The primary key ID is: " + id);
-
-							String tableID = "user_" + id;
-
-							String sql1 = "SELECT * FROM budgee_accounts." + tableID;
-							pst.executeQuery(sql1);
-					}
+						String sql1 = "SELECT * FROM budgee_accounts." + tableID;
+						pst.executeQuery(sql1);
+						*/
+					
 					mainmain main = new mainmain();
 					main.setVisible(true);
 					frmLoginBudgee.dispose();
@@ -129,7 +140,7 @@ public class LoginFrameUwU {
 					}
 					else {
 						JOptionPane.showMessageDialog(null,"Login Denied... ");
-					con.close();}
+					connection.close();}
 				}catch(Exception e1) {System.out.print(e1);}
 				
 			}
