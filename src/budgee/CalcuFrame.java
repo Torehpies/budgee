@@ -41,18 +41,26 @@ public class CalcuFrame extends JFrame {
 		}
 
 	}
-
+	
+	static String userNum;
+	
+	public static String getUserNum(String tableID) {
+		System.out.println("eto yung user sa method: " + tableID);
+		userNum = tableID;
+		return tableID;
+	}
+	
 	static String textValue;
 
-	public static void useText(String text) {
+	public static String useText(String text) {
 		System.out.println(text);
 		textValue = text;
+		return text;
 	}
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JLabel lbl1, lbl2;
-	public static String tableID;
 	double first;
 	double second;
 	double result;
@@ -483,87 +491,7 @@ public class CalcuFrame extends JFrame {
 		btnSave_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				try {
-
-					// comboBox_Acc
-					Object selectedValue = account.getSelectedItem();
-					String selectedString;
-
-					if (selectedValue == null) {
-						// If nothing is selected, use the last item in the ComboBox as the selected
-						// value
-						int lastIndex = account.getItemCount() - 1;
-						selectedString = account.getItemAt(lastIndex).toString();
-					} else {
-						// Convert the selected item to a string
-						selectedString = selectedValue.toString();
-					}
-
-					Object selectedValue1 = category.getSelectedItem();
-					String selectedString1;
-
-					if (selectedValue == null) {
-						// If nothing is selected, use the last item in the ComboBox as the selected
-						// value
-						int lastIndex = category.getItemCount() - 1;
-						selectedString1 = category.getItemAt(lastIndex).toString();
-					} else {
-						// Convert the selected item to a string
-						selectedString1 = selectedValue1.toString();
-					}
-					System.out.println("The user is: " + tableID);
-
-					useText(textValue);
-					System.out.println("the user is " + textValue);
-
-					// Connect to the database
-					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
-							"");
-
-					PreparedStatement pst = con.prepareStatement(
-							"SELECT ID FROM budgee_accounts.accounts1 " + "WHERE username='" + textValue + "'");
-					ResultSet rs = pst.executeQuery();
-
-					if (rs.next()) {
-						int id = rs.getInt(1);
-
-						System.out.println("The primary key ID is: " + id);
-
-						String tableID = "user_" + id;
-
-						String sql1 = "SELECT * FROM budgee_accounts." + tableID;
-						pst.executeQuery(sql1);
-
-						// kunin mo yung mga items gawin mong string
-
-						pst = con.prepareStatement(
-								"INSERT INTO budgee_accounts.accounts1(date, time, balance_update, notes, action, category, account, cash_value, savings_value) VALUE(?,?,?,?,?,?,?,?,?)");
-//						pst.setString(1, date);
-//						pst.setString(2, time);
-//						pst.setString(3, balance_update);
-//						pst.setString(4, notes);
-//						pst.setString(5, notes);
-//						pst.setString(6, last_name);
-						pst.setString(7, selectedString1);
-						pst.setString(8, selectedString);
-//						pst.setString(9, cash_value);
-
-						 pst.executeUpdate();
-					}
-
-					else {
-						System.out.println("No rows found in the result set.");
-					}
-
-					// Close the result set, prepared statement, and connection
-					rs.close();
-					pst.close();
-					con.close();
-				} catch (SQLException e1) {
-					System.out.println("SQLException: " + e1.getMessage());
-					System.out.println("SQLState: " + e1.getSQLState());
-					System.out.println("VendorError: " + e1.getErrorCode());
-				}
+				
 			}
 		});
 		btnSave_1_1.setFocusable(false);
@@ -997,5 +925,7 @@ public class CalcuFrame extends JFrame {
 		LayeredPanel.repaint();
 		LayeredPanel.revalidate();
 	}
+
+	
 
 }

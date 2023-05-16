@@ -117,6 +117,8 @@ public class LoginFrameUwU {
 							System.out.println("The primary key ID is: " + id);
 
 							String tableID = "user_" + id;
+							CalcuFrame userNum = new CalcuFrame();
+							userNum.getUserNum(tableID);
 
 							String sql1 = "SELECT * FROM budgee_accounts." + tableID;
 							pst.executeQuery(sql1);
