@@ -228,18 +228,17 @@ public class NewAccount extends JFrame {
 			            
 			            String tableName = "user_" + id; // Get the table name from the text field
 			            
-			            String sql = "CREATE TABLE budgee_accounts." + tableName + " (\r\n"
-			                    + "  ID INT NOT NULL AUTO_INCREMENT,\r\n"
-			                    + "  date VARCHAR(45) NOT NULL,\r\n"
-			                    + "  time VARCHAR(45) NOT NULL,\r\n"
-			                    + "  balance_update VARCHAR(45) NOT NULL,\r\n"
-			                    + "  notes VARCHAR(300) NOT NULL,\r\n"
-			                    + "  action VARCHAR(45) NOT NULL,\r\n"
-			                    + "  category VARCHAR(45) NOT NULL,\r\n"
-			                    + "  account VARCHAR(45) NOT NULL,\r\n"
-			                    + " cash_value INT(45) NOT NULL, \r\n"
-			                    + " savings_value INT(45) NOT NULL,\r\n"
-			                    + "  PRIMARY KEY (ID))";
+				            String sql = "CREATE TABLE budgee_accounts." + tableName + " (\r\n"
+				                    + "  ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n"
+				                    + "  date DATE NOT NULL,\r\n"
+				                    + "  time TIME NOT NULL,\r\n"
+				                    + "  balance_update DECIMAL(12,2) NOT NULL,\r\n"
+				                    + "  notes TEXT NOT NULL,\r\n"
+				                    + "  action ENUM('income','expense'),\r\n"
+				                    + "  category VARCHAR(45) ,\r\n"
+				                    + "  account ENUM('savings','cash'),\r\n"
+				                    + " cash_value DECIMAL(12,2) NOT NULL, \r\n"
+				                    + " savings_value DECIMAL(12,2) NOT NULL);";
 
 			            try {
 			                PreparedStatement pst1 = con.prepareStatement(sql);
