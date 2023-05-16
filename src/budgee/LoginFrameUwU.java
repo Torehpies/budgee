@@ -131,16 +131,17 @@ public class LoginFrameUwU {
 						String sql1 = "SELECT * FROM budgee_accounts." + tableID;
 						pst.executeQuery(sql1);
 						*/
-					
-					mainmain main = new mainmain();
-					main.setVisible(true);
-					frmLoginBudgee.dispose();
-					JOptionPane.showMessageDialog(null,"Login Sucessfully... ");
+						mainmain main = new mainmain();
+						main.setVisible(true);
+						frmLoginBudgee.dispose();
+						JOptionPane.showMessageDialog(null,"Login Sucessfully... ");
 					
 					}
+					
 					else {
 						JOptionPane.showMessageDialog(null,"Login Denied... ");
-					connection.close();}
+					connection.close();
+					}
 				}catch(Exception e1) {System.out.print(e1);}
 				
 			}
