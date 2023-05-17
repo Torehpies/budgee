@@ -1,6 +1,9 @@
 package budgee;
 
 import java.awt.BorderLayout;
+
+import budgee.UserSession;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -43,6 +46,9 @@ import javax.swing.SwingConstants;
 
 public class mainmain extends JFrame {
 
+	private UserSession session = UserSession.getInstance();
+	private String sessionUsername = session.getUsername();
+	
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
 	private JTextField cashbal_txtfld;
@@ -593,6 +599,12 @@ public class mainmain extends JFrame {
 		logoBudgee.setIcon(loglog);
 		logoBudgee.setBounds(53, 64, 100, 120);
 		frmMain.add(logoBudgee);
+		
+		JLabel usernameLabel = new JLabel(sessionUsername);
+		usernameLabel.setForeground(new Color(255, 255, 255));
+		usernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		usernameLabel.setBounds(53, 11, 123, 42);
+		frmMain.add(usernameLabel);
 
 	}
 

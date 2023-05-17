@@ -48,7 +48,7 @@ import java.util.logging.Logger;
 	public class CalcuFrame extends JFrame {
 
 		//Session variables
-		UserSession session = UserSession.getInstance();
+		private UserSession session = UserSession.getInstance();
 		private int sessionId = session.getId();
 		
 		private JPanel contentPane;
