@@ -3,6 +3,8 @@ package budgee;
 
 import java.awt.EventQueue;
 
+import budgee.UserSession; 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -45,6 +47,10 @@ import java.util.logging.Logger;
 
 	public class CalcuFrame extends JFrame {
 
+		//Session variables
+		UserSession session = UserSession.getInstance();
+		private int sessionId = session.getId();
+		
 		private JPanel contentPane;
 		private JTextField textField;
 		private JLabel lbl1,lbl2;
@@ -588,14 +594,14 @@ import java.util.logging.Logger;
 					
 					try {
 						
-						System.out.println(" eto oh user: " + userTable);
+						System.out.println(" eto oh user: " + sessionId);
 
 						// Connect to the database
 						Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
 								"");
 						Statement pst=con.createStatement();
 
-						String sql = "SELECT * FROM budgee_accounts." + userTable;
+						String sql = "SELECT * FROM budgee_accounts.user_" + sessionId;
 						pst.executeQuery(sql);
 						
 						ResultSet rs = pst.executeQuery(sql);
