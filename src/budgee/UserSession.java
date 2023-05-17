@@ -8,7 +8,7 @@ public class UserSession {
     private UserSession() {
         // Private constructor to prevent direct instantiation
     }
-
+    
     public static synchronized UserSession getInstance() {
         if (instance == null) {
             instance = new UserSession();
