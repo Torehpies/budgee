@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -13,6 +14,13 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
@@ -29,20 +37,17 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.EtchedBorder;
-
-
+import java.time.LocalDateTime;  
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 	public class CalcuFrame extends JFrame {
-		
-	
-		
 
-	
 		private JPanel contentPane;
 		private JTextField textField;
 		private JLabel lbl1,lbl2;
-
 		
 		double first;
 		double second;
@@ -51,10 +56,33 @@ import javax.swing.border.EtchedBorder;
 		String answer;
 		private JTextField txtAddNote;
 		
-	
-				
+		public static Instant currentTime;
+		public static void timeAndDate()  
+		{      
+		System.out.println(java.time.Clock.systemUTC().instant());
+		currentTime = java.time.Clock.systemUTC().instant();
+		}
 		
+		public static String userTable;
+		public static String useText(String text) {
+		String userTable = text;
+		return text;
+		}
 		
+		Connection con;
+		PreparedStatement pst;
+		ResultSet rs;
+		private JPasswordField password;
+		
+		public void Connect() {
+		try {
+		      Class.forName("com.mysql.cj.jdbc.Driver");
+		      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+		    } catch (ClassNotFoundException | SQLException ex) {
+		      Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);}
+		        // Handle the exception appropriately, e.g. show an error message to the user
+		    }
+
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
@@ -69,7 +97,6 @@ import javax.swing.border.EtchedBorder;
 		}
 		
 		private final JLayeredPane LayeredPanel = new JLayeredPane();
-	
 		
 		
 		public CalcuFrame() {
@@ -83,8 +110,6 @@ import javax.swing.border.EtchedBorder;
 			
 			LayeredPanel.setBounds(0, 53, 748, 516);
 			contentPane.add(LayeredPanel);
-			
-			
 			
 			
 			JPanel panel = new JPanel();
@@ -437,27 +462,27 @@ import javax.swing.border.EtchedBorder;
 			panel.add(txtAddNote);
 			txtAddNote.setColumns(10);
 			
-			JComboBox<String>  Expense_Acc = new JComboBox<String> ();
-			Expense_Acc.setFocusable(false);
-			Expense_Acc.setToolTipText("");
-			Expense_Acc.setBounds(45, 68, 318, 35);
-			panel.add(Expense_Acc);
+			JComboBox<String>  accounts = new JComboBox<String> ();
+			accounts.setFocusable(false);
+			accounts.setToolTipText("");
+			accounts.setBounds(45, 68, 318, 35);
+			panel.add(accounts);
 			
-			Expense_Acc.addItem("Card");
-			Expense_Acc.addItem("Cash");
-			Expense_Acc.addItem("Savings");
+			accounts.addItem("Card");
+			accounts.addItem("Cash");
+			accounts.addItem("Savings");
 			
-			JComboBox<String> Expense_Categ = new JComboBox<String> ();
-			Expense_Categ.setFocusable(false);
-			Expense_Categ.setBounds(389, 68, 318, 35);
-			panel.add(Expense_Categ);
+			JComboBox<String> category = new JComboBox<String> ();
+			category.setFocusable(false);
+			category.setBounds(389, 68, 318, 35);
+			panel.add(category);
 			
-			Expense_Categ.addItem("Bills");
-			Expense_Categ.addItem("Food");
-			Expense_Categ.addItem("Tax");
-			Expense_Categ.addItem("Insurance");
-			Expense_Categ.addItem("Health");
-			Expense_Categ.addItem("Shopping");
+			category.addItem("Bills");
+			category.addItem("Food");
+			category.addItem("Tax");
+			category.addItem("Insurance");
+			category.addItem("Health");
+			category.addItem("Shopping");
 			
 			JLabel lblAcc = new JLabel("Account");
 			lblAcc.setForeground(new Color(255, 255, 255));
@@ -561,52 +586,50 @@ import javax.swing.border.EtchedBorder;
 			btnSave_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-//					try {
-//						// comboBox_Acc
-//						Object selectedValue = account.getSelectedItem();
-//						String selectedString;
-//
-//						if (selectedValue == null) {
-//							// If nothing is selected, use the last item in the ComboBox as the selected
-//							// value
-//							int lastIndex = account.getItemCount() - 1;
-//							selectedString = account.getItemAt(lastIndex).toString();
-//						} else {
-//							// Convert the selected item to a string
-//							selectedString = selectedValue.toString();
-//						}
-//
-//						Object selectedValue1 = category.getSelectedItem();
-//						String selectedString1;
-//
-//						if (selectedValue == null) {
-//							// If nothing is selected, use the last item in the ComboBox as the selected
-//							// value
-//							int lastIndex = category.getItemCount() - 1;
-//							selectedString1 = category.getItemAt(lastIndex).toString();
-//						} else {
-//							// Convert the selected item to a string
-//							selectedString1 = selectedValue1.toString();
-//						}
-//						System.out.println(" eto oh user: " + userNum);
-//
-////						useText(textValue);
-////						System.out.println("the user is " + textValue);
-//
-//						// Connect to the database
-//						Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
-//								"");
-//
-//						String sql = "SELECT * FROM budgee_accounts." + userNum;
-//						pst.executeQuery();
-//						
-//						if (rs.next()) {
-//							int id = rs.getInt(1);
-//
-//							// kunin mo yung mga items gawin mong string
-//
+					try {
+						
+						System.out.println(" eto oh user: " + userTable);
+
+						// Connect to the database
+						Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
+								"");
+						Statement pst=con.createStatement();
+
+						String sql = "SELECT * FROM budgee_accounts." + userTable;
+						pst.executeQuery(sql);
+						
+						ResultSet rs = pst.executeQuery(sql);
+						
+						if (rs.next()) {
+							int id = rs.getInt(1);
+
+							// kunin mo yung mga items gawin mong string
+							Object selectedValue = accounts.getSelectedItem();
+							String selectedString;
+
+							if (selectedValue == null) {
+								int lastIndex = accounts.getItemCount() - 1;
+								selectedString = accounts.getItemAt(lastIndex).toString();
+							} else {
+								selectedString = selectedValue.toString();
+							}
+
+							Object selectedValue1 = category.getSelectedItem();
+							String selectedString1;
+
+							if (selectedValue == null) {
+
+								int lastIndex = category.getItemCount() - 1;
+								selectedString1 = category.getItemAt(lastIndex).toString();
+							} else {
+
+								selectedString1 = selectedValue1.toString();
+							}
+							
+							
+							
 //							pst = con.prepareStatement(
-//									"INSERT INTO budgee_accounts.accounts1(date, time, balance_update, notes, action, category, account, cash_value, savings_value) VALUE(?,?,?,?,?,?,?,?,?)");
+//							"INSERT INTO budgee_accounts."+ userTable +"(date, time, balance_update, notes, action, category, account, cash_value, savings_value) VALUE(?,?,?,?,?,?,?,?,?)");
 ////							pst.setString(1, date);
 ////							pst.setString(2, time);
 ////							pst.setString(3, balance_update);
@@ -617,22 +640,24 @@ import javax.swing.border.EtchedBorder;
 //							pst.setString(8, selectedString);
 ////							pst.setString(9, cash_value);
 //
-//							 pst.executeUpdate();
-//						}
-//
-//						else {
-//							System.out.println("No rows found in the result set.");
-//						}
-//
-//						// Close the result set, prepared statement, and connection
-//						rs.close();
-//						pst.close();
-//						con.close();
-//					} catch (SQLException e1) {
-//						System.out.println("SQLException: " + e1.getMessage());
-//						System.out.println("SQLState: " + e1.getSQLState());
-//						System.out.println("VendorError: " + e1.getErrorCode());
-//					}
+//							pst.executeUpdate();
+						}
+
+						else {
+							System.out.println("No rows found in the result set.");
+						}
+
+						// Close the result set, prepared statement, and connection
+						rs.close();
+						pst.close();
+						con.close();
+					} catch (SQLException e1) {
+						System.out.println("SQLException: " + e1.getMessage());
+						System.out.println("SQLState: " + e1.getSQLState());
+						System.out.println("VendorError: " + e1.getErrorCode());
+					}
+					timeAndDate();
+					System.out.println(currentTime);
 				}
 			});
 			btnSave_1.setFocusable(false);
@@ -691,7 +716,8 @@ import javax.swing.border.EtchedBorder;
 			LayeredPanel.add(p);
 			LayeredPanel.repaint();
 			LayeredPanel.revalidate();
-		}		
+		}
+	
 }
 		
 				

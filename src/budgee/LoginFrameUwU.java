@@ -103,9 +103,7 @@ public class LoginFrameUwU {
 							+ "' and password='" + pass.getText() + "'";
 					ResultSet resultLoginQuery = statement.executeQuery(loginQuery);	
 					
-					String text = user.getText();
-					CalcuFrame rude = new CalcuFrame();
-					rude.useText(text);
+					
 					
 					if (resultLoginQuery != null) {
 			
@@ -123,6 +121,8 @@ public class LoginFrameUwU {
 						session.setUsername(sessionUsername);
 	
 						String tableID = "user_" + sessionId;
+						CalcuFrame rude = new CalcuFrame();
+						rude.useText(tableID);
 						
 						/*
 						PreparedStatement pst = connection.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
