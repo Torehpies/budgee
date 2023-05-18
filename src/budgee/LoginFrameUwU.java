@@ -32,7 +32,7 @@ public class LoginFrameUwU {
 	private JButton resetBTN;
 	private JButton newAccBTN;
 	private JPasswordField pass;
-	private String tableID;
+	public String tableID;
 
 	public LoginFrameUwU() {
 		initialize();		

@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -16,6 +17,13 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -41,12 +49,33 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 
+import java.util.Date;
+import java.sql.Time;
+import java.sql.Types;
+
 public class mainmain extends JFrame {
 
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
 	private JTextField cashbal_txtfld;
 	private JTextField savebal_txtfld;
+	
+	Connection con;
+	PreparedStatement pst;
+	ResultSet rs;
+	private JPasswordField password;
+	
+	public void Connect() {
+	try {
+	      Class.forName("com.mysql.cj.jdbc.Driver");
+	      con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+	    } catch (ClassNotFoundException | SQLException ex) {
+	      Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);
+	        // Handle the exception appropriately, e.g. show an error message to the user
+	    }
+
+
+	}
 
 	/**
 	 * Create the frame.
@@ -329,6 +358,33 @@ public class mainmain extends JFrame {
 
 		
 		JButton cashsve_btn = new JButton("Save");
+		cashsve_btn.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	
+		    	String Cash = cashbal_txtfld.getText();
+		    	Date date = new Date();
+
+		        try {
+		            Class.forName("com.mysql.cj.jdbc.Driver");
+		            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+
+		            String sql = "INSERT INTO budgee_accounts.user_1 (date, time, cash_value) VALUES (?, ?, ?)";
+		            pst = con.prepareStatement(sql);
+		            pst.setDate(1, new java.sql.Date(date.getTime()));
+		            pst.setTime(2, new java.sql.Time(date.getTime()));
+		            pst.setString(3, Cash);
+		            
+
+
+		            pst.executeUpdate();
+		            
+		            con.close();
+		        } catch (Exception err) {
+		            System.out.println(err.getMessage());
+		        }
+		    }
+		});
+
 		cashsve_btn.setForeground(new Color(252, 187, 109));
 		cashsve_btn.setBackground(new Color(85, 111, 146));
 		cashsve_btn.setBounds(154, 78, 89, 23);
