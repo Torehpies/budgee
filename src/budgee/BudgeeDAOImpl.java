@@ -8,7 +8,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	//UserSession object and variables
 	UserSession session = UserSession.getInstance();
-	int userId = session.getId();
+	String userTable = "user_" + session.getId();
 
 	private Connection connection;
 	
@@ -18,13 +18,12 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	@Override
 	public void addExpense(Record record) {
-		String insertQuery = "INSERT INTO user_" + userId + "(date, time," + 
+		String insertQuery = "INSERT INTO budgee_accounts." + userTable + "(date, time," + 
 				"balance_update, notes, action, category, account, cash_value," +
 				"savings_value) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		 try (PreparedStatement preparedStatement = 
-				connection.prepareStatement(insertQuery, 
-				PreparedStatement.RETURN_GENERATED_KEYS)) {
+				connection.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
 			 preparedStatement.setString(1, record.getDate());
 			 preparedStatement.setString(2, record.getTime());
 			 preparedStatement.setBigDecimal(3, record.getBalance_update());
@@ -34,6 +33,9 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 			 preparedStatement.setString(7, record.getAccount());
 			 preparedStatement.setBigDecimal(8, record.getCash_value());
 			 preparedStatement.setBigDecimal(9, record.getSavings_value());
+			 
+			 System.out.println(userTable);
+			 System.out.println("success");
 			 
 		 } catch (SQLException e) {
 			 e.printStackTrace();

@@ -103,8 +103,6 @@ public class LoginFrameUwU {
 							+ "' and password='" + pass.getText() + "'";
 					ResultSet resultLoginQuery = statement.executeQuery(loginQuery);	
 					
-					
-					
 					if (resultLoginQuery != null) {
 			
 						int sessionId = 0;
@@ -119,6 +117,8 @@ public class LoginFrameUwU {
 						UserSession session = UserSession.getInstance();
 						session.setId(sessionId);
 						session.setUsername(sessionUsername);
+						
+						System.out.println(session.getId());
 	
 						String tableID = "user_" + sessionId;
 						CalcuFrame rude = new CalcuFrame();
@@ -135,12 +135,17 @@ public class LoginFrameUwU {
 						main.setVisible(true);
 						frmLoginBudgee.dispose();
 						JOptionPane.showMessageDialog(null,"Login Sucessfully... ");
-					
+						
+						resultLoginQuery.close();
+						statement.close();
+						connection.close();
 					}
-					
+						
 					else {
 						JOptionPane.showMessageDialog(null,"Login Denied... ");
-					connection.close();
+						resultLoginQuery.close();
+						statement.close();
+						connection.close();
 					}
 				}catch(Exception e1) {System.out.print(e1);}
 				
