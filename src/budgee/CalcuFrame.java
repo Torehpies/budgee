@@ -3,6 +3,11 @@ package budgee;
 
 import java.awt.EventQueue;
 
+import budgee.UserSession; 
+import budgee.Record;
+
+import java.math.BigDecimal;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -45,6 +50,12 @@ import java.util.logging.Logger;
 
 	public class CalcuFrame extends JFrame {
 
+		//Session variables
+		private UserSession session = UserSession.getInstance();
+		private int sessionId = session.getId();
+		
+		private String recordAction = "";
+		
 		private JPanel contentPane;
 		private JTextField textField;
 		private JLabel lbl1,lbl2;
@@ -468,7 +479,6 @@ import java.util.logging.Logger;
 			accounts.setBounds(45, 68, 318, 35);
 			panel.add(accounts);
 			
-			accounts.addItem("Card");
 			accounts.addItem("Cash");
 			accounts.addItem("Savings");
 			
@@ -564,7 +574,7 @@ import java.util.logging.Logger;
 		    hourComboBox.setBounds(45, 385, 117, 50);
 		    panel.add(hourComboBox);
 		 
-		    for (int hour = 1; hour <= 12; hour++) {
+		    for (int hour = 1; hour <= 24; hour++) {
 			 hourComboBox.addItem(String.valueOf(hour));
 	        }
 		 
@@ -586,16 +596,68 @@ import java.util.logging.Logger;
 			btnSave_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
+					String recordDate = monthComboBox.getSelectedItem() + "-" + 
+							dayComboBox.getSelectedItem() + "-" + 
+							yearComboBox.getSelectedItem();
+					
+					String recordTime = hourComboBox.getSelectedItem() + ":" + 
+							minuteComboBox.getSelectedItem();
+					
+					BigDecimal recordBalanceUpdate = new BigDecimal(textField.getText());
+					
+					String recordNotes = txtAddNote.getText();
+					
+					Object accountObject = accounts.getSelectedItem();
+					String recordAccount = "";
+
+					if (accountObject == null) {
+						int lastIndex = accounts.getItemCount() - 1;
+						recordAccount = (accounts.getItemAt(lastIndex).toString()).toLowerCase();
+					} else {
+						recordAccount = (accountObject.toString()).toLowerCase();
+					}
+
+					Object categoryObject = category.getSelectedItem();
+					String recordCategory = "";
+
+					if (categoryObject == null) {
+
+						int lastIndex = category.getItemCount() - 1;
+						recordCategory = (category.getItemAt(lastIndex).toString()).toLowerCase();
+					} else {
+
+						recordCategory = (categoryObject.toString()).toLowerCase();
+					}
+					
+					BigDecimal recordCashValue = new BigDecimal(0); 
+					BigDecimal recordSavingsValue = new BigDecimal(0);
+					
+					Record record = new Record(recordDate, recordTime, recordBalanceUpdate, 
+							recordNotes, recordAction, recordCategory, recordAccount, 
+							recordCashValue, recordSavingsValue);
+					
+					Connection connection = null;
+					try {
+						connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+					BudgeeDAOImpl BudgeeDAO = new BudgeeDAOImpl(connection);
+					BudgeeDAO.addExpense(record);
+					
+					
 					try {
 						
-						System.out.println(" eto oh user: " + userTable);
+						System.out.println(" eto oh user: " + sessionId);
 
 						// Connect to the database
 						Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
 								"");
 						Statement pst=con.createStatement();
 
-						String sql = "SELECT * FROM budgee_accounts." + userTable;
+						String sql = "SELECT * FROM budgee_accounts.user_" + sessionId;
 						pst.executeQuery(sql);
 						
 						ResultSet rs = pst.executeQuery(sql);
@@ -604,27 +666,7 @@ import java.util.logging.Logger;
 							int id = rs.getInt(1);
 
 							// kunin mo yung mga items gawin mong string
-							Object selectedValue = accounts.getSelectedItem();
-							String selectedString;
-
-							if (selectedValue == null) {
-								int lastIndex = accounts.getItemCount() - 1;
-								selectedString = accounts.getItemAt(lastIndex).toString();
-							} else {
-								selectedString = selectedValue.toString();
-							}
-
-							Object selectedValue1 = category.getSelectedItem();
-							String selectedString1;
-
-							if (selectedValue == null) {
-
-								int lastIndex = category.getItemCount() - 1;
-								selectedString1 = category.getItemAt(lastIndex).toString();
-							} else {
-
-								selectedString1 = selectedValue1.toString();
-							}
+							
 							
 							
 							
@@ -660,6 +702,7 @@ import java.util.logging.Logger;
 					System.out.println(currentTime);
 				}
 			});
+			
 			btnSave_1.setFocusable(false);
 			btnSave_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnSave_1.setBounds(616, 460, 91, 38);
@@ -689,7 +732,7 @@ import java.util.logging.Logger;
 			btnIncome.setBackground(new Color(69, 92, 123));
 			btnIncome.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					;
+					recordAction = "income";
 				}
 			});
 			btnIncome.setBounds(10, 5, 355, 45);
@@ -701,7 +744,7 @@ import java.util.logging.Logger;
 			btnExpense.setBackground(new Color(69, 92, 123));
 			btnExpense.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					;
+					recordAction = "expense";
 				}
 			});
 			btnExpense.setBounds(380, 5, 355, 45);
