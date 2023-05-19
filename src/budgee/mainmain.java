@@ -253,7 +253,7 @@ public class mainmain extends JFrame {
 		analytic_panel.add(comboBox);
 		comboBox.setModel(
 		new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
-		layerpanebelow.add(budget_panel);
+		layerpanebelow.add(budget_panel, Integer.valueOf(5));
 
 
 		JButton budget_btn = new JButton("New button");
@@ -355,6 +355,18 @@ public class mainmain extends JFrame {
 		set_bdgt_btn_3_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		set_bdgt_btn_3_1.setBounds(155, 20, 116, 29);
 		educ_bdgt.add(set_bdgt_btn_3_1);
+		
+		JLabel budgeted_lbl = new JLabel("Budgeted Categories");
+		budgeted_lbl.setForeground(new Color(252, 187, 109));
+		budgeted_lbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		budgeted_lbl.setBounds(140, 26, 186, 25);
+		budget_panel.add(budgeted_lbl);
+		
+		JLabel unbudgeted_lbl = new JLabel("Unbudgeted Categories");
+		unbudgeted_lbl.setForeground(new Color(252, 187, 109));
+		unbudgeted_lbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		unbudgeted_lbl.setBounds(518, 26, 209, 25);
+		budget_panel.add(unbudgeted_lbl);
 		layerpanebelow.add(acc_panel);
 		
 		JButton acc_btn = new JButton("New button");
