@@ -11,7 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;  
 public class ChartTest extends Application{  
 public static void main(String[] args) {  
-    launch(args);  
+    launch(args);   
 }  
   
 @Override  

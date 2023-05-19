@@ -48,6 +48,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 
 	public class CalcuFrame extends JFrame {
@@ -95,7 +97,14 @@ import java.util.logging.Logger;
 		      Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);}
 		        // Handle the exception appropriately, e.g. show an error message to the user
 		    }
+		 private void updateComboBoxItems(JComboBox<String> category, List<String> items) {
+		        category.removeAllItems();
+		        for (String item : items) {
+		            category.addItem(item);
+		        }
+		    }
 
+		  
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
@@ -489,12 +498,14 @@ import java.util.logging.Logger;
 			category.setBounds(389, 68, 318, 35);
 			panel.add(category);
 			
-			category.addItem("Bills");
-			category.addItem("Food");
-			category.addItem("Tax");
-			category.addItem("Insurance");
-			category.addItem("Health");
-			category.addItem("Shopping");
+			List<String> ExpenseItems = new ArrayList<>();
+			ExpenseItems.add("Bills");
+			ExpenseItems.add("Food");
+			ExpenseItems.add("Tax");
+			ExpenseItems.add("Insurance");
+			ExpenseItems.add("Health");
+			ExpenseItems.add("Shopping");
+		    updateComboBoxItems(category, ExpenseItems);
 			
 			JLabel lblAcc = new JLabel("Account");
 			lblAcc.setForeground(new Color(255, 255, 255));
@@ -511,11 +522,11 @@ import java.util.logging.Logger;
 			panel.add(lblCategory);
 			
 			JComboBox<Integer> dayComboBox = new JComboBox<>();
-			dayComboBox.setBounds(45, 324, 49, 50);
+			dayComboBox.setBounds(146, 324, 49, 50);
 			panel.add(dayComboBox);
 
 			JComboBox<Month> monthComboBox = new JComboBox<>();
-			monthComboBox.setBounds(104, 324, 91, 50);
+			monthComboBox.setBounds(45, 324, 91, 50);
 			panel.add(monthComboBox);
 
 			JComboBox<Integer> yearComboBox = new JComboBox<>();
@@ -538,7 +549,7 @@ import java.util.logging.Logger;
 			    
 			    public void actionPerformed(ActionEvent e) {
 			        int selectedYear = (int) yearComboBox.getSelectedItem();
-			        Month selectedMonth = Month.valueOf(monthComboBox.getSelectedItem().toString());
+			        Month selectedMonth = (Month)monthComboBox.getSelectedItem();
 			        int maxDays = selectedMonth.length(Year.of(selectedYear).isLeap());
 
 			        dayComboBox.removeAllItems();
@@ -549,9 +560,12 @@ import java.util.logging.Logger;
 			});
 			
 			Month currentMonth = LocalDate.now().getMonth();
-			monthComboBox.setSelectedItem(currentMonth.toString());
-			yearComboBox.setSelectedItem(currentYear);
+	        monthComboBox.setSelectedItem(currentMonth);
+	        yearComboBox.setSelectedItem(currentYear);
 
+	        int currentDay = LocalDate.now().getDayOfMonth();
+	        dayComboBox.setSelectedItem(currentDay);
+			
 			
 
 			int selectedYear = (int) yearComboBox.getSelectedItem();
@@ -658,6 +672,11 @@ import java.util.logging.Logger;
 			panel.add(btnSave_1);
 			
 			JButton btnCancel_1 = new JButton("Cancel");
+			btnCancel_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			btnCancel_1.setFocusable(false);
 			btnCancel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnCancel_1.setBounds(514, 460, 91, 38);
@@ -674,28 +693,57 @@ import java.util.logging.Logger;
 			contentPane.add(panel_3);
 			panel_3.setLayout(null);
 			
+			
+			
+			JButton btnExpense = new JButton("Expense");
 			JButton btnIncome = new JButton("Income");
+			
 			btnIncome.setFont(new Font("Tahoma", Font.BOLD, 15));
 			btnIncome.setForeground(new Color(252, 187, 109));
 			btnIncome.setFocusable(false);
 			btnIncome.setBackground(new Color(69, 92, 123));
 			btnIncome.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					recordAction = "income";
-				}
+			    public void actionPerformed(ActionEvent e) {
+			        btnIncome.setBackground(new Color(252, 187, 109));
+					btnIncome.setForeground(new Color(71, 86, 122));
+					
+			        btnExpense.setBackground(new Color(69, 92, 123));
+			        btnExpense.setForeground(new Color(252, 187, 109));
+			        
+			        List<String> incomeItems = new ArrayList<>();
+			        incomeItems.add("Salary");
+			        incomeItems.add("Awards");
+			        incomeItems.add("Coupons");
+			        incomeItems.add("Sale");
+			        incomeItems.add("Rental");
+			        updateComboBoxItems(category, incomeItems);
+
+			        recordAction = "income";
+			    }
 			});
 			btnIncome.setBounds(10, 5, 355, 45);
 			panel_3.add(btnIncome);
-			
-			JButton btnExpense = new JButton("Expense");
-			btnExpense.setForeground(new Color(252, 187, 109));
+
+		
+			btnExpense.setForeground(new Color(71, 86, 122));
 			btnExpense.setFont(new Font("Tahoma", Font.BOLD, 15));
-			btnExpense.setBackground(new Color(69, 92, 123));
+			btnExpense.setBackground(new Color(252, 187, 109));
 			btnExpense.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					recordAction = "expense";
-				}
+			    public void actionPerformed(ActionEvent e) {
+			        btnExpense.setBackground(new Color(252, 187, 109));
+			    	btnExpense.setForeground(new Color(71, 86, 122));
+			    	
+			        btnIncome.setBackground(null);
+			        btnIncome.setForeground(new Color(252, 187, 109));
+
+			        updateComboBoxItems(category, ExpenseItems);
+
+			        recordAction = "expense";
+			    }
 			});
+			btnExpense.setBounds(380, 5, 355, 45);
+			btnExpense.setFocusable(false);
+			panel_3.add(btnExpense);
 			btnExpense.setBounds(380, 5, 355, 45);
 			btnExpense.setFocusable(false);
 			panel_3.add(btnExpense)
