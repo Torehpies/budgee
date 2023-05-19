@@ -3,6 +3,7 @@ package budgee;
 import java.awt.BorderLayout;
 
 import budgee.UserSession;
+import javafx.stage.Stage;
 
 import java.awt.EventQueue;
 
@@ -43,6 +44,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+
 
 public class mainmain extends JFrame {
 
@@ -54,11 +57,25 @@ public class mainmain extends JFrame {
 	private JTextField cashbal_txtfld;
 	private JTextField savebal_txtfld;
 	private JButton analytic_button;
+	
+	
+	private static void openChartTest() {
+        // Launch the ChartTest JavaFX application
+		
+        ChartTest chartTest = new ChartTest();
+        try {
+            chartTest.init();
+            chartTest.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public mainmain() {
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1034, 697);
@@ -85,11 +102,6 @@ public class mainmain extends JFrame {
 		analytic_panel.setBackground(new Color(66, 83, 109));
 		analytic_panel.setBounds(0, 0, 792, 459);
 		analytic_panel.setLayout(null);
-
-		JLabel anallebel = new JLabel("ANALYTIC");
-		anallebel.setBounds(370, 5, 49, 14);
-		anallebel.setForeground(new Color(255, 255, 255));
-		analytic_panel.add(anallebel);
 
 		final JPanel budget_panel = new JPanel();
 		budget_panel.setBackground(new Color(66, 83, 109));
@@ -210,7 +222,9 @@ public class mainmain extends JFrame {
 		});
 		calcu.setBounds(685, 378, 97, 70);
 		rec_panel.add(calcu);
-		layerpanebelow.add(analytic_panel);
+		layerpanebelow.add(analytic_panel, Integer.valueOf(7));
+		
+//		, Integer.valueOf(7)
 
 		JButton calcu1 = new JButton("New button");
 		calcu1.setAction(action);
@@ -224,22 +238,32 @@ public class mainmain extends JFrame {
 		});
 		calcu1.setBounds(685, 378, 97, 70);
 		analytic_panel.add(calcu1);
-
-		JLabel piechart = new JLabel("Piechart");
-		piechart.setBackground(new Color(66, 83, 109));
-		piechart.setBounds(10, 25, 536, 309);
-		analytic_panel.add(piechart);
-
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBackground(new Color(66, 83, 109));
-		lblNewLabel_1.setBounds(10, 345, 536, 103);
-		analytic_panel.add(lblNewLabel_1);
+				
+		JPanel analyticsBTN = new JPanel();
+		analyticsBTN.setBackground(new Color(85, 111, 146));
+		analyticsBTN.setBounds(23, 11, 583, 63);
+		analytic_panel.add(analyticsBTN);
+		analyticsBTN.setLayout(null);
 		
-				JComboBox<String> comboBox = new JComboBox();
-				comboBox.setBounds(595, 11, 139, 34);
-				analytic_panel.add(comboBox);
-				comboBox.setModel(
-				new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
+		JComboBox<String> overView = new JComboBox();
+		overView.setName("");
+		overView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		overView.setBounds(10, 11, 563, 41);
+		analyticsBTN.add(overView);
+		overView.setForeground(new Color(252, 187, 109));
+		overView.setFont(new Font("Quicksand Light", Font.BOLD, 13));
+		overView.setModel(
+		new DefaultComboBoxModel(new String[] {"Expense Overview", "Income Overview", "Income Flow", "Expense Flow", "Account Analysis"}));
+		
+		JPanel Categories = new JPanel();
+		Categories.setBackground(new Color(85, 111, 146));
+		Categories.setBounds(22, 96, 582, 343);
+		analytic_panel.add(Categories);
 		layerpanebelow.add(budget_panel);
 
 		JButton budget_btn = new JButton("New button");
@@ -609,7 +633,7 @@ public class mainmain extends JFrame {
 		frmMain.add(usernameLabel);
 
 	}
-
+	
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
