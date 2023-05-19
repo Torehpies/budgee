@@ -75,13 +75,15 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	                Date date = resultSet.getDate("date");
 	                Time time = resultSet.getTime("time");
 	                BigDecimal balance_update = resultSet.getBigDecimal("balance_update");
+	                String notes = resultSet.getString("notes");
+	                String action = resultSet.getString("action");
 	                String category = resultSet.getString("category");
-	                double amount = resultSet.getDouble("amount");
-	                
-	                BigDecimal balanceUpdate = resultSet.getBigDecimal("balance_update");
+	                String account = resultSet.getString("account");
+	                BigDecimal cash_value = resultSet.getBigDecimal("cash_value");
+	                BigDecimal savings_value = resultSet.getBigDecimal("savings_value");
 
-	                Expense expense = new Expense(id, category, amount, date, balanceUpdate);
-	                expenses.add(expense);
+	                Record record = new Record(id, date, time, balance_update, notes, action,  category, account, cash_value, savings_value);
+	                records.add(record);
 	            }
 
 	            resultSet.close();
@@ -90,7 +92,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	            e.printStackTrace();
 	        }
 
-	        return expenses;
+	        return records;
 	}
 
 	@Override
