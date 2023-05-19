@@ -32,15 +32,17 @@ public class LoginFrameUwU {
 	private JButton resetBTN;
 	private JButton newAccBTN;
 	private JPasswordField pass;
-	private String tableID;
+	public String tableID;
+	public String sessionId;
 
 	public LoginFrameUwU() {
 		initialize();		
 	}
 	
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	public String getTableID(int sessionId) {
+        return "user_" + sessionId;
+    }
+	
 	private void initialize() {
 		
 		frmLoginBudgee = new JFrame();
@@ -102,9 +104,7 @@ public class LoginFrameUwU {
 					String loginQuery = "SELECT * FROM budgee_accounts.accounts1 where username='" + user.getText()
 							+ "' and password='" + pass.getText() + "'";
 					ResultSet resultLoginQuery = statement.executeQuery(loginQuery);	
-					
-					
-					
+
 					if (resultLoginQuery != null) {
 			
 						int sessionId = 0;
@@ -114,28 +114,27 @@ public class LoginFrameUwU {
 							sessionId = resultLoginQuery.getInt("ID");
 							sessionUsername = resultLoginQuery.getString("username");
 						}
-
 						//Setting session variables
 						UserSession session = UserSession.getInstance();
 						session.setId(sessionId);
 						session.setUsername(sessionUsername);
-	
+
 						String tableID = "user_" + sessionId;
-						CalcuFrame rude = new CalcuFrame();
-						rude.useText(tableID);
+						CalcuFrame.useText(tableID);
+						System.out.println("eto table " + tableID);
 						
-						/*
 						PreparedStatement pst = connection.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
-								+ "WHERE username='" + user.getText() + "' and password='" + pass.getText() + "'");
+							+ "WHERE username='" + user.getText() + "' and password='" + pass.getText() + "'");
 						ResultSet rs3 = pst.executeQuery();
 						String sql1 = "SELECT * FROM budgee_accounts." + tableID;
 						pst.executeQuery(sql1);
-						*/
+						
 						mainmain main = new mainmain();
 						main.setVisible(true);
 						frmLoginBudgee.dispose();
 						JOptionPane.showMessageDialog(null,"Login Sucessfully... ");
-					
+						
+						System.out.println("jasper eto ka oh " + tableID);
 					}
 					
 					else {
@@ -144,15 +143,13 @@ public class LoginFrameUwU {
 					}
 				}catch(Exception e1) {System.out.print(e1);}
 				
-			}
-			
+			}		
 		});
 		
 		loginBTN.setBounds(290, 397, 89, 23);
 		loginBTN.setFocusable(false);
 		loginBTN.setBackground(new Color(66, 83, 109));
 		frmLoginBudgee.getContentPane().add(loginBTN);
-		
 		
 		resetBTN = new JButton("reset");
 		resetBTN.setBackground(new Color(66, 83, 109));

@@ -1,7 +1,5 @@
 package budgee;
 
-import java.awt.EventQueue;
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -9,4 +7,5 @@ public class Main {
 		window.frmLoginBudgee.setVisible(true);
 	}
 
+	
 }
