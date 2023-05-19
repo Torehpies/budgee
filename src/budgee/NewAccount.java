@@ -201,6 +201,7 @@ public class NewAccount extends JFrame {
 				}
 				
 				try {
+
 					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
 							"");
 					PreparedStatement pst = con.prepareStatement("SELECT MAX(id) FROM budgee_accounts.accounts1");
@@ -233,6 +234,7 @@ public class NewAccount extends JFrame {
 					System.out.println("SQLState: " + e2.getSQLState());
 					System.out.println("VendorError: " + e2.getErrorCode());
 				}
+
 			}
 		});
 		register.setForeground(new Color(252, 187, 109));

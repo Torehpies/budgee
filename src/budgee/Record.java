@@ -1,11 +1,13 @@
 package budgee;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
 
 public class Record {
 	
 	//Constructor with id
-	public Record(int id, String date, String time, BigDecimal balance_update, String notes, String action,
+	public Record(int id, Date date, Time time, BigDecimal balance_update, String notes, String action,
 			String category, String account, BigDecimal cash_value, BigDecimal savings_value) {
 		super();
 		this.id = id;
@@ -21,7 +23,7 @@ public class Record {
 	}
 	
 	//Constructor without id
-	public Record(String date, String time, BigDecimal balance_update, String notes, String action, String category,
+	public Record(Date date, Time time, BigDecimal balance_update, String notes, String action, String category,
 			String account, BigDecimal cash_value, BigDecimal savings_value) {
 		super();
 		this.date = date;
@@ -36,8 +38,8 @@ public class Record {
 	}
 	//Class attributes
 	private int id;
-	private String date;
-	private String time;
+	private Date date;
+	private Time time;
 	private BigDecimal balance_update;
 	private String notes;
 	private String action;
@@ -55,16 +57,16 @@ public class Record {
 		this.id = id;
 	}
 	*/
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String getTime() {
+	public Time getTime() {
 		return time;
 	}
-	public void setTime(String time) {
+	public void setTime(Time time) {
 		this.time = time;
 	}
 	public BigDecimal getBalance_update() {

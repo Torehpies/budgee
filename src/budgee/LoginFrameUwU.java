@@ -119,6 +119,9 @@ public class LoginFrameUwU {
 						session.setId(sessionId);
 						session.setUsername(sessionUsername);
 
+		
+						System.out.println(session.getId());
+	
 						String tableID = "user_" + sessionId;
 						CalcuFrame.useText(tableID);
 						System.out.println("eto table " + tableID);
@@ -135,11 +138,17 @@ public class LoginFrameUwU {
 						JOptionPane.showMessageDialog(null,"Login Sucessfully... ");
 						
 						System.out.println("jasper eto ka oh " + tableID);
+						resultLoginQuery.close();
+						statement.close();
+						connection.close();
+
 					}
-					
+						
 					else {
 						JOptionPane.showMessageDialog(null,"Login Denied... ");
-					connection.close();
+						resultLoginQuery.close();
+						statement.close();
+						connection.close();
 					}
 				}catch(Exception e1) {System.out.print(e1);}
 				

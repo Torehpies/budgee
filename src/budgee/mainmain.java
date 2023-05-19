@@ -1,6 +1,9 @@
 package budgee;
 
 import java.awt.BorderLayout;
+
+import budgee.UserSession;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -43,6 +46,9 @@ import javax.swing.SwingConstants;
 
 public class mainmain extends JFrame {
 
+	private UserSession session = UserSession.getInstance();
+	private String sessionUsername = session.getUsername();
+	
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
 	private JTextField cashbal_txtfld;
@@ -204,7 +210,7 @@ public class mainmain extends JFrame {
 		});
 		calcu.setBounds(685, 378, 97, 70);
 		rec_panel.add(calcu);
-		layerpanebelow.add(analytic_panel, Integer.valueOf(7));
+		layerpanebelow.add(analytic_panel);
 
 		JButton calcu1 = new JButton("New button");
 		calcu1.setAction(action);
@@ -220,15 +226,17 @@ public class mainmain extends JFrame {
 		analytic_panel.add(calcu1);
 
 		JLabel piechart = new JLabel("Piechart");
-		piechart.setBounds(10, 30, 536, 265);
+		piechart.setBackground(new Color(66, 83, 109));
+		piechart.setBounds(10, 25, 536, 309);
 		analytic_panel.add(piechart);
 
 		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(10, 319, 536, 103);
+		lblNewLabel_1.setBackground(new Color(66, 83, 109));
+		lblNewLabel_1.setBounds(10, 345, 536, 103);
 		analytic_panel.add(lblNewLabel_1);
 		
 				JComboBox<String> comboBox = new JComboBox();
-				comboBox.setBounds(595, 11, 139, 40);
+				comboBox.setBounds(595, 11, 139, 34);
 				analytic_panel.add(comboBox);
 				comboBox.setModel(
 				new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
@@ -593,6 +601,12 @@ public class mainmain extends JFrame {
 		logoBudgee.setIcon(loglog);
 		logoBudgee.setBounds(53, 64, 100, 120);
 		frmMain.add(logoBudgee);
+		
+		JLabel usernameLabel = new JLabel(sessionUsername);
+		usernameLabel.setForeground(new Color(255, 255, 255));
+		usernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		usernameLabel.setBounds(53, 11, 123, 42);
+		frmMain.add(usernameLabel);
 
 	}
 
