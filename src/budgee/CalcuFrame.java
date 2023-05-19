@@ -49,6 +49,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 
 	public class CalcuFrame extends JFrame {
@@ -96,7 +98,14 @@ import java.util.logging.Logger;
 		      Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);}
 		        // Handle the exception appropriately, e.g. show an error message to the user
 		    }
+		 private void updateComboBoxItems(JComboBox<String> category, List<String> items) {
+		        category.removeAllItems();
+		        for (String item : items) {
+		            category.addItem(item);
+		        }
+		    }
 
+		  
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
@@ -490,12 +499,14 @@ import java.util.logging.Logger;
 			category.setBounds(389, 68, 318, 35);
 			panel.add(category);
 			
-			category.addItem("Bills");
-			category.addItem("Food");
-			category.addItem("Tax");
-			category.addItem("Insurance");
-			category.addItem("Health");
-			category.addItem("Shopping");
+			List<String> ExpenseItems = new ArrayList<>();
+			ExpenseItems.add("Bills");
+			ExpenseItems.add("Food");
+			ExpenseItems.add("Tax");
+			ExpenseItems.add("Insurance");
+			ExpenseItems.add("Health");
+			ExpenseItems.add("Shopping");
+		    updateComboBoxItems(category, ExpenseItems);
 			
 			JLabel lblAcc = new JLabel("Account");
 			lblAcc.setForeground(new Color(255, 255, 255));
@@ -659,6 +670,11 @@ import java.util.logging.Logger;
 			panel.add(btnSave_1);
 			
 			JButton btnCancel_1 = new JButton("Cancel");
+			btnCancel_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			btnCancel_1.setFocusable(false);
 			btnCancel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnCancel_1.setBounds(514, 460, 91, 38);
@@ -682,6 +698,16 @@ import java.util.logging.Logger;
 			btnIncome.setBackground(new Color(69, 92, 123));
 			btnIncome.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					List<String> IncomeItems = new ArrayList<>();
+					
+					IncomeItems.add("Salary");
+					IncomeItems.add("Awards");
+					IncomeItems.add("Coupons");
+					IncomeItems.add("Sale");
+					IncomeItems.add("Rental");
+					updateComboBoxItems(category, IncomeItems);
+				
 					recordAction = "income";
 				}
 			});
@@ -694,6 +720,10 @@ import java.util.logging.Logger;
 			btnExpense.setBackground(new Color(69, 92, 123));
 			btnExpense.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+
+		                updateComboBoxItems(category, ExpenseItems);
+		         
+		   
 					recordAction = "expense";
 				}
 			});
