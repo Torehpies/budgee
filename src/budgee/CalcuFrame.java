@@ -547,13 +547,8 @@ import java.util.logging.Logger;
 			            dayComboBox.addItem(day);
 			        }
 			    }
-			    }
+			});
 			
-			
-			
-					);
-			
-
 			Month currentMonth = LocalDate.now().getMonth();
 			monthComboBox.setSelectedItem(currentMonth.toString());
 			yearComboBox.setSelectedItem(currentYear);
@@ -600,9 +595,10 @@ import java.util.logging.Logger;
 				public void actionPerformed(ActionEvent e) {
 					
 					String selectedDate = (yearComboBox.getSelectedItem()).toString() + "-" +
-							monthComboBox.getSelectedIndex() + "-" + 
+							(monthComboBox.getSelectedIndex() + 1) + "-" + 
 							(dayComboBox.getSelectedItem()).toString()
 							;
+					System.out.println(selectedDate);
 					
 					Date recordDate = Date.valueOf(selectedDate);
 					
