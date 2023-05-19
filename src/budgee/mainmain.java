@@ -55,6 +55,14 @@ import javax.swing.SwingConstants;
 import java.util.Date;
 import java.sql.Time;
 import java.sql.Types;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import javax.swing.JList;
+import javax.swing.JTextPane;
+import javax.swing.JScrollBar;
 
 public class mainmain extends JFrame {
 
@@ -124,11 +132,6 @@ public class mainmain extends JFrame {
 		budget_panel.setBounds(0, 0, 792, 459);
 		budget_panel.setLayout(null);
 
-		JLabel budglebel = new JLabel("BUDGET");
-		budglebel.setBounds(375, 5, 39, 14);
-		budglebel.setForeground(new Color(255, 255, 255));
-		budget_panel.add(budglebel);
-
 		final JPanel acc_panel = new JPanel();
 		acc_panel.setBackground(new Color(66, 83, 109));
 		acc_panel.setBounds(0, 0, 792, 459);
@@ -138,11 +141,6 @@ public class mainmain extends JFrame {
 		categ_panel.setBackground(new Color(66, 83, 109));
 		categ_panel.setBounds(0, 0, 792, 459);
 		categ_panel.setLayout(null);
-
-		JLabel categlebel = new JLabel("CATEGORY");
-		categlebel.setBounds(367, 5, 54, 14);
-		categlebel.setForeground(new Color(255, 255, 255));
-		categ_panel.add(categlebel);
 
 		JButton rec_button = new JButton("Record");
 		rec_button.setBounds(37, 251, 139, 40);
@@ -266,7 +264,7 @@ public class mainmain extends JFrame {
 		new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
 		comboBox.setBounds(620, 46, 132, 31);
 		analytic_panel.add(comboBox);
-		layerpanebelow.add(budget_panel);
+		layerpanebelow.add(budget_panel, Integer.valueOf(5));
 
 		JButton budget_btn = new JButton("New button");
 		budget_btn.setForeground(new Color(252, 187, 109));
@@ -279,7 +277,95 @@ public class mainmain extends JFrame {
 			}
 		});
 		budget_panel.add(budget_btn);
-		layerpanebelow.add(acc_panel, Integer.valueOf(5));
+		
+		JPanel stted_bdgt_pnl = new JPanel();
+		stted_bdgt_pnl.setBackground(new Color(85, 111, 146));
+		stted_bdgt_pnl.setBounds(10, 62, 447, 246);
+		budget_panel.add(stted_bdgt_pnl);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(467, 62, 315, 246);
+	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		budget_panel.add(scrollPane);
+		
+		JPanel unstted_bdgt_pnl = new JPanel();
+		unstted_bdgt_pnl.setPreferredSize(new Dimension(200, 400));
+		scrollPane.setViewportView(unstted_bdgt_pnl);
+		unstted_bdgt_pnl.setBackground(new Color(85, 111, 146));
+		unstted_bdgt_pnl.setLayout(null);
+		
+		JPanel bill_bdgt = new JPanel();
+		bill_bdgt.setBackground(new Color(69, 92, 123));
+		bill_bdgt.setBounds(10, 11, 281, 67);
+		unstted_bdgt_pnl.add(bill_bdgt);
+		bill_bdgt.setLayout(null);
+		
+		JLabel bills = new JLabel("BILLS");
+		bills.setForeground(new Color(252, 187, 109));
+		bills.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		bills.setBounds(51, 10, 62, 45);
+		bill_bdgt.add(bills);
+		
+		JButton set_bdgt_btn = new JButton("Set Budget");
+		set_bdgt_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
+		set_bdgt_btn.setForeground(new Color(252, 187, 109));
+		set_bdgt_btn.setBounds(155, 20, 116, 29);
+		bill_bdgt.add(set_bdgt_btn);
+		
+		JPanel shoppng_bdgt = new JPanel();
+		shoppng_bdgt.setBackground(new Color(69, 92, 123));
+		shoppng_bdgt.setBounds(10, 89, 281, 67);
+		unstted_bdgt_pnl.add(shoppng_bdgt);
+		shoppng_bdgt.setLayout(null);
+		
+		JLabel shopping = new JLabel("SHOPPING");
+		shopping.setBounds(34, 10, 94, 45);
+		shopping.setForeground(new Color(252, 187, 109));
+		shopping.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		shoppng_bdgt.add(shopping);
+		
+		JButton set_bdgt_btn_2 = new JButton("Set Budget");
+		set_bdgt_btn_2.setForeground(new Color(252, 187, 109));
+		set_bdgt_btn_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		set_bdgt_btn_2.setBounds(155, 20, 116, 29);
+		shoppng_bdgt.add(set_bdgt_btn_2);
+		
+		JPanel food_bdgt = new JPanel();
+		food_bdgt.setBackground(new Color(69, 92, 123));
+		food_bdgt.setBounds(10, 168, 281, 67);
+		unstted_bdgt_pnl.add(food_bdgt);
+		food_bdgt.setLayout(null);
+		
+		JLabel food = new JLabel("FOOD");
+		food.setBounds(56, 10, 52, 45);
+		food.setForeground(new Color(252, 187, 109));
+		food.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		food_bdgt.add(food);
+		
+		JButton set_bdgt_btn_3 = new JButton("Set Budget");
+		set_bdgt_btn_3.setForeground(new Color(252, 187, 109));
+		set_bdgt_btn_3.setFont(new Font("Tahoma", Font.BOLD, 15));
+		set_bdgt_btn_3.setBounds(155, 20, 116, 29);
+		food_bdgt.add(set_bdgt_btn_3);
+		
+		JPanel educ_bdgt = new JPanel();
+		educ_bdgt.setLayout(null);
+		educ_bdgt.setBackground(new Color(69, 92, 123));
+		educ_bdgt.setBounds(10, 247, 281, 67);
+		unstted_bdgt_pnl.add(educ_bdgt);
+		
+		JLabel educ = new JLabel("EDUCATION");
+		educ.setForeground(new Color(252, 187, 109));
+		educ.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		educ.setBounds(30, 10, 108, 45);
+		educ_bdgt.add(educ);
+		
+		JButton set_bdgt_btn_3_1 = new JButton("Set Budget");
+		set_bdgt_btn_3_1.setForeground(new Color(252, 187, 109));
+		set_bdgt_btn_3_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		set_bdgt_btn_3_1.setBounds(155, 20, 116, 29);
+		educ_bdgt.add(set_bdgt_btn_3_1);
+		layerpanebelow.add(acc_panel);
 		
 		JButton acc_btn = new JButton("New button");
 		acc_btn.setBackground(new Color(85, 111, 146));
@@ -364,33 +450,6 @@ public class mainmain extends JFrame {
 
 		
 		JButton cashsve_btn = new JButton("Save");
-		cashsve_btn.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		    	
-		    	String Cash = cashbal_txtfld.getText();
-		    	Date date = new Date();
-
-		        try {
-		            Class.forName("com.mysql.cj.jdbc.Driver");
-		            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
-
-		            String sql = "INSERT INTO budgee_accounts.user_1 (date, time, cash_value) VALUES (?, ?, ?)";
-		            pst = con.prepareStatement(sql);
-		            pst.setDate(1, new java.sql.Date(date.getTime()));
-		            pst.setTime(2, new java.sql.Time(date.getTime()));
-		            pst.setString(3, Cash);
-		            
-
-
-		            pst.executeUpdate();
-		            
-		            con.close();
-		        } catch (Exception err) {
-		            System.out.println(err.getMessage());
-		        }
-		    }
-		});
-
 		cashsve_btn.setForeground(new Color(252, 187, 109));
 		cashsve_btn.setBackground(new Color(85, 111, 146));
 		cashsve_btn.setBounds(154, 78, 89, 23);
