@@ -523,11 +523,11 @@ import java.util.List;
 			panel.add(lblCategory);
 			
 			JComboBox<Integer> dayComboBox = new JComboBox<>();
-			dayComboBox.setBounds(45, 324, 49, 50);
+			dayComboBox.setBounds(146, 324, 49, 50);
 			panel.add(dayComboBox);
 
 			JComboBox<Month> monthComboBox = new JComboBox<>();
-			monthComboBox.setBounds(104, 324, 91, 50);
+			monthComboBox.setBounds(45, 324, 91, 50);
 			panel.add(monthComboBox);
 
 			JComboBox<Integer> yearComboBox = new JComboBox<>();
@@ -550,7 +550,7 @@ import java.util.List;
 			    
 			    public void actionPerformed(ActionEvent e) {
 			        int selectedYear = (int) yearComboBox.getSelectedItem();
-			        Month selectedMonth = Month.valueOf(monthComboBox.getSelectedItem().toString());
+			        Month selectedMonth = (Month)monthComboBox.getSelectedItem();
 			        int maxDays = selectedMonth.length(Year.of(selectedYear).isLeap());
 
 			        dayComboBox.removeAllItems();
@@ -561,9 +561,12 @@ import java.util.List;
 			});
 			
 			Month currentMonth = LocalDate.now().getMonth();
-			monthComboBox.setSelectedItem(currentMonth.toString());
-			yearComboBox.setSelectedItem(currentYear);
+	        monthComboBox.setSelectedItem(currentMonth);
+	        yearComboBox.setSelectedItem(currentYear);
 
+	        int currentDay = LocalDate.now().getDayOfMonth();
+	        dayComboBox.setSelectedItem(currentDay);
+			
 			
 
 			int selectedYear = (int) yearComboBox.getSelectedItem();
@@ -691,42 +694,57 @@ import java.util.List;
 			contentPane.add(panel_3);
 			panel_3.setLayout(null);
 			
+			
+			
+			JButton btnExpense = new JButton("Expense");
 			JButton btnIncome = new JButton("Income");
+			
 			btnIncome.setFont(new Font("Tahoma", Font.BOLD, 15));
 			btnIncome.setForeground(new Color(252, 187, 109));
 			btnIncome.setFocusable(false);
 			btnIncome.setBackground(new Color(69, 92, 123));
 			btnIncome.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			    public void actionPerformed(ActionEvent e) {
+			        btnIncome.setBackground(new Color(252, 187, 109));
+					btnIncome.setForeground(new Color(71, 86, 122));
 					
-					List<String> IncomeItems = new ArrayList<>();
-					
-					IncomeItems.add("Salary");
-					IncomeItems.add("Awards");
-					IncomeItems.add("Coupons");
-					IncomeItems.add("Sale");
-					IncomeItems.add("Rental");
-					updateComboBoxItems(category, IncomeItems);
-				
-					recordAction = "income";
-				}
+			        btnExpense.setBackground(new Color(69, 92, 123));
+			        btnExpense.setForeground(new Color(252, 187, 109));
+			        
+			        List<String> incomeItems = new ArrayList<>();
+			        incomeItems.add("Salary");
+			        incomeItems.add("Awards");
+			        incomeItems.add("Coupons");
+			        incomeItems.add("Sale");
+			        incomeItems.add("Rental");
+			        updateComboBoxItems(category, incomeItems);
+
+			        recordAction = "income";
+			    }
 			});
 			btnIncome.setBounds(10, 5, 355, 45);
 			panel_3.add(btnIncome);
-			
-			JButton btnExpense = new JButton("Expense");
-			btnExpense.setForeground(new Color(252, 187, 109));
-			btnExpense.setFont(new Font("Tahoma", Font.BOLD, 15));
-			btnExpense.setBackground(new Color(69, 92, 123));
-			btnExpense.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
 
-		                updateComboBoxItems(category, ExpenseItems);
-		         
-		   
-					recordAction = "expense";
-				}
+		
+			btnExpense.setForeground(new Color(71, 86, 122));
+			btnExpense.setFont(new Font("Tahoma", Font.BOLD, 15));
+			btnExpense.setBackground(new Color(252, 187, 109));
+			btnExpense.addActionListener(new ActionListener() {
+			    public void actionPerformed(ActionEvent e) {
+			        btnExpense.setBackground(new Color(252, 187, 109));
+			    	btnExpense.setForeground(new Color(71, 86, 122));
+			    	
+			        btnIncome.setBackground(null);
+			        btnIncome.setForeground(new Color(252, 187, 109));
+
+			        updateComboBoxItems(category, ExpenseItems);
+
+			        recordAction = "expense";
+			    }
 			});
+			btnExpense.setBounds(380, 5, 355, 45);
+			btnExpense.setFocusable(false);
+			panel_3.add(btnExpense);
 			btnExpense.setBounds(380, 5, 355, 45);
 			btnExpense.setFocusable(false);
 			panel_3.add(btnExpense)
