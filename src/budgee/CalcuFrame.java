@@ -20,11 +20,13 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
@@ -44,6 +46,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.EtchedBorder;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -596,12 +599,17 @@ import java.util.logging.Logger;
 			btnSave_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					String recordDate = monthComboBox.getSelectedItem() + "-" + 
-							dayComboBox.getSelectedItem() + "-" + 
-							yearComboBox.getSelectedItem();
+					String selectedDate = (yearComboBox.getSelectedItem()).toString() + "-" +
+							monthComboBox.getSelectedIndex() + "-" + 
+							(dayComboBox.getSelectedItem()).toString()
+							;
 					
-					String recordTime = hourComboBox.getSelectedItem() + ":" + 
-							minuteComboBox.getSelectedItem();
+					Date recordDate = Date.valueOf(selectedDate);
+					
+					String selectedTime = (hourComboBox.getSelectedItem()).toString() + ":" + 
+							(minuteComboBox.getSelectedItem()).toString() + ":" + "00";
+					
+					Time recordTime = Time.valueOf(selectedTime);
 					
 					BigDecimal recordBalanceUpdate = new BigDecimal(textField.getText());
 					
@@ -646,60 +654,6 @@ import java.util.logging.Logger;
 				
 					BudgeeDAOImpl BudgeeDAO = new BudgeeDAOImpl(connection);
 					BudgeeDAO.addExpense(record);
-					
-					
-					try {
-						
-						System.out.println(" eto oh user: " + sessionId);
-
-						// Connect to the database
-						Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
-								"");
-						Statement pst=con.createStatement();
-
-						String sql = "SELECT * FROM budgee_accounts.user_" + sessionId;
-						pst.executeQuery(sql);
-						
-						ResultSet rs = pst.executeQuery(sql);
-						
-						if (rs.next()) {
-							int id = rs.getInt(1);
-
-							// kunin mo yung mga items gawin mong string
-							
-							
-							
-							
-//							pst = con.prepareStatement(
-//							"INSERT INTO budgee_accounts."+ userTable +"(date, time, balance_update, notes, action, category, account, cash_value, savings_value) VALUE(?,?,?,?,?,?,?,?,?)");
-////							pst.setString(1, date);
-////							pst.setString(2, time);
-////							pst.setString(3, balance_update);
-////							pst.setString(4, notes);
-////							pst.setString(5, notes);
-////							pst.setString(6, last_name);
-//							pst.setString(7, selectedString1);
-//							pst.setString(8, selectedString);
-////							pst.setString(9, cash_value);
-//
-//							pst.executeUpdate();
-						}
-
-						else {
-							System.out.println("No rows found in the result set.");
-						}
-
-						// Close the result set, prepared statement, and connection
-						rs.close();
-						pst.close();
-						con.close();
-					} catch (SQLException e1) {
-						System.out.println("SQLException: " + e1.getMessage());
-						System.out.println("SQLState: " + e1.getSQLState());
-						System.out.println("VendorError: " + e1.getErrorCode());
-					}
-					timeAndDate();
-					System.out.println(currentTime);
 				}
 			});
 			
