@@ -3,6 +3,7 @@ package budgee;
 import java.awt.BorderLayout;
 
 import budgee.UserSession;
+import budgee.Record;
 
 import java.awt.EventQueue;
 
@@ -77,6 +78,11 @@ public class mainmain extends JFrame {
 	private JButton analytic_button;
 
 
+	private JPanel createRecordPanel(Record record) {
+		JPanel recordPanel = new JPanel();
+		
+		return recordPanel;
+	}
 	/**
 	 * Create the frame.
 	 */
@@ -97,6 +103,9 @@ public class mainmain extends JFrame {
 		rec_panel.setBackground(new Color(66, 83, 109));
 		rec_panel.setBounds(0, 0, 792, 459);
 		rec_panel.setLayout(null);
+		
+		JPanel recordPanel = createRecordPanel(record);
+		rec_panel.add
 
 		JLabel reclebel = new JLabel("RECORD");
 		reclebel.setBounds(373, 5, 42, 14);
