@@ -53,6 +53,7 @@ public class mainmain extends JFrame {
 	private final Action action = new SwingAction();
 	private JTextField cashbal_txtfld;
 	private JTextField savebal_txtfld;
+	private JButton analytic_button;
 
 	/**
 	 * Create the frame.
@@ -116,7 +117,7 @@ public class mainmain extends JFrame {
 		categ_panel.add(categlebel);
 
 		JButton rec_button = new JButton("Record");
-		rec_button.setBounds(37, 251, 139, 40);
+		rec_button.setBounds(37, 249, 139, 40);
 		rec_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		rec_button.setForeground(new Color(252, 187, 109));
 		rec_button.setBackground(new Color(85, 111, 146));
@@ -131,7 +132,7 @@ public class mainmain extends JFrame {
 		});
 		rec_button.setFocusable(false);
 
-		JButton analytic_button = new JButton("Analytics");
+		analytic_button = new JButton("Analytics");
 		analytic_button.setBounds(37, 327, 139, 40);
 		analytic_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		analytic_button.setForeground(new Color(252, 187, 109));
@@ -224,19 +225,21 @@ public class mainmain extends JFrame {
 		calcu1.setBounds(685, 378, 97, 70);
 		analytic_panel.add(calcu1);
 
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(29, 46, 524, 182);
-		analytic_panel.add(lblNewLabel);
+		JLabel piechart = new JLabel("Piechart");
+		piechart.setBackground(new Color(66, 83, 109));
+		piechart.setBounds(10, 25, 536, 309);
+		analytic_panel.add(piechart);
 
 		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(29, 259, 524, 162);
+		lblNewLabel_1.setBackground(new Color(66, 83, 109));
+		lblNewLabel_1.setBounds(10, 345, 536, 103);
 		analytic_panel.add(lblNewLabel_1);
-
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(
-		new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
-		comboBox.setBounds(620, 46, 132, 31);
-		analytic_panel.add(comboBox);
+		
+				JComboBox<String> comboBox = new JComboBox();
+				comboBox.setBounds(595, 11, 139, 34);
+				analytic_panel.add(comboBox);
+				comboBox.setModel(
+				new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
 		layerpanebelow.add(budget_panel);
 
 		JButton budget_btn = new JButton("New button");
@@ -332,7 +335,6 @@ public class mainmain extends JFrame {
 		cashbal_txtfld.setBackground(new Color(85, 111, 146));
 		cashbal_txtfld.setBounds(103, 44, 187, 27);
 		cash_acc_panel.add(cashbal_txtfld);
-
 		
 		JButton cashsve_btn = new JButton("Save");
 		cashsve_btn.setForeground(new Color(252, 187, 109));
