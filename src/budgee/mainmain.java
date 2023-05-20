@@ -68,6 +68,7 @@ import javax.swing.JList;
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 import javax.swing.BoxLayout;
+import javax.swing.border.EtchedBorder;
 
 public class mainmain extends JFrame {
 
@@ -101,12 +102,16 @@ public class mainmain extends JFrame {
 		JLayeredPane layerpanebelow = new JLayeredPane();
 		layerpanebelow.setBounds(208, 182, 792, 460);
 
-		JPanel rec_panel = new JPanel();
-		rec_panel.setBackground(new Color(66, 83, 109));
+		final JPanel rec_panel = new JPanel();
+		rec_panel.setBackground(new Color(68, 83, 109));
 		rec_panel.setBounds(0, 0, 792, 459);
-		rec_panel.setLayout(new BoxLayout(rec_panel, BoxLayout.Y_AXIS));
+		rec_panel.setLayout(null);
 		
-		JScrollPane recordScrollPane = new JScrollPane(rec_panel);
+		JScrollPane recordScrollPane = new JScrollPane();
+		recordScrollPane.setBackground(new Color(1,1,1));
+		recordScrollPane.setBounds(0,52,670,385);
+		rec_panel.add(recordScrollPane);
+		recordScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		Connection connection = null;
 		try {
@@ -120,11 +125,27 @@ public class mainmain extends JFrame {
 		List<Record> records = BudgeeDAOImpl.getAllRecords();
 		
 		MainFrameUtils mainFrameUtils = new MainFrameUtils();
-		mainFrameUtils.displayAllRecords(records, rec_panel);
+		mainFrameUtils.displayAllRecords(records, recordScrollPane);
 		
-		JLabel reclebel = new JLabel("RECORD");
-		reclebel.setForeground(new Color(255, 255, 255));
+		JButton calcu = new JButton("+");
+
+		calcu.setForeground(new Color(252, 187, 109));
+		calcu.setBackground(new Color(85, 111, 146));
+		calcu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CalcuFrame win = new CalcuFrame(recordScrollPane);
+				win.setVisible(true);
+			}
+		});
+		calcu.setBounds(685, 378, 97, 70);
+		rec_panel.add(calcu);
+
+		JLabel reclebel = new JLabel("RECORDS");
+		reclebel.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		reclebel.setBounds(265, 11, 131, 30);
+		reclebel.setForeground(new Color(252, 187, 109));
 		rec_panel.add(reclebel);
+		
 
 		final JPanel analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
@@ -169,6 +190,7 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+				mainFrameUtils.refreshRecords(recordScrollPane);
 			}
 		});
 		rec_button.setFocusable(false);
@@ -257,19 +279,7 @@ public class mainmain extends JFrame {
 		});
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel);
-
-		JButton calcu = new JButton("New button");
-
-		calcu.setForeground(new Color(252, 187, 109));
-		calcu.setBackground(new Color(85, 111, 146));
-		calcu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CalcuFrame win = new CalcuFrame();
-				win.setVisible(true);
-			}
-		});
-		rec_panel.add(calcu);
+		layerpanebelow.add(rec_panel, Integer.valueOf(5));
 		layerpanebelow.add(analytic_panel);
 
 		JButton calcu1 = new JButton("New button");
@@ -278,7 +288,7 @@ public class mainmain extends JFrame {
 		calcu1.setForeground(new Color(252, 187, 109));
 		calcu1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CalcuFrame win = new CalcuFrame();
+				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
@@ -301,7 +311,7 @@ public class mainmain extends JFrame {
 		analytic_panel.add(comboBox);
 		comboBox.setModel(
 		new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
-		layerpanebelow.add(budget_panel, Integer.valueOf(5));
+		layerpanebelow.add(budget_panel);
 
 
 		JButton budget_btn = new JButton("New button");
@@ -310,7 +320,7 @@ public class mainmain extends JFrame {
 		budget_btn.setBounds(685, 378, 97, 70);
 		budget_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CalcuFrame win = new CalcuFrame();
+				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
@@ -427,7 +437,7 @@ public class mainmain extends JFrame {
 		acc_btn.setBounds(685, 378, 97, 70);
 		acc_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CalcuFrame win = new CalcuFrame();
+				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
@@ -557,7 +567,7 @@ public class mainmain extends JFrame {
 		categ_btn.setBounds(685, 378, 97, 70);
 		categ_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CalcuFrame win = new CalcuFrame();
+				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
