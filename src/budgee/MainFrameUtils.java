@@ -34,36 +34,36 @@ public class MainFrameUtils {
 	
 		JPanel recordPanel = new JPanel();
 		recordPanel.setBackground(new Color(68, 83, 109));
-		recordPanel.setBounds(10, 26, 613, 101);
+		recordPanel.setBounds(10, 26, 613, 100);
 		recordPanel.setLayout(null);
 		
 		JLabel lblGet_Categ = new JLabel(record.getCategory());
-		lblGet_Categ.setBounds(301, 0, 55, 21);
+		lblGet_Categ.setBounds(290, 8, 89, 21);
 		lblGet_Categ.setForeground(new Color(252, 187, 109));
-		lblGet_Categ.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblGet_Categ.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		lblGet_Categ.setBackground(Color.WHITE);
 		recordPanel.add(lblGet_Categ);
 		
 		JLabel lbl_Categ = new JLabel("Category:");
 		lbl_Categ.setForeground(new Color(216, 115, 127));
-		lbl_Categ.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbl_Categ.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		lbl_Categ.setBackground(Color.WHITE);
-		lbl_Categ.setBounds(218, 0, 81, 19);
+		lbl_Categ.setBounds(209, 9, 81, 19);
 		recordPanel.add(lbl_Categ);
 		
 		JLabel Acc_Exp_lbl = new JLabel("Expense:");
 		Acc_Exp_lbl.setForeground(new Color(216, 115, 127));
-		Acc_Exp_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		Acc_Exp_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		Acc_Exp_lbl.setBackground(Color.WHITE);
-		Acc_Exp_lbl.setBounds(320, 82, 70, 19);
+		Acc_Exp_lbl.setBounds(286, 77, 70, 19);
 		recordPanel.add(Acc_Exp_lbl);
 		
 		JLabel lbl_Notes = new JLabel(record.getNotes());
 		lbl_Notes.setVerticalAlignment(SwingConstants.TOP);
-		lbl_Notes.setForeground(new Color(85, 111, 146));
-		lbl_Notes.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		lbl_Notes.setForeground(new Color(252, 187, 109));
+		lbl_Notes.setFont(new Font("Century Gothic", Font.BOLD | Font.ITALIC, 15));
 		lbl_Notes.setBackground(Color.WHITE);
-		lbl_Notes.setBounds(84, 20, 420, 59);
+		lbl_Notes.setBounds(20, 32, 484, 45);
 		recordPanel.add(lbl_Notes);
 		
 		JButton btn_Del = new JButton("Delete");
@@ -81,15 +81,15 @@ public class MainFrameUtils {
 		btn_Del.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btn_Del.setForeground(new Color(216, 115, 127));
 		btn_Del.setBackground(new Color(68, 83, 109));
-		btn_Del.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btn_Del.setBounds(514, 48, 89, 36);
+		btn_Del.setFont(new Font("Century Gothic", Font.BOLD, 15));
+		btn_Del.setBounds(514, 41, 89, 36);
 		recordPanel.add(btn_Del);
 		
 		JLabel lbl_Value = new JLabel("₱" + (record.getBalance_update()).toString());
 		lbl_Value.setForeground(new Color(252, 187, 109));
-		lbl_Value.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbl_Value.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		lbl_Value.setBackground(Color.WHITE);
-		lbl_Value.setBounds(401, 82, 113, 19);
+		lbl_Value.setBounds(366, 77, 113, 19);
 		recordPanel.add(lbl_Value);
 		
 		JButton btn_Edit = new JButton("Edit");
@@ -100,36 +100,36 @@ public class MainFrameUtils {
 		btn_Edit.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		btn_Edit.setForeground(new Color(252, 187, 109));
 		btn_Edit.setBackground(new Color(68, 83, 109));
-		btn_Edit.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btn_Edit.setBounds(514, 11, 89, 36);
+		btn_Edit.setFont(new Font("Century Gothic", Font.BOLD, 15));
+		btn_Edit.setBounds(514, 8, 89, 36);
 		recordPanel.add(btn_Edit);
 		
 		JLabel lblGet_Acc = new JLabel(record.getAccount());
 		lblGet_Acc.setForeground(new Color(252, 187, 109));
-		lblGet_Acc.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblGet_Acc.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		lblGet_Acc.setBackground(Color.WHITE);
-		lblGet_Acc.setBounds(93, 0, 43, 21);
+		lblGet_Acc.setBounds(91, 7, 89, 21);
 		recordPanel.add(lblGet_Acc);
 		
 		JLabel lbl_Acc = new JLabel("Account:");
 		lbl_Acc.setForeground(new Color(216, 115, 127));
-		lbl_Acc.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbl_Acc.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		lbl_Acc.setBackground(Color.WHITE);
-		lbl_Acc.setBounds(10, 0, 81, 19);
+		lbl_Acc.setBounds(10, 9, 81, 19);
 		recordPanel.add(lbl_Acc);
 		
 		JLabel lbl_Date = new JLabel((record.getDate()).toString());
 		lbl_Date.setForeground(new Color(252, 187, 109));
-		lbl_Date.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lbl_Date.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		lbl_Date.setBackground(Color.WHITE);
-		lbl_Date.setBounds(10, 82, 90, 19);
+		lbl_Date.setBounds(10, 77, 80, 19);
 		recordPanel.add(lbl_Date);
 		
 		JLabel lbl_Time = new JLabel((record.getTime()).toString());
 		lbl_Time.setForeground(new Color(252, 187, 109));
-		lbl_Time.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lbl_Time.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		lbl_Time.setBackground(Color.WHITE);
-		lbl_Time.setBounds(100, 82, 70, 19);
+		lbl_Time.setBounds(100, 77, 80, 19);
 		recordPanel.add(lbl_Time);
 		
 		return recordPanel;

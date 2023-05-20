@@ -165,7 +165,7 @@ public class mainmain extends JFrame {
 		rec_panel.add(calcu);
 
 		JLabel reclebel = new JLabel("RECORDS");
-		reclebel.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		reclebel.setFont(new Font("Century Gothic", Font.PLAIN, 30));
 		reclebel.setBounds(265, 11, 131, 30);
 		reclebel.setForeground(new Color(252, 187, 109));
 		rec_panel.add(reclebel);
@@ -574,18 +574,18 @@ public class mainmain extends JFrame {
 		JLabel income_atm_lbl = new JLabel("Income until now");
 		income_atm_lbl.setBounds(46, 31, 128, 19);
 		income_atm_lbl.setForeground(new Color(252, 187, 109));
-		income_atm_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		income_atm_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		overall_acc_panel.add(income_atm_lbl);
 
 		JLabel expense_atm_lbl = new JLabel("Expense until now");
 		expense_atm_lbl.setForeground(new Color(252, 187, 109));
-		expense_atm_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		expense_atm_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		expense_atm_lbl.setBounds(253, 31, 135, 19);
 		overall_acc_panel.add(expense_atm_lbl);
 
 		JLabel totalbal_lbl = new JLabel("Total Balance");
 		totalbal_lbl.setForeground(new Color(252, 187, 109));
-		totalbal_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		totalbal_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		totalbal_lbl.setBounds(167, 129, 101, 19);
 		overall_acc_panel.add(totalbal_lbl);
 
@@ -619,12 +619,12 @@ public class mainmain extends JFrame {
 		JLabel cash_lbl = new JLabel("Cash");
 		cash_lbl.setBounds(21, 11, 56, 19);
 		cash_lbl.setForeground(new Color(252, 187, 109));
-		cash_lbl.setFont(new Font("Tahoma", Font.BOLD, 23));
+		cash_lbl.setFont(new Font("Century Gothic", Font.BOLD, 23));
 		cash_acc_panel.add(cash_lbl);
 
 		JLabel cashbal_lbl = new JLabel("Balance:");
 		cashbal_lbl.setForeground(new Color(252, 187, 109));
-		cashbal_lbl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		cashbal_lbl.setFont(new Font("Century Gothic", Font.BOLD, 16));
 		cashbal_lbl.setBounds(21, 48, 70, 19);
 		cash_acc_panel.add(cashbal_lbl);
 
@@ -651,12 +651,12 @@ public class mainmain extends JFrame {
 		JLabel savings_lbl = new JLabel("Savings");
 		savings_lbl.setBounds(21, 11, 90, 28);
 		savings_lbl.setForeground(new Color(252, 187, 109));
-		savings_lbl.setFont(new Font("Tahoma", Font.BOLD, 23));
+		savings_lbl.setFont(new Font("Century Gothic", Font.BOLD, 23));
 		savings_acc_panel.add(savings_lbl);
 
 		JLabel savebal_lbl = new JLabel("Balance:");
 		savebal_lbl.setForeground(new Color(252, 187, 109));
-		savebal_lbl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		savebal_lbl.setFont(new Font("Century Gothic", Font.BOLD, 16));
 		savebal_lbl.setBounds(21, 48, 70, 19);
 		savings_acc_panel.add(savebal_lbl);
 
@@ -675,13 +675,13 @@ public class mainmain extends JFrame {
 
 		JLabel ovrall_lbl = new JLabel("Overall");
 		ovrall_lbl.setForeground(new Color(252, 187, 109));
-		ovrall_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		ovrall_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		ovrall_lbl.setBounds(211, 37, 56, 14);
 		acc_panel.add(ovrall_lbl);
 
 		JLabel accs_lbl = new JLabel("Accounts");
 		accs_lbl.setForeground(new Color(252, 187, 109));
-		accs_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		accs_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		accs_lbl.setBounds(590, 37, 67, 14);
 		acc_panel.add(accs_lbl);
 		layerpanebelow.add(categ_panel);
@@ -1280,7 +1280,7 @@ public class mainmain extends JFrame {
 
 		JLabel usernameLabel = new JLabel(sessionUsername);
 		usernameLabel.setForeground(new Color(255, 255, 255));
-		usernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		usernameLabel.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		usernameLabel.setBounds(53, 11, 123, 42);
 		frmMain.add(usernameLabel);
 
