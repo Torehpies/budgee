@@ -64,6 +64,7 @@ public class mainmain extends JFrame {
 		frmMain = new JPanel();
 		frmMain.setBackground(new Color(69, 92, 123));
 		frmMain.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 
 		setContentPane(frmMain);
 
@@ -595,7 +596,7 @@ public class mainmain extends JFrame {
 		frmMain.add(layerpanebelow);
 
 		JLabel logoBudgee = new JLabel("");
-		ImageIcon loglog = new ImageIcon("imgs/budgee_logo1.png");
+		ImageIcon loglog = new ImageIcon("imgs/budgeeLogoMain.png");
 		logoBudgee.setIcon(loglog);
 		logoBudgee.setBounds(53, 64, 100, 120);
 		frmMain.add(logoBudgee);

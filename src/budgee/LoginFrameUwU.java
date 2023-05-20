@@ -33,10 +33,14 @@ public class LoginFrameUwU {
 	private JButton newAccBTN;
 	private JPasswordField pass;
 	private String tableID;
+	
+	
 
 	public LoginFrameUwU() {
 		initialize();		
 	}
+	
+	
 	
 	/**
 	 * Initialize the contents of the frame.
@@ -52,15 +56,15 @@ public class LoginFrameUwU {
 		
 		JLabel usernameLabel = new JLabel("username");
 		usernameLabel.setForeground(new Color(252, 187, 109, 50));
-		usernameLabel.setFont(new Font("Quicksand Light", Font.BOLD, 22));
-		usernameLabel.setBounds(252, 295, 130, 40);
+		usernameLabel.setFont(new Font("Quicksand Bold", Font.BOLD, 22));
+		usernameLabel.setBounds(232, 294, 130, 40);
 		frmLoginBudgee.getContentPane().add(usernameLabel);
 		
 		
 		JLabel passwordLabel = new JLabel("password");
 		passwordLabel.setForeground(new Color(252, 187, 109, 50));
-		passwordLabel.setFont(new Font("Quicksand Light", Font.BOLD, 22));
-		passwordLabel.setBounds(252, 342, 130, 36);
+		passwordLabel.setFont(new Font("Quicksand Bold", Font.BOLD, 22));
+		passwordLabel.setBounds(232, 341, 130, 36);
 		frmLoginBudgee.getContentPane().add(passwordLabel);
 		
 		
@@ -68,22 +72,22 @@ public class LoginFrameUwU {
 		user.setBackground(new Color(66, 83, 109));
 		user.setForeground(Color.WHITE);
 		user.setColumns(10);
-		user.setBounds(231, 295, 307, 40);
+		user.setBounds(211, 294, 307, 40);
 		user.setMargin(new Insets(10, 10, 10, 10));
 		frmLoginBudgee.getContentPane().add(user);
 		
 
 		
 		budgeeLogo = new JLabel("");
-		ImageIcon logo = new ImageIcon("imgs/budgee_logo1.png");
+		ImageIcon logo = new ImageIcon("imgs/budgeeLogo1.png");
 		budgeeLogo.setIcon(logo);
-		budgeeLogo.setBounds(329, 58, 180, 191);
+		budgeeLogo.setBounds(210, 81, 236, 191);
 		frmLoginBudgee.getContentPane().add(budgeeLogo);
 		
 		
 		budgeeLabel = new JLabel("budgee");
 		budgeeLabel.setForeground(new Color(252, 187, 109));
-		budgeeLabel.setFont(new Font("Quicksand Light", Font.BOLD, 21));
+		budgeeLabel.setFont(new Font("Quicksand Bold", Font.BOLD, 21));
 		budgeeLabel.setBounds(21, 463, 111, 32);
 		frmLoginBudgee.getContentPane().add(budgeeLabel);
 		
@@ -153,7 +157,7 @@ public class LoginFrameUwU {
 			
 		});
 		
-		loginBTN.setBounds(290, 397, 89, 23);
+		loginBTN.setBounds(270, 396, 89, 23);
 		loginBTN.setFocusable(false);
 		loginBTN.setBackground(new Color(66, 83, 109));
 		frmLoginBudgee.getContentPane().add(loginBTN);
@@ -169,7 +173,7 @@ public class LoginFrameUwU {
 				pass.setText("");
 			}
 		});
-		resetBTN.setBounds(393, 398, 89, 23);
+		resetBTN.setBounds(373, 397, 89, 23);
 		resetBTN.setFocusable(false);
 		frmLoginBudgee.getContentPane().add(resetBTN);
 		
@@ -185,14 +189,14 @@ public class LoginFrameUwU {
 				
 			}
 		});
-		newAccBTN.setBounds(290, 431, 192, 23);
+		newAccBTN.setBounds(270, 430, 192, 23);
 		newAccBTN.setFocusable(false);
 		frmLoginBudgee.getContentPane().add(newAccBTN);
 		
 		pass = new JPasswordField();
 		pass.setForeground(new Color(252, 187, 109));
 		pass.setBackground(new Color(66, 83, 109));
-		pass.setBounds(231, 342, 307, 37);
+		pass.setBounds(211, 341, 307, 37);
 		pass.setMargin(new Insets(10, 10, 10, 10));
 		frmLoginBudgee.getContentPane().add(pass);
 		frmLoginBudgee.setBounds(100, 100, 756, 547);

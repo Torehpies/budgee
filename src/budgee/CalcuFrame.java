@@ -121,6 +121,7 @@ import java.util.logging.Logger;
 			setBounds(100, 100, 754, 606);
 			contentPane.setLayout(null);
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			setLocationRelativeTo(null);
 			
 			LayeredPanel.setBounds(0, 53, 748, 516);
 			contentPane.add(LayeredPanel);
