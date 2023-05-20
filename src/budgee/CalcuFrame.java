@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -59,6 +60,8 @@ import java.util.List;
 		private UserSession session = UserSession.getInstance();
 		private int sessionId = session.getId();
 		
+		private JScrollPane parentPanel;
+		
 		private String recordAction = "";
 		
 		private JPanel contentPane;
@@ -106,23 +109,25 @@ import java.util.List;
 		    }
 
 		  
-		public static void main(String[] args) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						CalcuFrame frame = new CalcuFrame();
-						frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-		
+//		public static void main(String[] args) {
+//			EventQueue.invokeLater(new Runnable() {
+//				public void run() {
+//					try {
+//						CalcuFrame frame = new CalcuFrame();
+//						frame.setVisible(true);
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+//		}
+//		
 		private final JLayeredPane LayeredPanel = new JLayeredPane();
 		
 		
-		public CalcuFrame() {
+		public CalcuFrame(JScrollPane parentPanel) {
+			this.parentPanel = parentPanel;
+			
 			setTitle("Calcu");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			contentPane = new JPanel();
@@ -665,6 +670,8 @@ import java.util.List;
 				
 					BudgeeDAOImpl BudgeeDAO = new BudgeeDAOImpl(connection);
 					BudgeeDAO.addExpense(record);
+					
+					MainFrameUtils.refreshRecords(parentPanel);
 				}
 			});
 			
