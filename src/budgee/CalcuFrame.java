@@ -129,7 +129,7 @@ import java.util.List;
 			this.parentPanel = parentPanel;
 			
 			setTitle("Calcu");
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			contentPane = new JPanel();
 			setContentPane(contentPane);
 			setBounds(100, 100, 754, 606);
