@@ -4,12 +4,6 @@ import java.awt.BorderLayout;
 
 import budgee.MainFrameUtils;
 import budgee.UserSession;
-import budgee.Record;
-import budgee.BudgeeDAOImpl;
-
-import javafx.application.Platform;
-import javafx.stage.Stage;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -59,7 +53,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 
-
 import java.util.Date;
 import java.util.List;
 import java.sql.Time;
@@ -80,17 +73,6 @@ import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 import javax.swing.BoxLayout;
 import javax.swing.border.EtchedBorder;
-
-import javafx.application.Application;  
-import javafx.collections.FXCollections;  
-import javafx.collections.ObservableList;
-import javafx.embed.swing.JFXPanel;
-import javafx.geometry.Side;  
-import javafx.scene.Scene;  
-import javafx.scene.chart.PieChart;  
-import javafx.scene.chart.PieChart.Data;  
-import javafx.scene.layout.StackPane;  
-import javafx.stage.Stage; 
 
 public class mainmain extends JFrame {
 
@@ -125,20 +107,6 @@ public class mainmain extends JFrame {
 	private JButton monthly_butt;
 	private JButton yearly_butt;
 	
-	private boolean isExpenseOverviewRunning = false;
-	private ExpenseOverview expenseOverviewApp;
-
-	private static void openChartTest() {
-		// Launch the ChartTest JavaFX application
-
-		ExpenseOverview chartTest = new ExpenseOverview();
-		try {
-			chartTest.init();
-			chartTest.start(new Stage());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	public mainmain() {		
 
@@ -352,44 +320,36 @@ public class mainmain extends JFrame {
 		analyticsBTN.setBounds(23, 11, 583, 63);
 		analytic_panel.add(analyticsBTN);
 		analyticsBTN.setLayout(null);
-
-		JComboBox<String> overView = new JComboBox();
-		overView.setName("");
-		overView.addActionListener(new ActionListener() {
+		
+		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        if (e.getSource() == overView) {
-		            System.out.println(overView.getSelectedItem());
-		            String selectedItem = (String) overView.getSelectedItem();
-		            if (selectedItem.equals("Expense Overview")) {
-		            	
-		            	javafx.application.Application.launch(ExpenseOverview.class);
-		                System.out.println("Expense Overview command");
-		            } else if (selectedItem.equals("Income Overview")) {
-		            	
-		            	javafx.application.Application.launch(IncomeOverview.class);
-		                System.out.println("Income Overview command");
-		            } else if (selectedItem.equals("Income Flow")) {
-		            	
-		                
-		                System.out.println("Income Flow command");
-		            } else if (selectedItem.equals("Expense Flow")) {
-		            	
-		            	
-		                System.out.println("Expense Flow command");
-		            } else if (selectedItem.equals("Account Analysis")) {
-		                
-		            	javafx.application.Application.launch(AccountAnalysis.class);
-		                System.out.println("Account Analysis command");
-		            }
+		        String selectedOption = (String) comboBox.getSelectedItem();
+		        if (selectedOption.equals("Expense Overview")) {
+		            ExpenseOverview expenseOverview = new ExpenseOverview();
+		            expenseOverview.createChart();
+		        } else if (selectedOption.equals("Income Overview")) {
+		        	
+		            // Add code for handling "Income Overview" selection
+		        } else if (selectedOption.equals("Expense Flow")) {
+		        	
+		            // Add code for handling "Expense Flow" selection
+		        } else if (selectedOption.equals("Income Flow")) {
+		        	
+		            // Add code for handling "Income Flow" selection
+		        } else if (selectedOption.equals("Account Analysis")) {
+		        	AccountAnalysis accountAnalysis = new AccountAnalysis();
+		            accountAnalysis.createChart();
 		        }
 		    }
 		});
-		overView.setBounds(10, 11, 563, 41);
-		analyticsBTN.add(overView);
-		overView.setForeground(new Color(252, 187, 109));
-		overView.setFont(new Font("Quicksand Light", Font.BOLD, 13));
-		overView.setModel(new DefaultComboBoxModel(new String[] { "Expense Overview", "Income Overview", "Income Flow",
-		"Expense Flow", "Account Analysis" }));
+		comboBox.setFont(new Font("Quicksand Light", Font.BOLD, 16));
+		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Expense Overview", "Income Overview", "Expense Flow", "Income Flow", "Account Analysis"}));
+		comboBox.setMaximumRowCount(5);
+		comboBox.setBounds(10, 11, 563, 41);
+		analyticsBTN.add(comboBox);
+
+
 
 		JPanel Categories = new JPanel();
 		Categories.setBackground(new Color(85, 111, 146));
