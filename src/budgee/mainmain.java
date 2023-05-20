@@ -297,8 +297,8 @@ public class mainmain extends JFrame {
 		});
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel, Integer.valueOf(5));
-		layerpanebelow.add(analytic_panel);
+		layerpanebelow.add(rec_panel);
+		layerpanebelow.add(analytic_panel, Integer.valueOf(5));
 
 		JButton calcu1 = new JButton("New button");
 		calcu1.setFocusable(false);
@@ -348,13 +348,16 @@ public class mainmain extends JFrame {
 		comboBox.setMaximumRowCount(5);
 		comboBox.setBounds(10, 11, 563, 41);
 		analyticsBTN.add(comboBox);
-
-
+		
+		JScrollPane anal_scrlpne = new JScrollPane();
+		anal_scrlpne.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		anal_scrlpne.setBounds(23, 105, 582, 343);
+		analytic_panel.add(anal_scrlpne);
 
 		JPanel Categories = new JPanel();
+		Categories.setPreferredSize(new Dimension(582, 600));
+		anal_scrlpne.setViewportView(Categories);
 		Categories.setBackground(new Color(85, 111, 146));
-		Categories.setBounds(23, 105, 582, 343);
-		analytic_panel.add(Categories);
 
 		layerpanebelow.add(budget_panel);
 
