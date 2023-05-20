@@ -1,8 +1,11 @@
 package budgee;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
+import java.util.ArrayList;
 import budgee.UserSession;
+import budgee.Record;
 
 public class BudgeeDAOImpl implements BudgeeDAO {
 	
@@ -44,10 +47,6 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		 } catch (SQLException e) {
 			 e.printStackTrace();
 		 }
-		 
-		 
-		
-		
 	}
 
 	@Override
@@ -63,9 +62,37 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public List<Record> getAllExpenses() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Record> getAllRecords() {
+		 List<Record> records = new ArrayList<>();
+
+	        String selectQuery = "SELECT ID, date, time, balance_update, notes, action, category, account, cash_value, savings_value FROM budgee_accounts." + userTable;
+
+	        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+	            ResultSet resultSet = preparedStatement.executeQuery();
+
+	            while (resultSet.next()) {
+	                int id = resultSet.getInt("ID");
+	                Date date = resultSet.getDate("date");
+	                Time time = resultSet.getTime("time");
+	                BigDecimal balance_update = resultSet.getBigDecimal("balance_update");
+	                String notes = resultSet.getString("notes");
+	                String action = resultSet.getString("action");
+	                String category = resultSet.getString("category");
+	                String account = resultSet.getString("account");
+	                BigDecimal cash_value = resultSet.getBigDecimal("cash_value");
+	                BigDecimal savings_value = resultSet.getBigDecimal("savings_value");
+
+	                Record record = new Record(id, date, time, balance_update, notes, action,  category, account, cash_value, savings_value);
+	                records.add(record);
+	            }
+
+	            resultSet.close();
+	        } catch (SQLException e) {
+	            // Handle any exceptions that may occur during the execution of the query
+	            e.printStackTrace();
+	        }
+
+	        return records;
 	}
 
 	@Override
