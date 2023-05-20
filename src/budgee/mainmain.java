@@ -241,7 +241,7 @@ public class mainmain extends JFrame {
 		});
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel, Integer.valueOf(5));
+		layerpanebelow.add(rec_panel);
 
 		JButton calcu = new JButton("New button");
 
@@ -407,19 +407,87 @@ public class mainmain extends JFrame {
 		});
 		budget_panel.add(budget_btn);
 		
-		JPanel stted_bdgt_pnl = new JPanel();
-		stted_bdgt_pnl.setBackground(new Color(85, 111, 146));
-		stted_bdgt_pnl.setBounds(10, 62, 447, 246);
-		budget_panel.add(stted_bdgt_pnl);
+		JScrollPane budgeted_scrlpn = new JScrollPane();
+		budgeted_scrlpn.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		budgeted_scrlpn.setBounds(10, 62, 447, 246);
+		budget_panel.add(budgeted_scrlpn);
 		
-		JScrollPane budget_scrlpn = new JScrollPane();
-		budget_scrlpn.setBounds(467, 62, 315, 246);
-	    budget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		budget_panel.add(budget_scrlpn);
+		JPanel stted_bdgt_pnl = new JPanel();
+		stted_bdgt_pnl.setPreferredSize(new Dimension(447, 400));
+		budgeted_scrlpn.setViewportView(stted_bdgt_pnl);
+		stted_bdgt_pnl.setBackground(new Color(85, 111, 146));
+		stted_bdgt_pnl.setLayout(null);
+		
+		JPanel std_bdgt_pnl = new JPanel();
+		std_bdgt_pnl.setBackground(new Color(63, 83, 109));
+		std_bdgt_pnl.setBounds(10, 11, 410, 104);
+		stted_bdgt_pnl.add(std_bdgt_pnl);
+		std_bdgt_pnl.setLayout(null);
+		
+		JLabel std_bdgt_lbl = new JLabel("HOME");
+		std_bdgt_lbl.setForeground(new Color(252, 187, 109));
+		std_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
+		std_bdgt_lbl.setBounds(21, 11, 61, 18);
+		std_bdgt_pnl.add(std_bdgt_lbl);
+		
+		JLabel limit_bdgt_lbl = new JLabel("Limit:");
+		limit_bdgt_lbl.setForeground(new Color(252, 187, 109));
+		limit_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		limit_bdgt_lbl.setBounds(21, 37, 43, 14);
+		std_bdgt_pnl.add(limit_bdgt_lbl);
+		
+		JLabel spent_bdgt_lbl = new JLabel("Spent:");
+		spent_bdgt_lbl.setForeground(new Color(252, 187, 109));
+		spent_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		spent_bdgt_lbl.setBounds(21, 55, 51, 18);
+		std_bdgt_pnl.add(spent_bdgt_lbl);
+		
+		JLabel remain_bdgt_lbl = new JLabel("Remaining:");
+		remain_bdgt_lbl.setForeground(new Color(252, 187, 109));
+		remain_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		remain_bdgt_lbl.setBounds(21, 75, 81, 18);
+		std_bdgt_pnl.add(remain_bdgt_lbl);
+		
+		JLabel limamount_lbl = new JLabel("P500");
+		limamount_lbl.setForeground(new Color(216, 115, 127));
+		limamount_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		limamount_lbl.setBounds(72, 39, 37, 14);
+		std_bdgt_pnl.add(limamount_lbl);
+		
+		JLabel spamount_lbl = new JLabel("P250");
+		spamount_lbl.setForeground(new Color(216, 115, 127));
+		spamount_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		spamount_lbl.setBounds(82, 59, 37, 14);
+		std_bdgt_pnl.add(spamount_lbl);
+		
+		JLabel remamoun_lbl = new JLabel("P250");
+		remamoun_lbl.setForeground(new Color(216, 115, 127));
+		remamoun_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		remamoun_lbl.setBounds(115, 79, 37, 14);
+		std_bdgt_pnl.add(remamoun_lbl);
+		
+		JButton chnge_limit_btn = new JButton("Change Limit");
+		chnge_limit_btn.setBackground(new Color(85, 111, 146));
+		chnge_limit_btn.setForeground(new Color(252, 191, 109));
+		chnge_limit_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		chnge_limit_btn.setBounds(245, 31, 148, 30);
+		std_bdgt_pnl.add(chnge_limit_btn);
+		
+		JButton del_bdgt = new JButton("Delete Budget");
+		del_bdgt.setForeground(new Color(252, 191, 109));
+		del_bdgt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		del_bdgt.setBackground(new Color(85, 111, 146));
+		del_bdgt.setBounds(245, 63, 148, 30);
+		std_bdgt_pnl.add(del_bdgt);
+		
+		JScrollPane unbudget_scrlpn = new JScrollPane();
+		unbudget_scrlpn.setBounds(467, 62, 315, 246);
+	    unbudget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		budget_panel.add(unbudget_scrlpn);
 		
 		JPanel unstted_bdgt_pnl = new JPanel();
 		unstted_bdgt_pnl.setPreferredSize(new Dimension(200, 400));
-		budget_scrlpn.setViewportView(unstted_bdgt_pnl);
+		unbudget_scrlpn.setViewportView(unstted_bdgt_pnl);
 		unstted_bdgt_pnl.setBackground(new Color(85, 111, 146));
 		unstted_bdgt_pnl.setLayout(null);
 		
