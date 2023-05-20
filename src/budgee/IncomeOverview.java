@@ -9,7 +9,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;  
 import javafx.scene.layout.StackPane;  
 import javafx.stage.Stage;  
-public class ChartTest extends Application{  
+public class IncomeOverview extends Application{  
 public static void main(String[] args) {  
     launch(args);   
 }  
@@ -40,6 +40,7 @@ public void start(Stage primaryStage) throws Exception {
       
 }  
   
+
 //The method sets the data to the pie-chart.    
 private ObservableList<Data> getChartData() {  
     ObservableList<Data> list = FXCollections.observableArrayList();  
