@@ -3,6 +3,7 @@ package budgee;
 import java.awt.BorderLayout;
 
 import budgee.UserSession;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.awt.EventQueue;
@@ -54,7 +55,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 
-
 import java.util.Date;
 import java.sql.Time;
 import java.sql.Types;
@@ -67,40 +67,57 @@ import javax.swing.JList;
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 
+import javafx.application.Application;  
+import javafx.collections.FXCollections;  
+import javafx.collections.ObservableList;
+import javafx.embed.swing.JFXPanel;
+import javafx.geometry.Side;  
+import javafx.scene.Scene;  
+import javafx.scene.chart.PieChart;  
+import javafx.scene.chart.PieChart.Data;  
+import javafx.scene.layout.StackPane;  
+import javafx.stage.Stage; 
+
 public class mainmain extends JFrame {
 
 	private UserSession session = UserSession.getInstance();
 	private String sessionUsername = session.getUsername();
-	
+
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
 	private JTextField cashbal_txtfld;
 	private JTextField savebal_txtfld;
-	
+
 	private JButton rec_button;
 	private JButton analytic_button;
 	private JButton budget_button;
 	private JButton acc_button;
 	private JButton categ_button;
 	
-	
+	private boolean isExpenseOverviewRunning = false;
+	private ExpenseOverview expenseOverviewApp;
+
 	private static void openChartTest() {
-        // Launch the ChartTest JavaFX application
-		
-        ChartTest chartTest = new ChartTest();
-        try {
-            chartTest.init();
-            chartTest.start(new Stage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		// Launch the ChartTest JavaFX application
+
+		ExpenseOverview chartTest = new ExpenseOverview();
+		try {
+			chartTest.init();
+			chartTest.start(new Stage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
 
 	/**
 	 * Create the frame.
 	 */
-	public mainmain() {
-		
+	public mainmain() {		
+
+        setSize(400, 300);
+        setLocationRelativeTo(null);
+
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1034, 697);
@@ -264,7 +281,7 @@ public class mainmain extends JFrame {
 		calcu.setBounds(685, 378, 97, 70);
 		rec_panel.add(calcu);
 		layerpanebelow.add(analytic_panel, Integer.valueOf(7));
-		
+
 //		, Integer.valueOf(7)
 
 		JButton calcu1 = new JButton("New button");
@@ -280,42 +297,53 @@ public class mainmain extends JFrame {
 		calcu1.setBounds(685, 378, 97, 70);
 		analytic_panel.add(calcu1);
 
-				
 		JPanel analyticsBTN = new JPanel();
 		analyticsBTN.setBackground(new Color(85, 111, 146));
 		analyticsBTN.setBounds(23, 11, 583, 63);
 		analytic_panel.add(analyticsBTN);
 		analyticsBTN.setLayout(null);
 
-
-		JLabel piechart = new JLabel("Piechart");
-		piechart.setBackground(new Color(66, 83, 109));
-		piechart.setBounds(10, 25, 536, 309);
-		analytic_panel.add(piechart);
-
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBackground(new Color(66, 83, 109));
-		lblNewLabel_1.setBounds(10, 345, 536, 103);
-		analytic_panel.add(lblNewLabel_1);
-
 		JComboBox<String> overView = new JComboBox();
 		overView.setName("");
 		overView.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        if (e.getSource() == overView) {
+		            System.out.println(overView.getSelectedItem());
+		            String selectedItem = (String) overView.getSelectedItem();
+		            if (selectedItem.equals("Expense Overview")) {
+		            	
+		            	javafx.application.Application.launch(ExpenseOverview.class);
+		                System.out.println("Expense Overview command");
+		            } else if (selectedItem.equals("Income Overview")) {
+		            	
+		            	javafx.application.Application.launch(IncomeOverview.class);
+		                System.out.println("Income Overview command");
+		            } else if (selectedItem.equals("Income Flow")) {
+		            	
+		                
+		                System.out.println("Income Flow command");
+		            } else if (selectedItem.equals("Expense Flow")) {
+		            	
+		            	
+		                System.out.println("Expense Flow command");
+		            } else if (selectedItem.equals("Account Analysis")) {
+		                
+		            	javafx.application.Application.launch(AccountAnalysis.class);
+		                System.out.println("Account Analysis command");
+		            }
+		        }
+		    }
 		});
 		overView.setBounds(10, 11, 563, 41);
 		analyticsBTN.add(overView);
 		overView.setForeground(new Color(252, 187, 109));
 		overView.setFont(new Font("Quicksand Light", Font.BOLD, 13));
-		overView.setModel(
-		new DefaultComboBoxModel(new String[] {"Expense Overview", "Income Overview", "Income Flow", "Expense Flow", "Account Analysis"}));
-		
+		overView.setModel(new DefaultComboBoxModel(new String[] { "Expense Overview", "Income Overview", "Income Flow",
+		"Expense Flow", "Account Analysis" }));
+
 		JPanel Categories = new JPanel();
 		Categories.setBackground(new Color(85, 111, 146));
-		Categories.setBounds(22, 96, 582, 343);
+		Categories.setBounds(23, 105, 582, 343);
 		analytic_panel.add(Categories);
 		layerpanebelow.add(budget_panel);
 
@@ -330,112 +358,112 @@ public class mainmain extends JFrame {
 			}
 		});
 		budget_panel.add(budget_btn);
-		
+
 		JPanel stted_bdgt_pnl = new JPanel();
 		stted_bdgt_pnl.setBackground(new Color(85, 111, 146));
 		stted_bdgt_pnl.setBounds(10, 62, 447, 246);
 		budget_panel.add(stted_bdgt_pnl);
-		
+
 		JScrollPane budget_scrlpn = new JScrollPane();
 		budget_scrlpn.setBounds(467, 62, 315, 246);
-	    budget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		budget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		budget_panel.add(budget_scrlpn);
-		
+
 		JPanel unstted_bdgt_pnl = new JPanel();
 		unstted_bdgt_pnl.setPreferredSize(new Dimension(200, 400));
 		budget_scrlpn.setViewportView(unstted_bdgt_pnl);
 		unstted_bdgt_pnl.setBackground(new Color(85, 111, 146));
 		unstted_bdgt_pnl.setLayout(null);
-		
+
 		JPanel bill_bdgt = new JPanel();
 		bill_bdgt.setBackground(new Color(69, 92, 123));
 		bill_bdgt.setBounds(10, 11, 281, 67);
 		unstted_bdgt_pnl.add(bill_bdgt);
 		bill_bdgt.setLayout(null);
-		
+
 		JLabel bills = new JLabel("BILLS");
 		bills.setForeground(new Color(252, 187, 109));
 		bills.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills.setBounds(51, 10, 62, 45);
 		bill_bdgt.add(bills);
-		
+
 		JButton set_bdgt_btn = new JButton("Set Budget");
 		set_bdgt_btn.setBackground(new Color(85, 111, 146));
 		set_bdgt_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		set_bdgt_btn.setForeground(new Color(252, 187, 109));
 		set_bdgt_btn.setBounds(155, 20, 116, 29);
 		bill_bdgt.add(set_bdgt_btn);
-		
+
 		JPanel shoppng_bdgt = new JPanel();
 		shoppng_bdgt.setBackground(new Color(69, 92, 123));
 		shoppng_bdgt.setBounds(10, 89, 281, 67);
 		unstted_bdgt_pnl.add(shoppng_bdgt);
 		shoppng_bdgt.setLayout(null);
-		
+
 		JLabel shopping = new JLabel("SHOPPING");
 		shopping.setBounds(25, 10, 103, 45);
 		shopping.setForeground(new Color(252, 187, 109));
 		shopping.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		shoppng_bdgt.add(shopping);
-		
+
 		JButton set_bdgt_btn_2 = new JButton("Set Budget");
 		set_bdgt_btn_2.setBackground(new Color(85, 111, 146));
 		set_bdgt_btn_2.setForeground(new Color(252, 187, 109));
 		set_bdgt_btn_2.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		set_bdgt_btn_2.setBounds(155, 20, 116, 29);
 		shoppng_bdgt.add(set_bdgt_btn_2);
-		
+
 		JPanel food_bdgt = new JPanel();
 		food_bdgt.setBackground(new Color(69, 92, 123));
 		food_bdgt.setBounds(10, 168, 281, 67);
 		unstted_bdgt_pnl.add(food_bdgt);
 		food_bdgt.setLayout(null);
-		
+
 		JLabel food = new JLabel("FOOD");
 		food.setBounds(50, 10, 58, 45);
 		food.setForeground(new Color(252, 187, 109));
 		food.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		food_bdgt.add(food);
-		
+
 		JButton set_bdgt_btn_3 = new JButton("Set Budget");
 		set_bdgt_btn_3.setBackground(new Color(85, 111, 146));
 		set_bdgt_btn_3.setForeground(new Color(252, 187, 109));
 		set_bdgt_btn_3.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		set_bdgt_btn_3.setBounds(155, 20, 116, 29);
 		food_bdgt.add(set_bdgt_btn_3);
-		
+
 		JPanel educ_bdgt = new JPanel();
 		educ_bdgt.setLayout(null);
 		educ_bdgt.setBackground(new Color(69, 92, 123));
 		educ_bdgt.setBounds(10, 247, 281, 67);
 		unstted_bdgt_pnl.add(educ_bdgt);
-		
+
 		JLabel educ = new JLabel("EDUCATION");
 		educ.setForeground(new Color(252, 187, 109));
 		educ.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		educ.setBounds(21, 10, 118, 45);
 		educ_bdgt.add(educ);
-		
+
 		JButton set_bdgt_btn_3_1 = new JButton("Set Budget");
 		set_bdgt_btn_3_1.setBackground(new Color(85, 111, 146));
 		set_bdgt_btn_3_1.setForeground(new Color(252, 187, 109));
 		set_bdgt_btn_3_1.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		set_bdgt_btn_3_1.setBounds(155, 20, 116, 29);
 		educ_bdgt.add(set_bdgt_btn_3_1);
-		
+
 		JLabel budgeted_lbl = new JLabel("Budgeted Categories");
 		budgeted_lbl.setForeground(new Color(252, 187, 109));
 		budgeted_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		budgeted_lbl.setBounds(125, 26, 201, 25);
 		budget_panel.add(budgeted_lbl);
-		
+
 		JLabel unbudgeted_lbl = new JLabel("Unbudgeted Categories");
 		unbudgeted_lbl.setForeground(new Color(252, 187, 109));
 		unbudgeted_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		unbudgeted_lbl.setBounds(508, 26, 227, 25);
 		budget_panel.add(unbudgeted_lbl);
 		layerpanebelow.add(acc_panel);
-		
+
 		JButton acc_btn = new JButton("New button");
 		acc_btn.setBackground(new Color(85, 111, 146));
 		acc_btn.setForeground(new Color(252, 187, 109));
@@ -471,21 +499,21 @@ public class mainmain extends JFrame {
 		totalbal_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
 		totalbal_lbl.setBounds(167, 129, 101, 19);
 		overall_acc_panel.add(totalbal_lbl);
-		
+
 		JLabel income_lbl = new JLabel("");
 		income_lbl.setForeground(new Color(252, 187, 109));
 		income_lbl.setBackground(new Color(85, 111, 146));
 		income_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		income_lbl.setBounds(21, 61, 186, 57);
 		overall_acc_panel.add(income_lbl);
-		
+
 		JLabel expense_lbl = new JLabel("");
 		expense_lbl.setForeground(new Color(252, 187, 109));
 		expense_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		expense_lbl.setBackground(new Color(85, 111, 146));
 		expense_lbl.setBounds(226, 61, 186, 57);
 		overall_acc_panel.add(expense_lbl);
-		
+
 		JLabel total_lbl = new JLabel("");
 		total_lbl.setForeground(new Color(252, 187, 109));
 		total_lbl.setBounds(125, 159, 186, 57);
@@ -516,13 +544,13 @@ public class mainmain extends JFrame {
 		cashbal_txtfld.setBackground(new Color(85, 111, 146));
 		cashbal_txtfld.setBounds(103, 44, 187, 27);
 		cash_acc_panel.add(cashbal_txtfld);
-		
+
 		JButton cashsve_btn = new JButton("Save");
 		cashsve_btn.setForeground(new Color(252, 187, 109));
 		cashsve_btn.setBackground(new Color(85, 111, 146));
 		cashsve_btn.setBounds(154, 78, 89, 23);
 		cash_acc_panel.add(cashsve_btn);
-		
+
 		JPanel savings_acc_panel = new JPanel();
 		savings_acc_panel.setBackground(new Color(69, 92, 123));
 		savings_acc_panel.setBounds(471, 196, 300, 112);
@@ -546,13 +574,13 @@ public class mainmain extends JFrame {
 		savebal_txtfld.setBackground(new Color(85, 111, 146));
 		savebal_txtfld.setBounds(103, 44, 187, 27);
 		savings_acc_panel.add(savebal_txtfld);
-		
+
 		JButton svngssve_btn = new JButton("Save");
 		svngssve_btn.setForeground(new Color(252, 187, 109));
 		svngssve_btn.setBackground(new Color(85, 111, 146));
 		svngssve_btn.setBounds(154, 78, 89, 23);
 		savings_acc_panel.add(svngssve_btn);
-		
+
 		JLabel ovrall_lbl = new JLabel("Overall");
 		ovrall_lbl.setForeground(new Color(252, 187, 109));
 		ovrall_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -577,251 +605,251 @@ public class mainmain extends JFrame {
 			}
 		});
 		categ_panel.add(categ_btn);
-		
+
 		JScrollPane income_categ_sp = new JScrollPane();
 		income_categ_sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		income_categ_sp.setBounds(10, 63, 382, 244);
 		categ_panel.add(income_categ_sp);
-		
+
 		JPanel income_categ_pnl = new JPanel();
 		income_categ_pnl.setBackground(new Color(85, 111, 146));
 		income_categ_pnl.setForeground(new Color(85, 111, 146));
 		income_categ_pnl.setPreferredSize(new Dimension(382, 400));
 		income_categ_sp.setViewportView(income_categ_pnl);
 		income_categ_pnl.setLayout(null);
-		
+
 		JPanel salary_categ_pnl = new JPanel();
 		salary_categ_pnl.setLayout(null);
 		salary_categ_pnl.setBackground(new Color(69, 92, 123));
 		salary_categ_pnl.setBounds(10, 11, 346, 76);
 		income_categ_pnl.add(salary_categ_pnl);
-		
+
 		JLabel bills_lbl_1_3 = new JLabel("SALARY");
 		bills_lbl_1_3.setForeground(new Color(252, 187, 109));
 		bills_lbl_1_3.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills_lbl_1_3.setBounds(140, 8, 75, 25);
 		salary_categ_pnl.add(bills_lbl_1_3);
-		
+
 		JButton edit_btn_inc_1 = new JButton("Edit");
 		edit_btn_inc_1.setForeground(new Color(252, 187, 103));
 		edit_btn_inc_1.setBackground(new Color(85, 111, 146));
 		edit_btn_inc_1.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		edit_btn_inc_1.setBounds(83, 40, 89, 25);
 		salary_categ_pnl.add(edit_btn_inc_1);
-		
+
 		JButton del_btn_inc_1 = new JButton("Delete");
 		del_btn_inc_1.setBackground(new Color(85, 111, 146));
 		del_btn_inc_1.setForeground(new Color(252, 187, 103));
 		del_btn_inc_1.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		del_btn_inc_1.setBounds(180, 40, 89, 25);
 		salary_categ_pnl.add(del_btn_inc_1);
-		
+
 		JPanel sale_categ_pnl = new JPanel();
 		sale_categ_pnl.setLayout(null);
 		sale_categ_pnl.setBackground(new Color(69, 92, 123));
 		sale_categ_pnl.setBounds(10, 97, 346, 76);
 		income_categ_pnl.add(sale_categ_pnl);
-		
+
 		JLabel bills_lbl_1_4 = new JLabel("SALE");
 		bills_lbl_1_4.setForeground(new Color(252, 187, 109));
 		bills_lbl_1_4.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills_lbl_1_4.setBounds(152, 8, 48, 25);
 		sale_categ_pnl.add(bills_lbl_1_4);
-		
+
 		JButton edit_btn_inc_2 = new JButton("Edit");
 		edit_btn_inc_2.setForeground(new Color(252, 187, 103));
 		edit_btn_inc_2.setBackground(new Color(85, 111, 146));
 		edit_btn_inc_2.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		edit_btn_inc_2.setBounds(83, 40, 89, 25);
 		sale_categ_pnl.add(edit_btn_inc_2);
-		
+
 		JButton del_btn_inc_2 = new JButton("Delete");
 		del_btn_inc_2.setBackground(new Color(85, 111, 146));
 		del_btn_inc_2.setForeground(new Color(252, 187, 103));
 		del_btn_inc_2.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		del_btn_inc_2.setBounds(180, 40, 89, 25);
 		sale_categ_pnl.add(del_btn_inc_2);
-		
+
 		JPanel refund_categ_pnl = new JPanel();
 		refund_categ_pnl.setLayout(null);
 		refund_categ_pnl.setBackground(new Color(69, 92, 123));
 		refund_categ_pnl.setBounds(10, 184, 346, 76);
 		income_categ_pnl.add(refund_categ_pnl);
-		
+
 		JLabel bills_lbl_1_5 = new JLabel("REFUNDS");
 		bills_lbl_1_5.setForeground(new Color(252, 187, 109));
 		bills_lbl_1_5.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills_lbl_1_5.setBounds(130, 8, 93, 25);
 		refund_categ_pnl.add(bills_lbl_1_5);
-		
+
 		JButton edit_btn_inc_3 = new JButton("Edit");
 		edit_btn_inc_3.setForeground(new Color(252, 187, 103));
 		edit_btn_inc_3.setBackground(new Color(85, 111, 146));
 		edit_btn_inc_3.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		edit_btn_inc_3.setBounds(83, 40, 89, 25);
 		refund_categ_pnl.add(edit_btn_inc_3);
-		
+
 		JButton del_btn_inc_3 = new JButton("Delete");
 		del_btn_inc_3.setForeground(new Color(252, 187, 103));
 		del_btn_inc_3.setBackground(new Color(85, 111, 146));
 		del_btn_inc_3.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		del_btn_inc_3.setBounds(180, 40, 89, 25);
 		refund_categ_pnl.add(del_btn_inc_3);
-		
+
 		JPanel awards_categ_pnl = new JPanel();
 		awards_categ_pnl.setLayout(null);
 		awards_categ_pnl.setBackground(new Color(69, 92, 123));
 		awards_categ_pnl.setBounds(10, 271, 346, 76);
 		income_categ_pnl.add(awards_categ_pnl);
-		
+
 		JLabel bills_lbl_1_5_1 = new JLabel("AWARDS");
 		bills_lbl_1_5_1.setForeground(new Color(252, 187, 109));
 		bills_lbl_1_5_1.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills_lbl_1_5_1.setBounds(132, 8, 89, 25);
 		awards_categ_pnl.add(bills_lbl_1_5_1);
-		
+
 		JButton edit_btn_inc_4 = new JButton("Edit");
 		edit_btn_inc_4.setForeground(new Color(252, 187, 103));
 		edit_btn_inc_4.setBackground(new Color(85, 111, 146));
 		edit_btn_inc_4.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		edit_btn_inc_4.setBounds(83, 40, 89, 25);
 		awards_categ_pnl.add(edit_btn_inc_4);
-		
+
 		JButton del_btn_inc_4 = new JButton("Delete");
 		del_btn_inc_4.setBackground(new Color(85, 111, 146));
 		del_btn_inc_4.setForeground(new Color(252, 187, 103));
 		del_btn_inc_4.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		del_btn_inc_4.setBounds(180, 40, 89, 25);
 		awards_categ_pnl.add(del_btn_inc_4);
-		
+
 		JScrollPane expense_categ_sp = new JScrollPane();
 		expense_categ_sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		expense_categ_sp.setBounds(402, 63, 382, 244);
 		categ_panel.add(expense_categ_sp);
-		
+
 		JPanel expense_categ_pnl = new JPanel();
 		expense_categ_pnl.setPreferredSize(new Dimension(382, 400));
 		expense_categ_pnl.setBackground(new Color(85, 111, 146));
 		expense_categ_sp.setViewportView(expense_categ_pnl);
 		expense_categ_pnl.setLayout(null);
-		
+
 		JPanel bills_categ_pnl = new JPanel();
 		bills_categ_pnl.setBackground(new Color(69, 92, 123));
 		bills_categ_pnl.setBounds(10, 11, 346, 76);
 		expense_categ_pnl.add(bills_categ_pnl);
 		bills_categ_pnl.setLayout(null);
-		
+
 		JLabel bills_lbl = new JLabel("BILLS");
 		bills_lbl.setBackground(new Color(85, 111, 146));
 		bills_lbl.setBounds(147, 8, 52, 25);
 		bills_lbl.setForeground(new Color(252, 187, 103));
 		bills_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills_categ_pnl.add(bills_lbl);
-		
+
 		JButton edit_btn_exp_1 = new JButton("Edit");
 		edit_btn_exp_1.setForeground(new Color(252, 187, 103));
 		edit_btn_exp_1.setBackground(new Color(85, 111, 146));
 		edit_btn_exp_1.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		edit_btn_exp_1.setBounds(84, 40, 89, 25);
 		bills_categ_pnl.add(edit_btn_exp_1);
-		
+
 		JButton del_btn_exp_1 = new JButton("Delete");
 		del_btn_exp_1.setForeground(new Color(252, 187, 103));
 		del_btn_exp_1.setBackground(new Color(85, 111, 146));
 		del_btn_exp_1.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		del_btn_exp_1.setBounds(181, 40, 89, 25);
 		bills_categ_pnl.add(del_btn_exp_1);
-		
+
 		JPanel shop_categ_pnl = new JPanel();
 		shop_categ_pnl.setLayout(null);
 		shop_categ_pnl.setBackground(new Color(69, 92, 123));
 		shop_categ_pnl.setBounds(10, 98, 346, 76);
 		expense_categ_pnl.add(shop_categ_pnl);
-		
+
 		JLabel bills_lbl_1 = new JLabel("SHOPPING");
 		bills_lbl_1.setForeground(new Color(252, 187, 109));
 		bills_lbl_1.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills_lbl_1.setBounds(127, 8, 103, 25);
 		shop_categ_pnl.add(bills_lbl_1);
-		
+
 		JButton edit_btn_exp_2 = new JButton("Edit");
 		edit_btn_exp_2.setForeground(new Color(252, 187, 103));
 		edit_btn_exp_2.setBackground(new Color(85, 111, 146));
 		edit_btn_exp_2.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		edit_btn_exp_2.setBounds(83, 40, 89, 25);
 		shop_categ_pnl.add(edit_btn_exp_2);
-		
+
 		JButton del_btn_exp_2 = new JButton("Delete");
 		del_btn_exp_2.setForeground(new Color(252, 187, 103));
 		del_btn_exp_2.setBackground(new Color(85, 111, 146));
 		del_btn_exp_2.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		del_btn_exp_2.setBounds(180, 40, 89, 25);
 		shop_categ_pnl.add(del_btn_exp_2);
-		
+
 		JPanel food_categ_pnl = new JPanel();
 		food_categ_pnl.setLayout(null);
 		food_categ_pnl.setBackground(new Color(69, 92, 123));
 		food_categ_pnl.setBounds(10, 185, 346, 76);
 		expense_categ_pnl.add(food_categ_pnl);
-		
+
 		JLabel bills_lbl_1_1 = new JLabel("FOOD");
 		bills_lbl_1_1.setForeground(new Color(252, 187, 109));
 		bills_lbl_1_1.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills_lbl_1_1.setBounds(147, 8, 58, 25);
 		food_categ_pnl.add(bills_lbl_1_1);
-		
+
 		JButton edit_btn_exp_3 = new JButton("Edit");
 		edit_btn_exp_3.setBackground(new Color(85, 111, 146));
 		edit_btn_exp_3.setForeground(new Color(252, 187, 103));
 		edit_btn_exp_3.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		edit_btn_exp_3.setBounds(83, 40, 89, 25);
 		food_categ_pnl.add(edit_btn_exp_3);
-		
+
 		JButton del_btn_exp_3 = new JButton("Delete");
 		del_btn_exp_3.setForeground(new Color(252, 187, 103));
 		del_btn_exp_3.setBackground(new Color(85, 111, 146));
 		del_btn_exp_3.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		del_btn_exp_3.setBounds(180, 40, 89, 25);
 		food_categ_pnl.add(del_btn_exp_3);
-		
+
 		JPanel home_categ_pnl = new JPanel();
 		home_categ_pnl.setLayout(null);
 		home_categ_pnl.setBackground(new Color(69, 92, 123));
 		home_categ_pnl.setBounds(10, 272, 346, 76);
 		expense_categ_pnl.add(home_categ_pnl);
-		
+
 		JLabel bills_lbl_1_2 = new JLabel("HOME");
 		bills_lbl_1_2.setForeground(new Color(252, 187, 109));
 		bills_lbl_1_2.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		bills_lbl_1_2.setBounds(147, 8, 60, 25);
 		home_categ_pnl.add(bills_lbl_1_2);
-		
+
 		JButton edit_btn_exp_4 = new JButton("Edit");
 		edit_btn_exp_4.setForeground(new Color(252, 187, 103));
 		edit_btn_exp_4.setBackground(new Color(85, 111, 146));
 		edit_btn_exp_4.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		edit_btn_exp_4.setBounds(83, 40, 89, 25);
 		home_categ_pnl.add(edit_btn_exp_4);
-		
+
 		JButton del_btn_exp_4 = new JButton("Delete");
 		del_btn_exp_4.setForeground(new Color(252, 187, 103));
 		del_btn_exp_4.setBackground(new Color(85, 111, 146));
 		del_btn_exp_4.setFont(new Font("Quicksand Light", Font.BOLD, 14));
 		del_btn_exp_4.setBounds(180, 40, 89, 25);
 		home_categ_pnl.add(del_btn_exp_4);
-		
+
 		JLabel income_categ_lbl = new JLabel("Income Categories");
 		income_categ_lbl.setForeground(new Color(252, 187, 109));
 		income_categ_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		income_categ_lbl.setBounds(113, 27, 179, 25);
 		categ_panel.add(income_categ_lbl);
-		
+
 		JLabel expense_categ_lbl = new JLabel("Expense Categories");
 		expense_categ_lbl.setForeground(new Color(252, 187, 109));
 		expense_categ_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		expense_categ_lbl.setBounds(502, 27, 188, 25);
 		categ_panel.add(expense_categ_lbl);
-		
+
 		JButton add_categ_btn = new JButton("Add Category");
 		add_categ_btn.setBackground(new Color(85, 111, 146));
 		add_categ_btn.setForeground(new Color(252, 187, 109));
@@ -1003,19 +1031,19 @@ public class mainmain extends JFrame {
 		frmMain.add(daily_butt);
 		frmMain.add(weekly_butt);
 		frmMain.add(exint);
-		
+
 		JLabel exint_EX_lbl = new JLabel("");
 		exint_EX_lbl.setForeground(new Color(252, 187, 109));
 		exint_EX_lbl.setBackground(new Color(85, 111, 146));
 		exint_EX_lbl.setBounds(86, 11, 225, 20);
 		exint.add(exint_EX_lbl);
-		
+
 		JLabel exint_int_lbl = new JLabel("");
 		exint_int_lbl.setForeground(new Color(252, 187, 109));
 		exint_int_lbl.setBackground(new Color(85, 111, 146));
 		exint_int_lbl.setBounds(86, 40, 225, 20);
 		exint.add(exint_int_lbl);
-		
+
 		JLabel exint_total_lbl = new JLabel("");
 		exint_total_lbl.setForeground(new Color(252, 187, 109));
 		exint_total_lbl.setBackground(new Color(85, 111, 146));
@@ -1033,7 +1061,7 @@ public class mainmain extends JFrame {
 		logoBudgee.setIcon(loglog);
 		logoBudgee.setBounds(53, 64, 100, 120);
 		frmMain.add(logoBudgee);
-		
+
 		JLabel usernameLabel = new JLabel(sessionUsername);
 		usernameLabel.setForeground(new Color(255, 255, 255));
 		usernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -1041,7 +1069,7 @@ public class mainmain extends JFrame {
 		frmMain.add(usernameLabel);
 
 	}
-	
+
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
