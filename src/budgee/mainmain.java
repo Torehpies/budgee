@@ -289,9 +289,6 @@ public class mainmain extends JFrame {
 		});
 		calcu.setBounds(685, 378, 97, 70);
 		rec_panel.add(calcu);
-
-//		, Integer.valueOf(7)
-
 		
 		JScrollPane Record_panel = new JScrollPane();
 		Record_panel.setBackground(new Color(85, 111, 146));
@@ -398,7 +395,7 @@ public class mainmain extends JFrame {
 		lbl_Time.setBackground(Color.WHITE);
 		lbl_Time.setBounds(10, 82, 70, 19);
 		Rec_Container.add(lbl_Time);
-		layerpanebelow.add(analytic_panel);
+		layerpanebelow.add(analytic_panel, Integer.valueOf(0));
 
 
 		JButton calcu1 = new JButton("New button");
@@ -464,23 +461,7 @@ public class mainmain extends JFrame {
 		Categories.setBounds(23, 105, 582, 343);
 		analytic_panel.add(Categories);
 
-		JLabel piechart = new JLabel("Piechart");
-		piechart.setBackground(new Color(66, 83, 109));
-		piechart.setBounds(10, 25, 536, 309);
-		analytic_panel.add(piechart);
-
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBackground(new Color(66, 83, 109));
-		lblNewLabel_1.setBounds(10, 345, 536, 103);
-		analytic_panel.add(lblNewLabel_1);
-
-		
-		JComboBox<String> comboBox = new JComboBox();
-		comboBox.setBounds(595, 11, 139, 34);
-		analytic_panel.add(comboBox);
-		comboBox.setModel(
-		new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
-		layerpanebelow.add(budget_panel, Integer.valueOf(5));
+		layerpanebelow.add(budget_panel);
 
 
 		JButton budget_btn = new JButton("New button");
