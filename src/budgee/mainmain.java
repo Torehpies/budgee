@@ -2,8 +2,10 @@ package budgee;
 
 import java.awt.BorderLayout;
 
+import budgee.MainFrameUtils;
 import budgee.UserSession;
 import budgee.Record;
+import budgee.BudgeeDAOImpl;
 
 import java.awt.EventQueue;
 
@@ -54,6 +56,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 
 import java.util.Date;
+import java.util.List;
 import java.sql.Time;
 import java.sql.Types;
 import javax.swing.JScrollPane;
@@ -64,6 +67,7 @@ import java.awt.GridLayout;
 import javax.swing.JList;
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
+import javax.swing.BoxLayout;
 
 public class mainmain extends JFrame {
 
@@ -81,12 +85,6 @@ public class mainmain extends JFrame {
 	private JButton acc_button;
 	private JButton categ_button;
 
-
-	private JPanel createRecordPanel(Record record) {
-		JPanel recordPanel = new JPanel();
-		
-		return recordPanel;
-	}
 	/**
 	 * Create the frame.
 	 */
@@ -103,16 +101,28 @@ public class mainmain extends JFrame {
 		JLayeredPane layerpanebelow = new JLayeredPane();
 		layerpanebelow.setBounds(208, 182, 792, 460);
 
-		final JPanel rec_panel = new JPanel();
+		JPanel rec_panel = new JPanel();
 		rec_panel.setBackground(new Color(66, 83, 109));
 		rec_panel.setBounds(0, 0, 792, 459);
-		rec_panel.setLayout(null);
+		rec_panel.setLayout(new BoxLayout(rec_panel, BoxLayout.Y_AXIS));
 		
-		JPanel recordPanel = createRecordPanel(record);
-		rec_panel.add
-
+		JScrollPane recordScrollPane = new JScrollPane(rec_panel);
+		
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
+		List<Record> records = BudgeeDAOImpl.getAllRecords();
+		
+		MainFrameUtils mainFrameUtils = new MainFrameUtils();
+		mainFrameUtils.displayAllRecords(records, rec_panel);
+		
 		JLabel reclebel = new JLabel("RECORD");
-		reclebel.setBounds(373, 5, 42, 14);
 		reclebel.setForeground(new Color(255, 255, 255));
 		rec_panel.add(reclebel);
 
@@ -259,7 +269,6 @@ public class mainmain extends JFrame {
 				win.setVisible(true);
 			}
 		});
-		calcu.setBounds(685, 378, 97, 70);
 		rec_panel.add(calcu);
 		layerpanebelow.add(analytic_panel);
 
