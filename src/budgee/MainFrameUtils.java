@@ -21,7 +21,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import javafx.scene.layout.Border;
+//import javafx.scene.layout.Border;
 
 public class MainFrameUtils {
 	
