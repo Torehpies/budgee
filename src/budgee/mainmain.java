@@ -63,6 +63,7 @@ import java.awt.GridLayout;
 import javax.swing.JList;
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
+import javax.swing.border.EtchedBorder;
 
 public class mainmain extends JFrame {
 
@@ -98,14 +99,16 @@ public class mainmain extends JFrame {
 		layerpanebelow.setBounds(208, 182, 792, 460);
 
 		final JPanel rec_panel = new JPanel();
-		rec_panel.setBackground(new Color(66, 83, 109));
+		rec_panel.setBackground(new Color(68, 83, 109));
 		rec_panel.setBounds(0, 0, 792, 459);
 		rec_panel.setLayout(null);
 
-		JLabel reclebel = new JLabel("RECORD");
-		reclebel.setBounds(373, 5, 42, 14);
-		reclebel.setForeground(new Color(255, 255, 255));
+		JLabel reclebel = new JLabel("RECORDS");
+		reclebel.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		reclebel.setBounds(265, 11, 131, 30);
+		reclebel.setForeground(new Color(252, 187, 109));
 		rec_panel.add(reclebel);
+		
 
 		final JPanel analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
@@ -238,7 +241,7 @@ public class mainmain extends JFrame {
 		});
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel);
+		layerpanebelow.add(rec_panel, Integer.valueOf(5));
 
 		JButton calcu = new JButton("New button");
 
@@ -252,6 +255,112 @@ public class mainmain extends JFrame {
 		});
 		calcu.setBounds(685, 378, 97, 70);
 		rec_panel.add(calcu);
+		
+		JScrollPane Record_panel = new JScrollPane();
+		Record_panel.setBackground(new Color(85, 111, 146));
+		Record_panel.setBounds(10, 50, 653, 398);
+		rec_panel.add(Record_panel);
+		Record_panel.setLayout(null);
+		
+		JPanel Date_Container = new JPanel();
+		Date_Container.setBackground(new Color(68, 83, 109));
+		Date_Container.setBounds(10, 9, 633, 138);
+		Record_panel.add(Date_Container);
+		Date_Container.setLayout(null);
+		
+		JLabel lbl_Date = new JLabel("May 19, Friday");
+		lbl_Date.setBounds(10, 0, 113, 19);
+		Date_Container.add(lbl_Date);
+		lbl_Date.setForeground(new Color(216, 115, 127));
+		lbl_Date.setBackground(new Color(255, 255, 255));
+		lbl_Date.setFont(new Font("Tahoma", Font.BOLD, 15));
+		
+		JPanel Rec_Container = new JPanel();
+		Rec_Container.setBackground(new Color(68, 83, 109));
+		Rec_Container.setBounds(10, 26, 613, 101);
+		Date_Container.add(Rec_Container);
+		Rec_Container.setLayout(null);
+		
+		JLabel lblGet_Categ = new JLabel("Bills");
+		lblGet_Categ.setBounds(301, 0, 43, 21);
+		lblGet_Categ.setForeground(new Color(252, 187, 109));
+		lblGet_Categ.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblGet_Categ.setBackground(Color.WHITE);
+		Rec_Container.add(lblGet_Categ);
+		
+		JLabel lbl_Categ = new JLabel("Category:");
+		lbl_Categ.setForeground(new Color(216, 115, 127));
+		lbl_Categ.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbl_Categ.setBackground(Color.WHITE);
+		lbl_Categ.setBounds(218, 0, 81, 19);
+		Rec_Container.add(lbl_Categ);
+		
+		JLabel Acc_Exp_lbl = new JLabel("Expense:");
+		Acc_Exp_lbl.setForeground(new Color(216, 115, 127));
+		Acc_Exp_lbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		Acc_Exp_lbl.setBackground(Color.WHITE);
+		Acc_Exp_lbl.setBounds(320, 82, 70, 19);
+		Rec_Container.add(Acc_Exp_lbl);
+		
+		JLabel lbl_Notes = new JLabel("Ito ay notes lamang. Wag seryusuhin");
+		lbl_Notes.setVerticalAlignment(SwingConstants.TOP);
+		lbl_Notes.setForeground(new Color(85, 111, 146));
+		lbl_Notes.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		lbl_Notes.setBackground(Color.WHITE);
+		lbl_Notes.setBounds(84, 20, 420, 59);
+		Rec_Container.add(lbl_Notes);
+		
+		JButton btn_Del = new JButton("Delete");
+		btn_Del.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn_Del.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		btn_Del.setForeground(new Color(216, 115, 127));
+		btn_Del.setBackground(new Color(68, 83, 109));
+		btn_Del.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btn_Del.setBounds(514, 48, 89, 36);
+		Rec_Container.add(btn_Del);
+		
+		JLabel lbl_Value = new JLabel("₱5,000.00");
+		lbl_Value.setForeground(new Color(252, 187, 109));
+		lbl_Value.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbl_Value.setBackground(Color.WHITE);
+		lbl_Value.setBounds(401, 82, 113, 19);
+		Rec_Container.add(lbl_Value);
+		
+		JButton btn_Edit = new JButton("Edit");
+		btn_Edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btn_Edit.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		btn_Edit.setForeground(new Color(252, 187, 109));
+		btn_Edit.setBackground(new Color(68, 83, 109));
+		btn_Edit.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btn_Edit.setBounds(514, 11, 89, 36);
+		Rec_Container.add(btn_Edit);
+		
+		JLabel lblGet_Acc = new JLabel("Cash");
+		lblGet_Acc.setForeground(new Color(252, 187, 109));
+		lblGet_Acc.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblGet_Acc.setBackground(Color.WHITE);
+		lblGet_Acc.setBounds(93, 0, 43, 21);
+		Rec_Container.add(lblGet_Acc);
+		
+		JLabel lbl_Acc = new JLabel("Account:");
+		lbl_Acc.setForeground(new Color(216, 115, 127));
+		lbl_Acc.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbl_Acc.setBackground(Color.WHITE);
+		lbl_Acc.setBounds(10, 0, 81, 19);
+		Rec_Container.add(lbl_Acc);
+		
+		JLabel lbl_Time = new JLabel("11:40 PM");
+		lbl_Time.setForeground(new Color(252, 187, 109));
+		lbl_Time.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lbl_Time.setBackground(Color.WHITE);
+		lbl_Time.setBounds(10, 82, 70, 19);
+		Rec_Container.add(lbl_Time);
 		layerpanebelow.add(analytic_panel);
 
 		JButton calcu1 = new JButton("New button");
@@ -283,7 +392,7 @@ public class mainmain extends JFrame {
 		analytic_panel.add(comboBox);
 		comboBox.setModel(
 		new DefaultComboBoxModel(new String[] { "Expense overview", "Income overview", "Account analysis" }));
-		layerpanebelow.add(budget_panel, Integer.valueOf(5));
+		layerpanebelow.add(budget_panel);
 
 
 		JButton budget_btn = new JButton("New button");
