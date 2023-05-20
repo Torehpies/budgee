@@ -151,6 +151,7 @@ public class mainmain extends JFrame {
 		mainFrameUtils.displayAllRecords(records, recordScrollPane);
 		
 		JButton calcu = new JButton("+");
+		calcu.setFont(new Font("Verdana", Font.BOLD, 35));
 
 		calcu.setForeground(new Color(252, 187, 109));
 		calcu.setBackground(new Color(85, 111, 146));
@@ -160,7 +161,7 @@ public class mainmain extends JFrame {
 				win.setVisible(true);
 			}
 		});
-		calcu.setBounds(685, 378, 97, 70);
+		calcu.setBounds(690, 365, 70, 70);
 		rec_panel.add(calcu);
 
 		JLabel reclebel = new JLabel("RECORDS");

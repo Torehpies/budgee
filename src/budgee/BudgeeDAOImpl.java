@@ -9,6 +9,7 @@ import budgee.Record;
 
 public class BudgeeDAOImpl implements BudgeeDAO {
 	
+	
 	//UserSession object and variables
 	UserSession session = UserSession.getInstance();
 	String userTable = "user_" + session.getId();
@@ -50,14 +51,19 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public void updateExpense(Record record) {
+	public void updateRecord(Record record) {
 	
 		
 	}
 
 	@Override
-	public void deleteExpense(int recordId) {
-		// TODO Auto-generated method stub
+	public void deleteRecord(int recordId) {
+		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts." + userTable + " WHERE ID = ?")) {
+			statement.setInt(1,  recordId);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

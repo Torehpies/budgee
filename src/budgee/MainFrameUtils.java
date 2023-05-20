@@ -21,14 +21,16 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import budgee.DatabaseManager;
 //import javafx.scene.layout.Border;
 
 public class MainFrameUtils {
 	
+	private JScrollPane parentPanel;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	static JPanel createRecordPanel(Record record) {
+	static JPanel createRecordPanel(Record record, JScrollPane parentPanel) {
 	
 		JPanel recordPanel = new JPanel();
 		recordPanel.setBackground(new Color(68, 83, 109));
@@ -67,6 +69,13 @@ public class MainFrameUtils {
 		JButton btn_Del = new JButton("Delete");
 		btn_Del.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				Connection connection = DatabaseManager.getConnection();
+				BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
+				BudgeeDAOImpl.deleteRecord(record.getId());
+				MainFrameUtils mainFrameUtils = new MainFrameUtils();
+				mainFrameUtils.refreshRecords(parentPanel);
+				
 			}
 		});
 		btn_Del.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -135,28 +144,19 @@ public class MainFrameUtils {
 	    
 	    
 		for (Record record : records) {
-			JPanel recordPanel = createRecordPanel(record);
+			JPanel recordPanel = createRecordPanel(record, parentPanel);
 			recordPanel.setPreferredSize(new Dimension(50,100));
 			recordPanel.setBorder(compoundBorder);  	
 			containerPanel.add(recordPanel);
-			
-			System.out.println("added recordPanel");
 		}
 		
 		parentPanel.setViewportView(containerPanel);
 		parentPanel.revalidate();
 		parentPanel.repaint();
-		System.out.println("revalidating..");
 	}
 	
 	public static void refreshRecords(JScrollPane parentPanel) {
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Connection connection = DatabaseManager.getConnection();
 		
 		BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
 		List<Record> records = BudgeeDAOImpl.getAllRecords();

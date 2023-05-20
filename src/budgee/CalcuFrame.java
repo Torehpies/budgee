@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import budgee.UserSession; 
 import budgee.Record;
+import budgee.DatabaseManager;
 
 import java.math.BigDecimal;
 
@@ -62,7 +63,7 @@ import java.util.List;
 		
 		private JScrollPane parentPanel;
 		
-		private String recordAction = "";
+		private String recordAction = "income";
 		
 		private JPanel contentPane;
 		private JTextField textField;
@@ -660,14 +661,7 @@ import java.util.List;
 							recordNotes, recordAction, recordCategory, recordAccount, 
 							recordCashValue, recordSavingsValue);
 					
-					Connection connection = null;
-					try {
-						connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				
+					Connection connection = DatabaseManager.getConnection();				
 					BudgeeDAOImpl BudgeeDAO = new BudgeeDAOImpl(connection);
 					BudgeeDAO.addExpense(record);
 					
