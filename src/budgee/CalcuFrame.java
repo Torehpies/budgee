@@ -33,6 +33,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
@@ -53,6 +55,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.List;
+import com.toedter.calendar.JDateChooser;
 
 
 	public class CalcuFrame extends JFrame {
@@ -529,60 +532,9 @@ import java.util.List;
 			lblCategory.setBounds(385, 40, 318, 21);
 			panel.add(lblCategory);
 			
-			JComboBox<Integer> dayComboBox = new JComboBox<>();
-			dayComboBox.setBounds(146, 324, 49, 50);
-			panel.add(dayComboBox);
-
-			JComboBox<Month> monthComboBox = new JComboBox<>();
-			monthComboBox.setBounds(45, 324, 91, 50);
-			panel.add(monthComboBox);
-
-			JComboBox<Integer> yearComboBox = new JComboBox<>();
-			yearComboBox.setBackground(new Color(255, 255, 255));
-			yearComboBox.setBounds(205, 324, 91, 50);
-			panel.add(yearComboBox);
-
-			int currentYear = LocalDate.now().getYear();
-			int startYear = currentYear - 10;
-			int endYear = currentYear + 100;
-			for (int year = startYear; year <= endYear; year++) {
-			    yearComboBox.addItem(year);
-			}
-
-			for (Month month : Month.values()) {
-			    monthComboBox.addItem(month);
-			}
-
-			monthComboBox.addActionListener(new ActionListener() {
-			    
-			    public void actionPerformed(ActionEvent e) {
-			        int selectedYear = (int) yearComboBox.getSelectedItem();
-			        Month selectedMonth = (Month)monthComboBox.getSelectedItem();
-			        int maxDays = selectedMonth.length(Year.of(selectedYear).isLeap());
-
-			        dayComboBox.removeAllItems();
-			        for (int day = 1; day <= maxDays; day++) {
-			            dayComboBox.addItem(day);
-			        }
-			    }
-			});
-			
-			Month currentMonth = LocalDate.now().getMonth();
-	        monthComboBox.setSelectedItem(currentMonth);
-	        yearComboBox.setSelectedItem(currentYear);
-
-	        int currentDay = LocalDate.now().getDayOfMonth();
-	        dayComboBox.setSelectedItem(currentDay);
-			
-			
-
-			int selectedYear = (int) yearComboBox.getSelectedItem();
-			int maxDays = currentMonth.length(Year.of(selectedYear).isLeap());
-
-			for (int day = 1; day <= maxDays; day++) {
-			    dayComboBox.addItem(day);
-			}
-			
+			JDateChooser dateChooser = new JDateChooser();
+			dateChooser.setBounds(45, 324, 251, 50);
+			panel.add(dateChooser);
 			
 			JLabel tutuldok_1 = new JLabel(":");
 			tutuldok_1.setFont(new Font("Tahoma", Font.PLAIN, 50));
@@ -615,10 +567,9 @@ import java.util.List;
 			btnSave_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					String selectedDate = (yearComboBox.getSelectedItem()).toString() + "-" +
-							(monthComboBox.getSelectedIndex() + 1) + "-" + 
-							(dayComboBox.getSelectedItem()).toString()
-							;
+					String selectedDate = new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate());
+					System.out.println(selectedDate);
+					
 					System.out.println(selectedDate);
 					
 					Date recordDate = Date.valueOf(selectedDate);
@@ -684,6 +635,8 @@ import java.util.List;
 			btnCancel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnCancel_1.setBounds(514, 460, 91, 38);
 			panel.add(btnCancel_1);
+			
+		
 
 			
 			
@@ -760,7 +713,6 @@ import java.util.List;
 			LayeredPanel.repaint();
 			LayeredPanel.revalidate();
 		}
-	
 }
 		
 				
