@@ -22,7 +22,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 	
 	@Override
-	public void addExpense(Record record) {
+	public void addRecord(Record record) {
 		String insertQuery = "INSERT INTO budgee_accounts.recordsTable(userID, date, time, balanceUpdate, notes, action, category, account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		 try (PreparedStatement preparedStatement = 

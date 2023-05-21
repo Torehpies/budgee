@@ -173,7 +173,7 @@ public class mainmain extends JFrame {
 		List<Record> records = BudgeeDAOImpl.getAllRecords();
 		
 		MainFrameUtils mainFrameUtils = new MainFrameUtils();
-		mainFrameUtils.displayAllRecords(records, recordScrollPane);
+		MainFrameUtils.displayAllRecords(records, recordScrollPane);
 		
 		JButton rec_calcu = new JButton("+");
 		rec_calcu.setFocusable(false);
@@ -238,7 +238,7 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
-				mainFrameUtils.refreshRecords(recordScrollPane);
+				MainFrameUtils.refreshRecords(recordScrollPane);
 				activeScrollPane = recordScrollPane;
 			}
 		});
@@ -1104,7 +1104,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.minusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
-				mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), activeScrollPane);
+				MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), activeScrollPane);
 			}
 		});
 		daily_left.setBounds(10, 11, 41, 34);
@@ -1119,7 +1119,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.plusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
-				mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), activeScrollPane);
+				MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), activeScrollPane);
 			}
 		});
 		daily_right.setBounds(406, 11, 41, 34);
@@ -1149,7 +1149,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				week_year_now = week_year_now.minusWeeks(1);
 	            weekly_date.setText(getFormattedDateweek());
-	            mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), activeScrollPane);
+	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), activeScrollPane);
 			}
 		});
 		weekly_left.setBounds(10, 11, 41, 34);
@@ -1164,7 +1164,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				 week_year_now = week_year_now.plusWeeks(1);
 	             weekly_date.setText(getFormattedDateweek());
-	             mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), activeScrollPane);
+	             MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), activeScrollPane);
 			}
 		});
 		weekly_right.setBounds(406, 11, 41, 34);
@@ -1193,7 +1193,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.minusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
-	            mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth())), activeScrollPane);
+	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth())), activeScrollPane);
 	            System.out.println(month_year_now.getMonthValue());
 			}
 		});
@@ -1209,7 +1209,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.plusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
-	            mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth())), activeScrollPane);
+	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth())), activeScrollPane);
 			}
 		});
 		monthly_right.setBounds(406, 11, 41, 34);
@@ -1239,7 +1239,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				year_year_now = year_year_now.minusYears(1);
 	            yearly_date.setText(getFormattedDateyear());
-	            mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear())), activeScrollPane);
+	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear())), activeScrollPane);
 			}
 		});
 		yearly_left.setBounds(10, 11, 41, 34);
@@ -1254,7 +1254,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				year_year_now = year_year_now.plusYears(1);
 	            yearly_date.setText(getFormattedDateyear());
-	            mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear())), activeScrollPane);
+	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear())), activeScrollPane);
 			}
 		});
 		yearly_right.setBounds(406, 11, 41, 34);

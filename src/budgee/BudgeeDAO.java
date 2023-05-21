@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public interface BudgeeDAO {
 	
-	void addExpense(Record record);
+	void addRecord(Record record);
     void updateRecord(Record record);
     void deleteRecord(int recordId);
     void addBudget(Budget budget);

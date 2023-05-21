@@ -35,7 +35,7 @@ import budgee.Budget;
 
 public class MainFrameUtils {
 	
-	private JScrollPane parentPanel;
+//	private JScrollPane parentPanel;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
