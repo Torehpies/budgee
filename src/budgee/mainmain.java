@@ -117,7 +117,7 @@ public class mainmain extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1034, 697);
 		frmMain = new JPanel();
-		frmMain.setBackground(new Color(69, 92, 123));
+		frmMain.setBackground(new Color(49, 64, 83));
 		frmMain.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
