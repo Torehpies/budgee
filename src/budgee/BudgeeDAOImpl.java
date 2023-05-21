@@ -12,7 +12,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	//UserSession object and variables
 	UserSession session = UserSession.getInstance();
-	String userTable = "user_" + session.getId();
+	int sessionId = session.getId();
 
 	private Connection connection;
 	
@@ -22,19 +22,18 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	@Override
 	public void addExpense(Record record) {
-		String insertQuery = "INSERT INTO budgee_accounts." + userTable + "(date, time, balance_update, notes, action, category, account, cash_value, savings_value) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String insertQuery = "INSERT INTO budgee_accounts.recordsTable(userID, date, time, balanceUpdate, notes, action, category, account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		 try (PreparedStatement preparedStatement = 
 				connection.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
-			 preparedStatement.setDate(1, record.getDate());
-			 preparedStatement.setTime(2, record.getTime());
-			 preparedStatement.setBigDecimal(3, record.getBalance_update());
-			 preparedStatement.setString(4, record.getNotes());
-			 preparedStatement.setString(5, record.getAction());
-			 preparedStatement.setString(6, record.getCategory());
-			 preparedStatement.setString(7, record.getAccount());
-			 preparedStatement.setBigDecimal(8, record.getCash_value());
-			 preparedStatement.setBigDecimal(9, record.getSavings_value());
+			 preparedStatement.setInt(1, record.getUserId());
+			 preparedStatement.setDate(2, record.getDate());
+			 preparedStatement.setTime(3, record.getTime());
+			 preparedStatement.setBigDecimal(4, record.getBalance_update());
+			 preparedStatement.setString(5, record.getNotes());
+			 preparedStatement.setString(6, record.getAction());
+			 preparedStatement.setString(7, record.getCategory());
+			 preparedStatement.setString(8, record.getAccount());
 			 
 			 int affectedRows = preparedStatement.executeUpdate();
 
@@ -58,8 +57,9 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 
 	@Override
 	public void deleteRecord(int recordId) {
-		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts." + userTable + " WHERE ID = ?")) {
+		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts.recordsTable WHERE id = ? AND userID = ?")) {
 			statement.setInt(1,  recordId);
+			statement.setInt(2, sessionId);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,24 +71,23 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	public List<Record> getAllRecords() {
 		 List<Record> records = new ArrayList<>();
 
-	        String selectQuery = "SELECT ID, date, time, balance_update, notes, action, category, account, cash_value, savings_value FROM budgee_accounts." + userTable;
+	        String selectQuery = "SELECT id, userID, date, time, balanceUpdate, notes, action, category, account FROM budgee_accounts.recordsTable WHERE userID = " + sessionId;
 
 	        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 	            ResultSet resultSet = preparedStatement.executeQuery();
 
 	            while (resultSet.next()) {
-	                int id = resultSet.getInt("ID");
+	                int id = resultSet.getInt("id");
+	                int userId = resultSet.getInt("userID");
 	                Date date = resultSet.getDate("date");
 	                Time time = resultSet.getTime("time");
-	                BigDecimal balance_update = resultSet.getBigDecimal("balance_update");
+	                BigDecimal balanceUpdate = resultSet.getBigDecimal("balanceUpdate");
 	                String notes = resultSet.getString("notes");
 	                String action = resultSet.getString("action");
 	                String category = resultSet.getString("category");
 	                String account = resultSet.getString("account");
-	                BigDecimal cash_value = resultSet.getBigDecimal("cash_value");
-	                BigDecimal savings_value = resultSet.getBigDecimal("savings_value");
 
-	                Record record = new Record(id, date, time, balance_update, notes, action,  category, account, cash_value, savings_value);
+	                Record record = new Record(id, userId, date, time, balanceUpdate, notes, action,  category, account);
 	                records.add(record);
 	            }
 

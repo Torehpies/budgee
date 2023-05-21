@@ -42,18 +42,18 @@ public class NewAccount extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NewAccount frame = new NewAccount();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					NewAccount frame = new NewAccount();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	Connection con;
 	PreparedStatement pst;
@@ -200,40 +200,40 @@ public class NewAccount extends JFrame {
 					Logger.getLogger(NewAccount.class.getName()).log(Level.SEVERE, null, ex);
 				}
 				
-				try {
-
-					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
-							"");
-					PreparedStatement pst = con.prepareStatement("SELECT MAX(id) FROM budgee_accounts.accounts1");
-					ResultSet rs = pst.executeQuery();
-					if (rs.next()) {
-						int id = rs.getInt(1);
-						System.out.println("The latest primary key ID is: " + id);
-						String tableName = "user_" + id; // Get the table name from the text field
-						String sql = "CREATE TABLE budgee_accounts." + tableName + " (\r\n"
-								+ "  ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n" + "  date DATE NOT NULL,\r\n"
-								+ "  time TIME NOT NULL,\r\n" + "  balance_update DECIMAL(12,2) NOT NULL,\r\n"
-								+ "  notes TEXT NOT NULL,\r\n" + "  action ENUM('income','expense'),\r\n"
-								+ "  category VARCHAR(45) ,\r\n" + "  account ENUM('savings','cash'),\r\n"
-								+ " cash_value DECIMAL(12,2) NOT NULL, \r\n"
-								+ " savings_value DECIMAL(12,2) NOT NULL);";
-						try {
-							PreparedStatement pst1 = con.prepareStatement(sql);
-							pst1.executeUpdate();
-						} catch (SQLException e2) {
-							System.out.println("Error creating table: " + e2.getMessage());
-						}
-					} else {
-						System.out.println("No rows found in the result set.");
-					}
-					rs.close();
-					pst.close();
-					con.close();
-				} catch (SQLException e2) {
-					System.out.println("SQLException: " + e2.getMessage());
-					System.out.println("SQLState: " + e2.getSQLState());
-					System.out.println("VendorError: " + e2.getErrorCode());
-				}
+//				try {
+//
+//					Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root",
+//							"");
+//					PreparedStatement pst = con.prepareStatement("SELECT MAX(id) FROM budgee_accounts.accounts1");
+//					ResultSet rs = pst.executeQuery();
+//					if (rs.next()) {
+//						int id = rs.getInt(1);
+//						System.out.println("The latest primary key ID is: " + id);
+//						String tableName = "user_" + id; // Get the table name from the text field
+//						String sql = "CREATE TABLE budgee_accounts." + tableName + " (\r\n"
+//								+ "  ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\r\n" + "  date DATE NOT NULL,\r\n"
+//								+ "  time TIME NOT NULL,\r\n" + "  balance_update DECIMAL(12,2) NOT NULL,\r\n"
+//								+ "  notes TEXT NOT NULL,\r\n" + "  action ENUM('income','expense'),\r\n"
+//								+ "  category VARCHAR(45) ,\r\n" + "  account ENUM('savings','cash'),\r\n"
+//								+ " cash_value DECIMAL(12,2) NOT NULL, \r\n"
+//								+ " savings_value DECIMAL(12,2) NOT NULL);";
+//						try {
+//							PreparedStatement pst1 = con.prepareStatement(sql);
+//							pst1.executeUpdate();
+//						} catch (SQLException e2) {
+//							System.out.println("Error creating table: " + e2.getMessage());
+//						}
+//					} else {
+//						System.out.println("No rows found in the result set.");
+//					}
+//					rs.close();
+//					pst.close();
+//					con.close();
+//				} catch (SQLException e2) {
+//					System.out.println("SQLException: " + e2.getMessage());
+//					System.out.println("SQLState: " + e2.getSQLState());
+//					System.out.println("VendorError: " + e2.getErrorCode());
+//				}
 
 				LoginFrameUwU window = new LoginFrameUwU();
 				window.frmLoginBudgee.setVisible(true);

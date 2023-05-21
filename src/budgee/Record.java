@@ -7,10 +7,11 @@ import java.sql.Time;
 public class Record {
 	
 	//Constructor with id
-	public Record(int id, Date date, Time time, BigDecimal balance_update, String notes, String action,
-			String category, String account, BigDecimal cash_value, BigDecimal savings_value) {
+	public Record(int id, int userId, Date date, Time time, BigDecimal balance_update, String notes, String action,
+			String category, String account) {
 		super();
 		this.id = id;
+		this.setUserId(userId);
 		this.date = date;
 		this.time = time;
 		this.balance_update = balance_update;
@@ -18,14 +19,13 @@ public class Record {
 		this.action = action;
 		this.category = category;
 		this.account = account;
-		this.cash_value = cash_value;
-		this.savings_value = savings_value;
 	}
 	
 	//Constructor without id
-	public Record(Date date, Time time, BigDecimal balance_update, String notes, String action, String category,
-			String account, BigDecimal cash_value, BigDecimal savings_value) {
+	public Record(int userId, Date date, Time time, BigDecimal balance_update, String notes, String action, String category,
+			String account) {
 		super();
+		this.setUserId(userId);
 		this.date = date;
 		this.time = time;
 		this.balance_update = balance_update;
@@ -33,11 +33,10 @@ public class Record {
 		this.action = action;
 		this.category = category;
 		this.account = account;
-		this.cash_value = cash_value;
-		this.savings_value = savings_value;
 	}
 	//Class attributes
 	private int id;
+	private int userId;
 	private Date date;
 	private Time time;
 	private BigDecimal balance_update;
@@ -51,12 +50,12 @@ public class Record {
 	public int getId() {
 		return id;
 	}
-	/*
-	public void setId(int id) {
-	
-		this.id = id;
+	public int getUserId() {
+		return userId;
 	}
-	*/
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public Date getDate() {
 		return date;
 	}
@@ -111,4 +110,5 @@ public class Record {
 	public void setSavings_value(BigDecimal savings_value) {
 		this.savings_value = savings_value;
 	}
+
 }
