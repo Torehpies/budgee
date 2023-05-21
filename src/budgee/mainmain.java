@@ -474,6 +474,7 @@ public class mainmain extends JFrame {
 		budget_panel.add(budgeted_scrlpn);
 		
 		List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
+
 		mainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
 		
 		JScrollPane unbudget_scrlpn = new JScrollPane();
@@ -1030,7 +1031,6 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
-				mainFrameUtils.refreshBudgets(recordScrollPane);
 				mainFrameUtils.refreshRecords(recordScrollPane);
 				activeScrollPane = recordScrollPane;
 			}
