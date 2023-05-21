@@ -58,7 +58,7 @@ public class MainFrameUtils {
 		lbl_Categ.setBounds(209, 9, 81, 19);
 		recordPanel.add(lbl_Categ);
 		
-		JLabel Acc_Exp_lbl = new JLabel("Expense:");
+		JLabel Acc_Exp_lbl = new JLabel((record.getAction()).toString());
 		Acc_Exp_lbl.setForeground(new Color(216, 115, 127));
 		Acc_Exp_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		Acc_Exp_lbl.setBackground(Color.WHITE);
