@@ -298,8 +298,8 @@ public class mainmain extends JFrame {
 		});
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel, Integer.valueOf(5));
-		layerpanebelow.add(analytic_panel);
+		layerpanebelow.add(rec_panel);
+		layerpanebelow.add(analytic_panel, Integer.valueOf(5));
 
 		JButton calcu1 = new JButton("New button");
 		calcu1.setFocusable(false);
@@ -349,13 +349,18 @@ public class mainmain extends JFrame {
 		comboBox.setMaximumRowCount(5);
 		comboBox.setBounds(10, 11, 563, 41);
 		analyticsBTN.add(comboBox);
+		
+		JScrollPane anali_scrlpne = new JScrollPane();
+		anali_scrlpne.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		anali_scrlpne.setBounds(23, 105, 582, 343);
+		analytic_panel.add(anali_scrlpne);
 
 
 
 		JPanel Categories = new JPanel();
+		Categories.setPreferredSize(new Dimension(582, 800));
+		anali_scrlpne.setViewportView(Categories);
 		Categories.setBackground(new Color(85, 111, 146));
-		Categories.setBounds(23, 105, 582, 343);
-		analytic_panel.add(Categories);
 
 		layerpanebelow.add(budget_panel);
 
@@ -1158,7 +1163,7 @@ public class mainmain extends JFrame {
 				Yearly.setVisible(false);
 			}
 		});
-		daily_butt.setBounds(227, 64, 89, 31);
+		daily_butt.setBounds(226, 64, 92, 31);
 		daily_butt.setForeground(new Color(252, 187, 109));
 		daily_butt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		daily_butt.setFocusable(false);
@@ -1177,7 +1182,7 @@ public class mainmain extends JFrame {
 				Yearly.setVisible(false);
 			}
 		});
-		weekly_butt.setBounds(340, 64, 89, 31);
+		weekly_butt.setBounds(339, 64, 92, 31);
 		weekly_butt.setForeground(new Color(252, 187, 109));
 		weekly_butt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		weekly_butt.setFocusable(false);
@@ -1196,7 +1201,7 @@ public class mainmain extends JFrame {
 				Yearly.setVisible(false);
 			}
 		});
-		monthly_butt.setBounds(448, 64, 89, 31);
+		monthly_butt.setBounds(447, 64, 92, 31);
 		monthly_butt.setForeground(new Color(252, 187, 109));
 		monthly_butt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		monthly_butt.setFocusable(false);
@@ -1215,7 +1220,7 @@ public class mainmain extends JFrame {
 				Yearly.setVisible(true);
 			}
 		});
-		yearly_butt.setBounds(556, 64, 89, 31);
+		yearly_butt.setBounds(555, 64, 92, 31);
 		yearly_butt.setForeground(new Color(252, 187, 109));
 		yearly_butt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		yearly_butt.setFocusable(false);
