@@ -6,9 +6,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDate;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -22,6 +27,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import budgee.DatabaseManager;
+import budgee.Budget;
+
 //import javafx.scene.layout.Border;
 
 public class MainFrameUtils {
@@ -134,7 +141,7 @@ public class MainFrameUtils {
 		
 		return recordPanel;
 	}
-	
+		
 	public static void displayAllRecords(List<Record> records, JScrollPane parentPanel) {		
 		JPanel containerPanel = new JPanel();
 	    containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
@@ -162,5 +169,9 @@ public class MainFrameUtils {
 		List<Record> records = BudgeeDAOImpl.getAllRecords();
 	    displayAllRecords(records, parentPanel);
 	}
+	
+//	static JPanel createBudgetPanel (Budget budget, JScrollPane parentPanel) {
+//	
+//	}
 
 }

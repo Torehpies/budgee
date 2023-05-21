@@ -198,4 +198,9 @@ public class LoginFrameUwU {
 		frmLoginBudgee.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmLoginBudgee.setLocationRelativeTo(null);
 	}
+
+
+	public void closeFrame() {
+	    frmLoginBudgee.dispose();
+	}
 }
