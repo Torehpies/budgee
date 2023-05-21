@@ -235,6 +235,8 @@ public class NewAccount extends JFrame {
 //					System.out.println("VendorError: " + e2.getErrorCode());
 //				}
 
+				LoginFrameUwU window = new LoginFrameUwU();
+				window.frmLoginBudgee.setVisible(true);
 			}
 		});
 		register.setForeground(new Color(252, 187, 109));

@@ -181,7 +181,7 @@ public class LoginFrameUwU {
 			public void actionPerformed(ActionEvent e) {
 				NewAccount newAcc = new NewAccount();
 				newAcc.setVisible(true);
-				
+				frmLoginBudgee.dispose();
 			}
 		});
 		newAccBTN.setBounds(270, 430, 192, 23);
