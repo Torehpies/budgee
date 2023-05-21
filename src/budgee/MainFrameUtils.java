@@ -6,9 +6,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDate;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -22,6 +27,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import budgee.DatabaseManager;
+import budgee.Budget;
+
 //import javafx.scene.layout.Border;
 
 public class MainFrameUtils {
@@ -51,7 +58,7 @@ public class MainFrameUtils {
 		lbl_Categ.setBounds(209, 9, 81, 19);
 		recordPanel.add(lbl_Categ);
 		
-		JLabel Acc_Exp_lbl = new JLabel("Expense:");
+		JLabel Acc_Exp_lbl = new JLabel((record.getAction()).toString());
 		Acc_Exp_lbl.setForeground(new Color(216, 115, 127));
 		Acc_Exp_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		Acc_Exp_lbl.setBackground(Color.WHITE);
@@ -134,7 +141,7 @@ public class MainFrameUtils {
 		
 		return recordPanel;
 	}
-	
+		
 	public static void displayAllRecords(List<Record> records, JScrollPane parentPanel) {		
 		JPanel containerPanel = new JPanel();
 	    containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
@@ -162,5 +169,9 @@ public class MainFrameUtils {
 		List<Record> records = BudgeeDAOImpl.getAllRecords();
 	    displayAllRecords(records, parentPanel);
 	}
+	
+//	static JPanel createBudgetPanel (Budget budget, JScrollPane parentPanel) {
+//	
+//	}
 
 }

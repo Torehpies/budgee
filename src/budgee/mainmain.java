@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -23,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -36,6 +39,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.Window;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -52,6 +56,8 @@ import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
@@ -71,12 +77,18 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 import javax.swing.BoxLayout;
 import javax.swing.border.EtchedBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.toedter.calendar.JCalendar;
+import javax.swing.border.LineBorder;
 
 import budgee.DatabaseManager;
 import budgee.UserSession;
@@ -86,6 +98,8 @@ public class mainmain extends JFrame {
 
 	private UserSession session = UserSession.getInstance();
 	private String sessionUsername = session.getUsername();
+	
+	private MainFrameUtils mainFrameUtils = new MainFrameUtils();
 
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
@@ -97,6 +111,14 @@ public class mainmain extends JFrame {
 	private JButton budget_button;
 	private JButton acc_button;
 	private JButton categ_button;
+	private JButton user_button;
+	private JPanel analytic_panel;
+	private JPanel budget_panel;
+	private JPanel acc_panel;
+	private JPanel categ_panel;
+	private JPanel rec_panel;
+	private JPanel user_panel;
+	
 	
 	private LocalDate daily_year_now;
 	private JLabel daily_date;
@@ -133,7 +155,7 @@ public class mainmain extends JFrame {
 		JLayeredPane layerpanebelow = new JLayeredPane();
 		layerpanebelow.setBounds(208, 182, 792, 460);
 
-		final JPanel rec_panel = new JPanel();
+		rec_panel = new JPanel();
 		rec_panel.setBackground(new Color(68, 83, 109));
 		rec_panel.setBounds(0, 0, 792, 459);
 		rec_panel.setLayout(null);
@@ -180,29 +202,30 @@ public class mainmain extends JFrame {
 		rec_panel.add(reclebel);
 		
 
-		final JPanel analytic_panel = new JPanel();
+		analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
 		analytic_panel.setBounds(0, 0, 792, 459);
 		analytic_panel.setLayout(null);		
 
-		final JPanel budget_panel = new JPanel();
+		budget_panel = new JPanel();
 		budget_panel.setBackground(new Color(66, 83, 109));
 		budget_panel.setBounds(0, 0, 792, 459);
 		budget_panel.setLayout(null);
 
-		final JPanel acc_panel = new JPanel();
+		acc_panel = new JPanel();
 		acc_panel.setBackground(new Color(66, 83, 109));
 		acc_panel.setBounds(0, 0, 792, 459);
 		acc_panel.setLayout(null);
 
-		final JPanel categ_panel = new JPanel();
+		categ_panel = new JPanel();
 		categ_panel.setForeground(new Color(252, 187, 109));
 		categ_panel.setBackground(new Color(66, 83, 109));
 		categ_panel.setBounds(0, 0, 792, 459);
 		categ_panel.setLayout(null);
 
 		rec_button = new JButton("Record");
-		rec_button.setBounds(37, 249, 139, 40);
+		rec_button.setBorder(null);
+		rec_button.setBounds(37, 247, 139, 40);
 		rec_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		rec_button.setForeground(new Color(252, 187, 109));
 		rec_button.setBackground(new Color(85, 111, 146));
@@ -213,18 +236,21 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(85, 111, 146));
 				acc_button.setBackground(new Color(85, 111, 146));
 				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(true);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
 				mainFrameUtils.refreshRecords(recordScrollPane);
 			}
 		});
 		rec_button.setFocusable(false);
 
 		analytic_button = new JButton("Analytics");
-		analytic_button.setBounds(37, 327, 139, 40);
+		analytic_button.setBorder(null);
+		analytic_button.setBounds(37, 307, 139, 40);
 		analytic_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		analytic_button.setForeground(new Color(252, 187, 109));
 		analytic_button.setBackground(new Color(85, 111, 146));
@@ -235,19 +261,25 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(85, 111, 146));
 				acc_button.setBackground(new Color(85, 111, 146));
 				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(true);
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+				
 				Analytics analyticsPanel = new Analytics();	
 				
+
+				user_panel.setVisible(false);
+
 			}
 		});
 		analytic_button.setFocusable(false);
 
 		budget_button = new JButton("Budget");
-		budget_button.setBounds(37, 400, 139, 40);
+		budget_button.setBorder(null);
+		budget_button.setBounds(37, 368, 139, 40);
 		budget_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		budget_button.setForeground(new Color(252, 187, 109));
 		budget_button.setBackground(new Color(85, 111, 146));
@@ -258,17 +290,20 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(216, 115, 127));
 				acc_button.setBackground(new Color(85, 111, 146));
 				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(true);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
 			}
 		});
 		budget_button.setFocusable(false);
 
 		acc_button = new JButton("Account");
-		acc_button.setBounds(37, 471, 139, 40);
+		acc_button.setBorder(null);
+		acc_button.setBounds(37, 429, 139, 40);
 		acc_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		acc_button.setForeground(new Color(252, 187, 109));
 		acc_button.setBackground(new Color(85, 111, 146));
@@ -279,17 +314,20 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(85, 111, 146));
 				acc_button.setBackground(new Color(216, 115, 127));
 				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(true);
 				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
 			}
 		});
 		acc_button.setFocusable(false);
 
 		categ_button = new JButton("Category");
-		categ_button.setBounds(37, 544, 139, 40);
+		categ_button.setBorder(null);
+		categ_button.setBounds(37, 489, 139, 40);
 		categ_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		categ_button.setForeground(new Color(252, 187, 109));
 		categ_button.setBackground(new Color(85, 111, 146));
@@ -300,11 +338,13 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(85, 111, 146));
 				acc_button.setBackground(new Color(85, 111, 146));
 				categ_button.setBackground(new Color(216, 115, 127));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(true);
+				user_panel.setVisible(false);
 			}
 		});
 		categ_button.setFocusable(false);
@@ -773,7 +813,9 @@ public class mainmain extends JFrame {
 		accs_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 25));
 		accs_lbl.setBounds(560, 30, 125, 25);
 		acc_panel.add(accs_lbl);
+
 		layerpanebelow.add(categ_panel, Integer.valueOf(0));
+
 
 		JButton categ_calcu = new JButton("+");
 		categ_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
@@ -1088,6 +1130,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.minusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
+				mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), recordScrollPane);
 			}
 		});
 		daily_left.setBounds(10, 11, 41, 34);
@@ -1102,6 +1145,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.plusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
+				mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), recordScrollPane);
 			}
 		});
 		daily_right.setBounds(406, 11, 41, 34);
@@ -1131,6 +1175,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				week_year_now = week_year_now.minusWeeks(1);
 	            weekly_date.setText(getFormattedDateweek());
+	            mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), recordScrollPane);
 			}
 		});
 		weekly_left.setBounds(10, 11, 41, 34);
@@ -1145,6 +1190,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				 week_year_now = week_year_now.plusWeeks(1);
 	             weekly_date.setText(getFormattedDateweek());
+	             mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), recordScrollPane);
 			}
 		});
 		weekly_right.setBounds(406, 11, 41, 34);
@@ -1364,6 +1410,78 @@ public class mainmain extends JFrame {
 		frmMain.add(analytic_button);
 		frmMain.add(rec_button);
 		frmMain.add(layerpanebelow);
+		
+		user_panel = new JPanel();
+		user_panel.setBackground(new Color(66, 83, 109));
+		user_panel.setBounds(0, 0, 792, 459);
+		Border border = BorderFactory.createLineBorder(new Color(109, 74, 194, 18), 3);
+		user_panel.setBorder(border);
+		layerpanebelow.add(user_panel);
+		user_panel.setLayout(null);
+		
+		JLabel user_image = new JLabel("");
+		user_image.setBorder(new LineBorder(new Color(252, 187, 109), 3, true));
+		user_image.setBounds(27, 104, 250, 250);
+		user_panel.add(user_image);
+		
+		JButton btnNewButton = new JButton("Change Profile");
+		btnNewButton.setFont(new Font("Quicksand Light", Font.BOLD, 12));
+		btnNewButton.setForeground(new Color(252, 187, 109));
+		btnNewButton.setBackground(new Color(85, 111, 149));
+		btnNewButton.setFocusable(false);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser browseImageFile = new JFileChooser();
+				//Filter Image Extensions
+				FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
+				browseImageFile.addChoosableFileFilter(fnef);
+				
+				
+				int showOpenDialogue = browseImageFile.showOpenDialog(null);
+				if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+					File selectedImageFile = browseImageFile.getSelectedFile();
+					String selectedImagePath = selectedImageFile.getAbsolutePath();
+					JOptionPane.showMessageDialog(null, selectedImagePath);
+					//Display Image on Jlabel
+					ImageIcon ii = new ImageIcon(selectedImagePath);
+					//Resize Selected Image
+					Image image = ii.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
+					user_image.setIcon(new ImageIcon(image));
+					
+				}
+			}
+		});
+		btnNewButton.setBounds(86, 365, 136, 23);
+		user_panel.add(btnNewButton);
+		
+		JButton logOut_button = new JButton("Log Out");
+		logOut_button.setFocusable(false);
+		logOut_button.setBorder(null);
+		logOut_button.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	JOptionPane optionPane = new JOptionPane("Are you sure you want to logout?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+		        JDialog dialog = optionPane.createDialog(user_panel, "Logout Confirmation");
+		        dialog.setLocationRelativeTo(null); // Center on screen
+		        dialog.setVisible(true);
+
+		        Object selectedValue = optionPane.getValue();
+		        if (selectedValue instanceof Integer && (int) selectedValue == JOptionPane.YES_OPTION) {
+		            // Perform logout operations
+		            // ...
+
+		            // Create and show the new JFrame
+		            LoginFrameUwU loginFrame = new LoginFrameUwU();
+		            loginFrame.frmLoginBudgee.setVisible(true);
+
+		            // Hide the current JFrame (login frame)
+		            loginFrame.getClass();
+		            dispose();
+		            
+		        }
+		    }
+		});
+		logOut_button.setBounds(693, 425, 89, 23);
+		user_panel.add(logOut_button);
 
 		JLabel logoBudgee = new JLabel("");
 		ImageIcon loglog = new ImageIcon("imgs/budgeeLogoMain.png");
@@ -1376,6 +1494,32 @@ public class mainmain extends JFrame {
 		usernameLabel.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		usernameLabel.setBounds(53, 11, 123, 42);
 		frmMain.add(usernameLabel);
+		
+		user_button = new JButton("User");
+		user_button.setBorder(null);
+		user_button.setFocusable(false);
+		user_button.setBackground(new Color(85, 111, 146));
+		user_button.setForeground(new Color(252, 187, 109));
+		user_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		user_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rec_button.setBackground(new Color(85, 111, 146));
+				analytic_button.setBackground(new Color(85, 111, 146));
+				budget_button.setBackground(new Color(85, 111, 146));
+				acc_button.setBackground(new Color(85, 111, 146));
+				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(216, 115, 127));
+				rec_panel.setVisible(false);
+				analytic_panel.setVisible(false);
+				budget_panel.setVisible(false);
+				acc_panel.setVisible(false);
+				categ_panel.setVisible(false);
+				user_panel.setVisible(true);
+				
+			}
+		});
+		user_button.setBounds(37, 546, 139, 40);
+		frmMain.add(user_button);
 
 	}
 

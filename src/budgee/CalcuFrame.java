@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -536,6 +537,9 @@ import com.toedter.calendar.JDateChooser;
 			dateChooser.setBounds(45, 324, 251, 50);
 			panel.add(dateChooser);
 			
+			java.util.Date currentDate = new java.util.Date();
+			 dateChooser.setDate(currentDate);
+					
 			JLabel tutuldok_1 = new JLabel(":");
 			tutuldok_1.setFont(new Font("Tahoma", Font.PLAIN, 50));
 			tutuldok_1.setBounds(161, 375, 49, 50);
@@ -566,6 +570,14 @@ import com.toedter.calendar.JDateChooser;
 			JButton btnSave_1 = new JButton("Save");
 			btnSave_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					String num = textField.getText();
+					if (num.isEmpty()) {  
+						JOptionPane.showMessageDialog(null, "Amount is empty!", "Warning", JOptionPane.WARNING_MESSAGE);
+						
+					}
+					else {
+				
 					
 					String selectedDate = new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate());
 					System.out.println(selectedDate);
@@ -614,6 +626,7 @@ import com.toedter.calendar.JDateChooser;
 					
 					MainFrameUtils.refreshRecords(parentPanel);
 				}
+					}
 			});
 			
 			btnSave_1.setFocusable(false);
@@ -645,6 +658,7 @@ import com.toedter.calendar.JDateChooser;
 			contentPane.add(panel_3);
 			panel_3.setLayout(null);
 			
+			  recordAction = "expense";
 			
 			
 			JButton btnExpense = new JButton("Expense");
