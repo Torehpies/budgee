@@ -20,6 +20,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -75,6 +76,10 @@ import javax.swing.BoxLayout;
 import javax.swing.border.EtchedBorder;
 import com.toedter.calendar.JCalendar;
 
+import budgee.DatabaseManager;
+import budgee.UserSession;
+import budgee.Record;
+
 public class mainmain extends JFrame {
 
 	private UserSession session = UserSession.getInstance();
@@ -108,9 +113,21 @@ public class mainmain extends JFrame {
 	private JButton monthly_butt;
 	private JButton yearly_butt;
 	
+	
+	public interface BudgeeDAO {
+		
+		void addExpense(Record record);
+	    void updateRecord(Record record);
+	    void deleteRecord(int recordId);
+	    List<Record> getAllRecords();
+	    List<Record> getExpensesByCategory(String category);
+	    
+	}
+	
+	
 
 	public mainmain() {		
-
+		
         setSize(400, 300);
         setLocationRelativeTo(null);
 		setResizable(false);
@@ -300,7 +317,7 @@ public class mainmain extends JFrame {
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
 		layerpanebelow.add(rec_panel);
-		layerpanebelow.add(analytic_panel, Integer.valueOf(5));
+		layerpanebelow.add(analytic_panel, Integer.valueOf(9));
 
 		JButton calcu1 = new JButton("New button");
 		calcu1.setFocusable(false);
@@ -324,6 +341,8 @@ public class mainmain extends JFrame {
 		analyticsBTN.setLayout(null);
 		
 		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.setForeground(new Color(252, 187, 109));
+		comboBox.setBackground(new Color(252, 187, 109));
 		comboBox.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        String selectedOption = (String) comboBox.getSelectedItem();
@@ -376,12 +395,25 @@ public class mainmain extends JFrame {
 		panel.setLayout(null);
 		
 		JPanel IncomeFlow = new JPanel();
+		IncomeFlow.setBackground(new Color(252, 187, 109));
 		IncomeFlow.setBounds(10, 54, 312, 34);
 		panel.add(IncomeFlow);
+		IncomeFlow.setLayout(null);
 		
-		JPanel panel_1_3 = new JPanel();
-		panel_1_3.setBounds(10, 144, 312, 34);
-		panel.add(panel_1_3);
+		JLabel IncLbl = new JLabel("");
+		IncLbl.setBounds(0, 0, 312, 34);
+		IncomeFlow.add(IncLbl);
+		
+		JPanel ExpenseFlow = new JPanel();
+		ExpenseFlow.setBackground(new Color(252, 187, 109));
+		ExpenseFlow.setBounds(10, 142, 312, 36);
+		panel.add(ExpenseFlow);
+		ExpenseFlow.setLayout(null);
+		
+		
+//		JLabel expLbl = new JLabel("₱" + (record.getBalance_update()).toString());
+//		expLbl.setBounds(0, 0, 312, 36);
+//		ExpenseFlow.add(expLbl);
 		
 		JLabel lblNewLabel = new JLabel("Income Flow");
 		lblNewLabel.setForeground(new Color(252, 187, 109));
@@ -396,6 +428,8 @@ public class mainmain extends JFrame {
 		panel.add(lblExpenseFlow);
 		
 		JButton calendarBTN = new JButton("view");
+		calendarBTN.setForeground(new Color(252, 187, 109));
+		calendarBTN.setBackground(new Color(252, 187, 109));
 		calendarBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -405,7 +439,7 @@ public class mainmain extends JFrame {
 		calendarBTN.setBounds(10, 169, 198, 36);
 		Categories.add(calendarBTN);
 
-		layerpanebelow.add(budget_panel);
+		layerpanebelow.add(budget_panel, Integer.valueOf(0));
 
 
 		JButton budget_btn = new JButton("New button");
@@ -1358,6 +1392,7 @@ public class mainmain extends JFrame {
         return year_year_now.format(formatter) + " - " + endDate.format(formatter);
     }
 
+	
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
