@@ -36,6 +36,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.Window;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -52,6 +53,7 @@ import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
@@ -1419,18 +1421,27 @@ public class mainmain extends JFrame {
 		logOut_button.setFocusable(false);
 		logOut_button.setBorder(null);
 		logOut_button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int result = JOptionPane.showConfirmDialog(user_panel, "Are you sure you want to logout?",
-                        "Logout Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		    public void actionPerformed(ActionEvent e) {
+		    	JOptionPane optionPane = new JOptionPane("Are you sure you want to logout?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
+		        JDialog dialog = optionPane.createDialog(user_panel, "Logout Confirmation");
+		        dialog.setLocationRelativeTo(null); // Center on screen
+		        dialog.setVisible(true);
 
-                if (result == JOptionPane.YES_OPTION) {
-                    // Perform logout operations
-                    // ...
+		        Object selectedValue = optionPane.getValue();
+		        if (selectedValue instanceof Integer && (int) selectedValue == JOptionPane.YES_OPTION) {
+		            // Perform logout operations
+		            // ...
 
-                    // Close the application or navigate to the login screen
-                    System.exit(0);
-                }
-            }
+		            // Create and show the new JFrame
+		            LoginFrameUwU loginFrame = new LoginFrameUwU();
+		            loginFrame.frmLoginBudgee.setVisible(true);
+
+		            // Hide the current JFrame (login frame)
+		            loginFrame.getClass();
+		            dispose();
+		            
+		        }
+		    }
 		});
 		logOut_button.setBounds(693, 425, 89, 23);
 		user_panel.add(logOut_button);
