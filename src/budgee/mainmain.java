@@ -73,6 +73,7 @@ import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 import javax.swing.BoxLayout;
 import javax.swing.border.EtchedBorder;
+import com.toedter.calendar.JCalendar;
 
 public class mainmain extends JFrame {
 
@@ -317,7 +318,7 @@ public class mainmain extends JFrame {
 
 		JPanel analyticsBTN = new JPanel();
 		analyticsBTN.setBackground(new Color(85, 111, 146));
-		analyticsBTN.setBounds(23, 11, 583, 63);
+		analyticsBTN.setBounds(23, 31, 583, 63);
 		analytic_panel.add(analyticsBTN);
 		analyticsBTN.setLayout(null);
 		
@@ -360,6 +361,48 @@ public class mainmain extends JFrame {
 		Categories.setPreferredSize(new Dimension(582, 800));
 		anali_scrlpne.setViewportView(Categories);
 		Categories.setBackground(new Color(85, 111, 146));
+		Categories.setLayout(null);
+		
+		JCalendar calendar = new JCalendar();
+		calendar.getDayChooser().setBackground(new Color(0, 128, 64));
+		calendar.setBounds(10, 11, 198, 153);
+		Categories.add(calendar);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(49, 64, 83));
+		panel.setBounds(218, 11, 332, 194);
+		Categories.add(panel);
+		panel.setLayout(null);
+		
+		JPanel IncomeFlow = new JPanel();
+		IncomeFlow.setBounds(10, 54, 312, 34);
+		panel.add(IncomeFlow);
+		
+		JPanel panel_1_3 = new JPanel();
+		panel_1_3.setBounds(10, 144, 312, 34);
+		panel.add(panel_1_3);
+		
+		JLabel lblNewLabel = new JLabel("Income Flow");
+		lblNewLabel.setForeground(new Color(252, 187, 109));
+		lblNewLabel.setFont(new Font("Quicksand Light", Font.BOLD, 23));
+		lblNewLabel.setBounds(10, 11, 201, 32);
+		panel.add(lblNewLabel);
+		
+		JLabel lblExpenseFlow = new JLabel("Expense Flow");
+		lblExpenseFlow.setForeground(new Color(252, 187, 109));
+		lblExpenseFlow.setFont(new Font("Quicksand Light", Font.BOLD, 23));
+		lblExpenseFlow.setBounds(10, 99, 201, 32);
+		panel.add(lblExpenseFlow);
+		
+		JButton calendarBTN = new JButton("view");
+		calendarBTN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		calendarBTN.setFont(new Font("Quicksand Light", Font.BOLD, 19));
+		calendarBTN.setBounds(10, 169, 198, 36);
+		Categories.add(calendarBTN);
 
 		layerpanebelow.add(budget_panel);
 
@@ -1235,7 +1278,7 @@ public class mainmain extends JFrame {
 		JLabel inc_lebel = new JLabel("Income:");
 		inc_lebel.setForeground(new Color(252, 187, 109));
 		inc_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		inc_lebel.setBounds(34, 42, 52, 18);
+		inc_lebel.setBounds(38, 44, 52, 18);
 		exint.add(inc_lebel);
 
 		JLabel tot_lebel = new JLabel("Total:");
