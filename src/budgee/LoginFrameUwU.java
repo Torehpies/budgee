@@ -126,26 +126,16 @@ public class LoginFrameUwU {
 						UserSession session = UserSession.getInstance();
 						session.setId(sessionId);
 						session.setUsername(sessionUsername);
-
-		
-						System.out.println(session.getId());
-	
-						String tableID = "user_" + sessionId;
-						CalcuFrame.useText(tableID);
-						System.out.println("eto table " + tableID);
 						
 						PreparedStatement pst = connection.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
 							+ "WHERE username='" + user.getText() + "' and password='" + pass.getText() + "'");
 						ResultSet rs3 = pst.executeQuery();
-						String sql1 = "SELECT * FROM budgee_accounts." + tableID;
-						pst.executeQuery(sql1);
 						
 						mainmain main = new mainmain();
 						main.setVisible(true);
 						frmLoginBudgee.dispose();
 						JOptionPane.showMessageDialog(null,"Login Sucessfully... ");
 						
-						System.out.println("jasper eto ka oh " + tableID);
 						resultLoginQuery.close();
 						statement.close();
 						connection.close();

@@ -654,12 +654,8 @@ import java.util.List;
 						recordCategory = (categoryObject.toString()).toLowerCase();
 					}
 					
-					BigDecimal recordCashValue = new BigDecimal(0); 
-					BigDecimal recordSavingsValue = new BigDecimal(0);
-					
-					Record record = new Record(recordDate, recordTime, recordBalanceUpdate, 
-							recordNotes, recordAction, recordCategory, recordAccount, 
-							recordCashValue, recordSavingsValue);
+					Record record = new Record(sessionId, recordDate, recordTime, recordBalanceUpdate, 
+							recordNotes, recordAction, recordCategory, recordAccount);
 					
 					Connection connection = DatabaseManager.getConnection();				
 					BudgeeDAOImpl BudgeeDAO = new BudgeeDAOImpl(connection);
