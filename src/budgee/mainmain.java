@@ -79,6 +79,8 @@ public class mainmain extends JFrame {
 
 	private UserSession session = UserSession.getInstance();
 	private String sessionUsername = session.getUsername();
+	
+	private MainFrameUtils mainFrameUtils = new MainFrameUtils();
 
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
@@ -1061,6 +1063,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.minusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
+				mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), recordScrollPane);
 			}
 		});
 		daily_left.setBounds(10, 11, 41, 34);
@@ -1075,6 +1078,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.plusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
+				mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), recordScrollPane);
 			}
 		});
 		daily_right.setBounds(406, 11, 41, 34);
@@ -1104,6 +1108,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				week_year_now = week_year_now.minusWeeks(1);
 	            weekly_date.setText(getFormattedDateweek());
+	            mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), recordScrollPane);
 			}
 		});
 		weekly_left.setBounds(10, 11, 41, 34);
@@ -1118,6 +1123,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				 week_year_now = week_year_now.plusWeeks(1);
 	             weekly_date.setText(getFormattedDateweek());
+	             mainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), recordScrollPane);
 			}
 		});
 		weekly_right.setBounds(406, 11, 41, 34);

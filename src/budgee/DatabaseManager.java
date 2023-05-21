@@ -15,7 +15,6 @@ public class DatabaseManager {
 		try {
 			return DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

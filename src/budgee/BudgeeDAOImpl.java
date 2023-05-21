@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import budgee.UserSession;
 import budgee.Record;
+import java.time.LocalDate;
 
 public class BudgeeDAOImpl implements BudgeeDAO {
 	
@@ -101,9 +102,39 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public List<Record> getRecordsByDate(String date) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Record> getRecordsByDateRange(java.time.LocalDate startDate, java.time.LocalDate endDate) {
+	    try {
+	        Connection conn = DatabaseManager.getConnection();
+	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM recordsTable WHERE date >= ? AND date <= ?");
+	        stmt.setDate(1, java.sql.Date.valueOf(startDate));
+	        stmt.setDate(2, java.sql.Date.valueOf(endDate));
+	        ResultSet resultSet = stmt.executeQuery();
+
+	        List<Record> records = new ArrayList<>();
+	        while (resultSet.next()) {
+	        	 int id = resultSet.getInt("id");
+	                int userId = resultSet.getInt("userID");
+	                Date date = resultSet.getDate("date");
+	                Time time = resultSet.getTime("time");
+	                BigDecimal balanceUpdate = resultSet.getBigDecimal("balanceUpdate");
+	                String notes = resultSet.getString("notes");
+	                String action = resultSet.getString("action");
+	                String category = resultSet.getString("category");
+	                String account = resultSet.getString("account");
+
+	                Record record = new Record(id, userId, date, time, balanceUpdate, notes, action,  category, account);
+	                records.add(record);
+	        }
+
+	        resultSet.close();
+	        stmt.close();
+	        conn.close();
+
+	        return records;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 
 	@Override
