@@ -2,6 +2,7 @@ package budgee;
 
 import java.sql.Connection;
 import java.util.List;
+import java.time.LocalDate;
 
 public interface BudgeeDAO {
 	
@@ -13,6 +14,6 @@ public interface BudgeeDAO {
     void deleteBudget(int budgetId);
     List<Budget> getAllBudgets();
     List<Record> getAllRecords();
-    List<Record> getRecordsByDate(String Date);
+    List<Record> getRecordsByDateRange(LocalDate startDate, LocalDate endDate);
     
 }
