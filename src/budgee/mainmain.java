@@ -111,8 +111,7 @@ public class mainmain extends JFrame {
 	private JPanel categ_panel;
 	private JPanel rec_panel;
 	private JPanel user_panel;
-	
-	
+		
 	private LocalDate daily_year_now;
 	private JLabel daily_date;
 	
@@ -204,7 +203,7 @@ public class mainmain extends JFrame {
 		budget_panel.setBackground(new Color(66, 83, 109));
 		budget_panel.setBounds(0, 0, 792, 459);
 		budget_panel.setLayout(null);
-
+		
 		acc_panel = new JPanel();
 		acc_panel.setBackground(new Color(66, 83, 109));
 		acc_panel.setBounds(0, 0, 792, 459);
@@ -236,7 +235,7 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
-				mainFrameUtils.refreshRecords(recordScrollPane);
+				mainFrameUtils.refreshBudgets(recordScrollPane);
 			}
 		});
 		rec_button.setFocusable(false);
@@ -264,30 +263,6 @@ public class mainmain extends JFrame {
 			}
 		});
 		analytic_button.setFocusable(false);
-
-		budget_button = new JButton("Budget");
-		budget_button.setBorder(null);
-		budget_button.setBounds(37, 368, 139, 40);
-		budget_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		budget_button.setForeground(new Color(252, 187, 109));
-		budget_button.setBackground(new Color(85, 111, 146));
-		budget_button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rec_button.setBackground(new Color(85, 111, 146));
-				analytic_button.setBackground(new Color(85, 111, 146));
-				budget_button.setBackground(new Color(216, 115, 127));
-				acc_button.setBackground(new Color(85, 111, 146));
-				categ_button.setBackground(new Color(85, 111, 146));
-				user_button.setBackground(new Color(85, 111, 146));
-				rec_panel.setVisible(false);
-				analytic_panel.setVisible(false);
-				budget_panel.setVisible(true);
-				acc_panel.setVisible(false);
-				categ_panel.setVisible(false);
-				user_panel.setVisible(false);
-			}
-		});
-		budget_button.setFocusable(false);
 
 		acc_button = new JButton("Account");
 		acc_button.setBorder(null);
@@ -337,7 +312,7 @@ public class mainmain extends JFrame {
 		});
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel, Integer.valueOf(5));
+		layerpanebelow.add(rec_panel);
 		layerpanebelow.add(analytic_panel);
 
 		JButton calcu_analy = new JButton("+");
@@ -444,7 +419,7 @@ public class mainmain extends JFrame {
 		calendarBTN.setBounds(10, 169, 198, 36);
 		Categories.add(calendarBTN);
 
-		layerpanebelow.add(budget_panel);
+		layerpanebelow.add(budget_panel, Integer.valueOf(5));
 
 
 		JButton budget_calcu = new JButton("+");
@@ -466,75 +441,36 @@ public class mainmain extends JFrame {
 		budgeted_scrlpn.setBounds(10, 62, 447, 246);
 		budget_panel.add(budgeted_scrlpn);
 		
-		JPanel stted_bdgt_pnl = new JPanel();
-		stted_bdgt_pnl.setPreferredSize(new Dimension(447, 400));
-		budgeted_scrlpn.setViewportView(stted_bdgt_pnl);
-		stted_bdgt_pnl.setBackground(new Color(85, 111, 146));
-		stted_bdgt_pnl.setLayout(null);
+		BudgeeDAOImpl BudgeeDAOImpl_budget = new BudgeeDAOImpl(connection);
+		List<Budget> budgets = BudgeeDAOImpl_budget.getAllBudgets();
 		
-		JPanel std_home_bdgt_pnl = new JPanel();
-		std_home_bdgt_pnl.setBackground(new Color(63, 83, 109));
-		std_home_bdgt_pnl.setBounds(10, 11, 410, 104);
-		stted_bdgt_pnl.add(std_home_bdgt_pnl);
-		std_home_bdgt_pnl.setLayout(null);
+		MainFrameUtils mainFrameUtils_budget = new MainFrameUtils();
+		mainFrameUtils_budget.displayAllBudget(budgets, budgeted_scrlpn);
 		
-		JLabel std_bdgt_lbl = new JLabel("HOME");
-		std_bdgt_lbl.setForeground(new Color(252, 187, 109));
-		std_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		std_bdgt_lbl.setBounds(21, 11, 61, 18);
-		std_home_bdgt_pnl.add(std_bdgt_lbl);
-		
-		JLabel limit_bdgt_lbl = new JLabel("Limit:");
-		limit_bdgt_lbl.setForeground(new Color(252, 187, 109));
-		limit_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		limit_bdgt_lbl.setBounds(21, 37, 43, 14);
-		std_home_bdgt_pnl.add(limit_bdgt_lbl);
-		
-		JLabel spent_bdgt_lbl = new JLabel("Spent:");
-		spent_bdgt_lbl.setForeground(new Color(252, 187, 109));
-		spent_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		spent_bdgt_lbl.setBounds(21, 55, 51, 18);
-		std_home_bdgt_pnl.add(spent_bdgt_lbl);
-		
-		JLabel remain_bdgt_lbl = new JLabel("Remaining:");
-		remain_bdgt_lbl.setForeground(new Color(252, 187, 109));
-		remain_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		remain_bdgt_lbl.setBounds(21, 75, 81, 18);
-		std_home_bdgt_pnl.add(remain_bdgt_lbl);
-		
-		JLabel limamount_lbl = new JLabel("P500");
-		limamount_lbl.setForeground(new Color(216, 115, 127));
-		limamount_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		limamount_lbl.setBounds(72, 39, 37, 14);
-		std_home_bdgt_pnl.add(limamount_lbl);
-		
-		JLabel spamount_lbl = new JLabel("P250");
-		spamount_lbl.setForeground(new Color(216, 115, 127));
-		spamount_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		spamount_lbl.setBounds(82, 59, 37, 14);
-		std_home_bdgt_pnl.add(spamount_lbl);
-		
-		JLabel remamoun_lbl = new JLabel("P250");
-		remamoun_lbl.setForeground(new Color(216, 115, 127));
-		remamoun_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		remamoun_lbl.setBounds(115, 79, 37, 14);
-		std_home_bdgt_pnl.add(remamoun_lbl);
-		
-		JButton chnge_limit_btn = new JButton("Change Limit");
-		chnge_limit_btn.setFocusable(false);
-		chnge_limit_btn.setBackground(new Color(85, 111, 146));
-		chnge_limit_btn.setForeground(new Color(252, 191, 109));
-		chnge_limit_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		chnge_limit_btn.setBounds(245, 31, 148, 30);
-		std_home_bdgt_pnl.add(chnge_limit_btn);
-		
-		JButton del_bdgt = new JButton("Delete Budget");
-		del_bdgt.setFocusable(false);
-		del_bdgt.setForeground(new Color(252, 191, 109));
-		del_bdgt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		del_bdgt.setBackground(new Color(85, 111, 146));
-		del_bdgt.setBounds(245, 63, 148, 30);
-		std_home_bdgt_pnl.add(del_bdgt);
+		budget_button = new JButton("Budget");
+		budget_button.setBorder(null);
+		budget_button.setBounds(37, 368, 139, 40);
+		budget_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		budget_button.setForeground(new Color(252, 187, 109));
+		budget_button.setBackground(new Color(85, 111, 146));
+		budget_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rec_button.setBackground(new Color(85, 111, 146));
+				analytic_button.setBackground(new Color(85, 111, 146));
+				budget_button.setBackground(new Color(216, 115, 127));
+				acc_button.setBackground(new Color(85, 111, 146));
+				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
+				rec_panel.setVisible(false);
+				analytic_panel.setVisible(false);
+				budget_panel.setVisible(true);
+				acc_panel.setVisible(false);
+				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
+				mainFrameUtils_budget.refreshBudgets(budgeted_scrlpn);
+			}
+		});
+		budget_button.setFocusable(false);
 		
 		JScrollPane unbudget_scrlpn = new JScrollPane();
 		unbudget_scrlpn.setBounds(467, 62, 315, 246);
