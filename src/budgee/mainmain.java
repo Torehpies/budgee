@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -49,6 +52,7 @@ import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
@@ -68,12 +72,18 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 import javax.swing.BoxLayout;
 import javax.swing.border.EtchedBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.toedter.calendar.JCalendar;
+import javax.swing.border.LineBorder;
 
 public class mainmain extends JFrame {
 
@@ -90,6 +100,14 @@ public class mainmain extends JFrame {
 	private JButton budget_button;
 	private JButton acc_button;
 	private JButton categ_button;
+	private JButton user_button;
+	private JPanel analytic_panel;
+	private JPanel budget_panel;
+	private JPanel acc_panel;
+	private JPanel categ_panel;
+	private JPanel rec_panel;
+	private JPanel user_panel;
+	
 	
 	private LocalDate daily_year_now;
 	private JLabel daily_date;
@@ -126,7 +144,7 @@ public class mainmain extends JFrame {
 		JLayeredPane layerpanebelow = new JLayeredPane();
 		layerpanebelow.setBounds(208, 182, 792, 460);
 
-		final JPanel rec_panel = new JPanel();
+		rec_panel = new JPanel();
 		rec_panel.setBackground(new Color(68, 83, 109));
 		rec_panel.setBounds(0, 0, 792, 459);
 		rec_panel.setLayout(null);
@@ -172,29 +190,30 @@ public class mainmain extends JFrame {
 		rec_panel.add(reclebel);
 		
 
-		final JPanel analytic_panel = new JPanel();
+		analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
 		analytic_panel.setBounds(0, 0, 792, 459);
 		analytic_panel.setLayout(null);
 
-		final JPanel budget_panel = new JPanel();
+		budget_panel = new JPanel();
 		budget_panel.setBackground(new Color(66, 83, 109));
 		budget_panel.setBounds(0, 0, 792, 459);
 		budget_panel.setLayout(null);
 
-		final JPanel acc_panel = new JPanel();
+		acc_panel = new JPanel();
 		acc_panel.setBackground(new Color(66, 83, 109));
 		acc_panel.setBounds(0, 0, 792, 459);
 		acc_panel.setLayout(null);
 
-		final JPanel categ_panel = new JPanel();
+		categ_panel = new JPanel();
 		categ_panel.setForeground(new Color(252, 187, 109));
 		categ_panel.setBackground(new Color(66, 83, 109));
 		categ_panel.setBounds(0, 0, 792, 459);
 		categ_panel.setLayout(null);
 
 		rec_button = new JButton("Record");
-		rec_button.setBounds(37, 249, 139, 40);
+		rec_button.setBorder(null);
+		rec_button.setBounds(37, 247, 139, 40);
 		rec_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		rec_button.setForeground(new Color(252, 187, 109));
 		rec_button.setBackground(new Color(85, 111, 146));
@@ -205,18 +224,21 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(85, 111, 146));
 				acc_button.setBackground(new Color(85, 111, 146));
 				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(true);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
 				mainFrameUtils.refreshRecords(recordScrollPane);
 			}
 		});
 		rec_button.setFocusable(false);
 
 		analytic_button = new JButton("Analytics");
-		analytic_button.setBounds(37, 327, 139, 40);
+		analytic_button.setBorder(null);
+		analytic_button.setBounds(37, 307, 139, 40);
 		analytic_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		analytic_button.setForeground(new Color(252, 187, 109));
 		analytic_button.setBackground(new Color(85, 111, 146));
@@ -227,17 +249,20 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(85, 111, 146));
 				acc_button.setBackground(new Color(85, 111, 146));
 				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(true);
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
 			}
 		});
 		analytic_button.setFocusable(false);
 
 		budget_button = new JButton("Budget");
-		budget_button.setBounds(37, 400, 139, 40);
+		budget_button.setBorder(null);
+		budget_button.setBounds(37, 368, 139, 40);
 		budget_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		budget_button.setForeground(new Color(252, 187, 109));
 		budget_button.setBackground(new Color(85, 111, 146));
@@ -248,17 +273,20 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(216, 115, 127));
 				acc_button.setBackground(new Color(85, 111, 146));
 				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(true);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
 			}
 		});
 		budget_button.setFocusable(false);
 
 		acc_button = new JButton("Account");
-		acc_button.setBounds(37, 471, 139, 40);
+		acc_button.setBorder(null);
+		acc_button.setBounds(37, 429, 139, 40);
 		acc_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		acc_button.setForeground(new Color(252, 187, 109));
 		acc_button.setBackground(new Color(85, 111, 146));
@@ -269,17 +297,20 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(85, 111, 146));
 				acc_button.setBackground(new Color(216, 115, 127));
 				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(true);
 				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
 			}
 		});
 		acc_button.setFocusable(false);
 
 		categ_button = new JButton("Category");
-		categ_button.setBounds(37, 544, 139, 40);
+		categ_button.setBorder(null);
+		categ_button.setBounds(37, 489, 139, 40);
 		categ_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		categ_button.setForeground(new Color(252, 187, 109));
 		categ_button.setBackground(new Color(85, 111, 146));
@@ -290,11 +321,13 @@ public class mainmain extends JFrame {
 				budget_button.setBackground(new Color(85, 111, 146));
 				acc_button.setBackground(new Color(85, 111, 146));
 				categ_button.setBackground(new Color(216, 115, 127));
+				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(true);
+				user_panel.setVisible(false);
 			}
 		});
 		categ_button.setFocusable(false);
@@ -732,7 +765,7 @@ public class mainmain extends JFrame {
 		accs_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		accs_lbl.setBounds(590, 37, 67, 14);
 		acc_panel.add(accs_lbl);
-		layerpanebelow.add(categ_panel);
+		layerpanebelow.add(categ_panel, Integer.valueOf(11));
 
 		JButton categ_btn = new JButton("New button");
 		categ_btn.setFocusable(false);
@@ -1319,6 +1352,69 @@ public class mainmain extends JFrame {
 		frmMain.add(analytic_button);
 		frmMain.add(rec_button);
 		frmMain.add(layerpanebelow);
+		
+		user_panel = new JPanel();
+		user_panel.setBackground(new Color(66, 83, 109));
+		user_panel.setBounds(0, 0, 792, 459);
+		Border border = BorderFactory.createLineBorder(new Color(109, 74, 194, 18), 3);
+		user_panel.setBorder(border);
+		layerpanebelow.add(user_panel);
+		user_panel.setLayout(null);
+		
+		JLabel user_image = new JLabel("");
+		user_image.setBorder(new LineBorder(new Color(252, 187, 109), 3, true));
+		user_image.setBounds(27, 104, 250, 250);
+		user_panel.add(user_image);
+		
+		JButton btnNewButton = new JButton("Change Profile");
+		btnNewButton.setFont(new Font("Quicksand Light", Font.BOLD, 12));
+		btnNewButton.setForeground(new Color(252, 187, 109));
+		btnNewButton.setBackground(new Color(85, 111, 149));
+		btnNewButton.setFocusable(false);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser browseImageFile = new JFileChooser();
+				//Filter Image Extensions
+				FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
+				browseImageFile.addChoosableFileFilter(fnef);
+				
+				
+				int showOpenDialogue = browseImageFile.showOpenDialog(null);
+				if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+					File selectedImageFile = browseImageFile.getSelectedFile();
+					String selectedImagePath = selectedImageFile.getAbsolutePath();
+					JOptionPane.showMessageDialog(null, selectedImagePath);
+					//Display Image on Jlabel
+					ImageIcon ii = new ImageIcon(selectedImagePath);
+					//Resize Selected Image
+					Image image = ii.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
+					user_image.setIcon(new ImageIcon(image));
+					
+				}
+			}
+		});
+		btnNewButton.setBounds(86, 365, 136, 23);
+		user_panel.add(btnNewButton);
+		
+		JButton logOut_button = new JButton("Log Out");
+		logOut_button.setFocusable(false);
+		logOut_button.setBorder(null);
+		logOut_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(user_panel, "Are you sure you want to logout?",
+                        "Logout Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                if (result == JOptionPane.YES_OPTION) {
+                    // Perform logout operations
+                    // ...
+
+                    // Close the application or navigate to the login screen
+                    System.exit(0);
+                }
+            }
+		});
+		logOut_button.setBounds(693, 425, 89, 23);
+		user_panel.add(logOut_button);
 
 		JLabel logoBudgee = new JLabel("");
 		ImageIcon loglog = new ImageIcon("imgs/budgeeLogoMain.png");
@@ -1331,6 +1427,32 @@ public class mainmain extends JFrame {
 		usernameLabel.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		usernameLabel.setBounds(53, 11, 123, 42);
 		frmMain.add(usernameLabel);
+		
+		user_button = new JButton("User");
+		user_button.setBorder(null);
+		user_button.setFocusable(false);
+		user_button.setBackground(new Color(85, 111, 146));
+		user_button.setForeground(new Color(252, 187, 109));
+		user_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		user_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rec_button.setBackground(new Color(85, 111, 146));
+				analytic_button.setBackground(new Color(85, 111, 146));
+				budget_button.setBackground(new Color(85, 111, 146));
+				acc_button.setBackground(new Color(85, 111, 146));
+				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(216, 115, 127));
+				rec_panel.setVisible(false);
+				analytic_panel.setVisible(false);
+				budget_panel.setVisible(false);
+				acc_panel.setVisible(false);
+				categ_panel.setVisible(false);
+				user_panel.setVisible(true);
+				
+			}
+		});
+		user_button.setBounds(37, 546, 139, 40);
+		frmMain.add(user_button);
 
 	}
 
