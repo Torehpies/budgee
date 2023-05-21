@@ -1,7 +1,7 @@
 package budgee;
 
 import java.awt.BorderLayout;
-
+import budgee.Analytics;
 import budgee.MainFrameUtils;
 import budgee.UserSession;
 import java.awt.EventQueue;
@@ -20,6 +20,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -113,18 +115,6 @@ public class mainmain extends JFrame {
 	private JButton monthly_butt;
 	private JButton yearly_butt;
 	
-	
-	public interface BudgeeDAO {
-		
-		void addExpense(Record record);
-	    void updateRecord(Record record);
-	    void deleteRecord(int recordId);
-	    List<Record> getAllRecords();
-	    List<Record> getExpensesByCategory(String category);
-	    
-	}
-	
-	
 
 	public mainmain() {		
 		
@@ -166,12 +156,12 @@ public class mainmain extends JFrame {
 		List<Record> records = BudgeeDAOImpl.getAllRecords();
 		
 		MainFrameUtils mainFrameUtils = new MainFrameUtils();
-		mainFrameUtils.displayAllRecords(records, recordScrollPane);
-		
+		mainFrameUtils.displayAllRecords(records, recordScrollPane);		
+				
+		 
 		JButton rec_calcu = new JButton("+");
 		rec_calcu.setFocusable(false);
 		rec_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
-
 		rec_calcu.setForeground(new Color(252, 187, 109));
 		rec_calcu.setBackground(new Color(85, 111, 146));
 		rec_calcu.addActionListener(new ActionListener() {
@@ -193,7 +183,7 @@ public class mainmain extends JFrame {
 		final JPanel analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
 		analytic_panel.setBounds(0, 0, 792, 459);
-		analytic_panel.setLayout(null);
+		analytic_panel.setLayout(null);		
 
 		final JPanel budget_panel = new JPanel();
 		budget_panel.setBackground(new Color(66, 83, 109));
@@ -250,6 +240,8 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+				Analytics analyticsPanel = new Analytics();	
+				
 			}
 		});
 		analytic_button.setFocusable(false);
@@ -317,8 +309,8 @@ public class mainmain extends JFrame {
 		});
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel);
-		layerpanebelow.add(analytic_panel, Integer.valueOf(9));
+		layerpanebelow.add(rec_panel, Integer.valueOf(0));
+		layerpanebelow.add(analytic_panel, Integer.valueOf(2));
 
 
 		JButton calcu_analy = new JButton("+");
@@ -345,7 +337,7 @@ public class mainmain extends JFrame {
 		
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.setForeground(new Color(252, 187, 109));
-		comboBox.setBackground(new Color(252, 187, 109));
+		comboBox.setBackground(new Color(47, 71, 187));
 		comboBox.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        String selectedOption = (String) comboBox.getSelectedItem();
@@ -368,79 +360,79 @@ public class mainmain extends JFrame {
 		    }
 		});
 		comboBox.setFont(new Font("Quicksand Light", Font.BOLD, 16));
-		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Expense Overview", "Income Overview", "Expense Flow", "Income Flow", "Account Analysis"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Expense Overview", "Income Overview", "Account Analysis"}));
 		comboBox.setMaximumRowCount(5);
 		comboBox.setBounds(10, 11, 563, 41);
 		analyticsBTN.add(comboBox);
 		
-		JScrollPane anali_scrlpne = new JScrollPane();
-		anali_scrlpne.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		anali_scrlpne.setBounds(23, 105, 582, 343);
-		analytic_panel.add(anali_scrlpne);
-
-
-
-		JPanel Categories = new JPanel();
-		Categories.setPreferredSize(new Dimension(582, 800));
-		anali_scrlpne.setViewportView(Categories);
-		Categories.setBackground(new Color(85, 111, 146));
-		Categories.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(23, 105, 583, 330);
+		analytic_panel.add(scrollPane);
 		
+		JPanel analytics = new JPanel();
+		analytics.setBackground(new Color(49, 64, 83));
+		analytics.setPreferredSize(new Dimension(10, 800));
+		scrollPane.setViewportView(analytics);
+		analytics.setLayout(null);
+		
+		
+		// TODO Auto-generated catch block
 		JCalendar calendar = new JCalendar();
-		calendar.getDayChooser().setBackground(new Color(0, 128, 64));
-		calendar.setBounds(10, 11, 198, 153);
-		Categories.add(calendar);
+		 calendar.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
+	            public void propertyChange(PropertyChangeEvent e) {
+	            	Connection connection = null;
+	        		try {
+	        			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+	        		} catch (SQLException e1) {	        			
+	        			e1.printStackTrace();
+	        		}
+	        			        		
+	        		BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
+	        		List<Record> records = BudgeeDAOImpl.getAllRecords();
+	        		
+	        		System.out.println(records);
+	        		// find/make method where you get the income/expense
+	        		// print it jonathan beside
+	        		
+	            }
+	        });
+
+		calendar.setBounds(10, 11, 304, 250);
+		analytics.add(calendar);
+		
+		JLabel incomeTXT = new JLabel("Income");
+		incomeTXT.setFont(new Font("Quicksand Light", Font.BOLD, 22));
+		incomeTXT.setForeground(new Color(252, 187, 109));
+		incomeTXT.setBounds(324, 11, 230, 45);
+		analytics.add(incomeTXT);
+		
+		JLabel lblExpense = new JLabel("Expense");
+		lblExpense.setFont(new Font("Quicksand Light", Font.BOLD, 22));
+		lblExpense.setForeground(new Color(252, 187, 109));
+		lblExpense.setBounds(324, 123, 230, 45);
+		analytics.add(lblExpense);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(49, 64, 83));
-		panel.setBounds(218, 11, 332, 194);
-		Categories.add(panel);
+		panel.setBackground(new Color(252, 187, 109));
+		panel.setBounds(324, 67, 230, 45);
+		analytics.add(panel);
 		panel.setLayout(null);
 		
-		JPanel IncomeFlow = new JPanel();
-		IncomeFlow.setBackground(new Color(252, 187, 109));
-		IncomeFlow.setBounds(10, 54, 312, 34);
-		panel.add(IncomeFlow);
-		IncomeFlow.setLayout(null);
+		JLabel lblHereGoesIncome = new JLabel("here goes income");
+		lblHereGoesIncome.setBounds(0, 0, 230, 45);
+		panel.add(lblHereGoesIncome);
+		lblHereGoesIncome.setFont(new Font("Quicksand Light", Font.BOLD, 16));
 		
-		JLabel IncLbl = new JLabel("");
-		IncLbl.setBounds(0, 0, 312, 34);
-		IncomeFlow.add(IncLbl);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(252, 187, 109));
+		panel_1.setBounds(324, 185, 230, 45);
+		analytics.add(panel_1);
+		panel_1.setLayout(null);
 		
-		JPanel ExpenseFlow = new JPanel();
-		ExpenseFlow.setBackground(new Color(252, 187, 109));
-		ExpenseFlow.setBounds(10, 142, 312, 36);
-		panel.add(ExpenseFlow);
-		ExpenseFlow.setLayout(null);
-		
-		
-//		JLabel expLbl = new JLabel("₱" + (record.getBalance_update()).toString());
-//		expLbl.setBounds(0, 0, 312, 36);
-//		ExpenseFlow.add(expLbl);
-		
-		JLabel lblNewLabel = new JLabel("Income Flow");
-		lblNewLabel.setForeground(new Color(252, 187, 109));
-		lblNewLabel.setFont(new Font("Quicksand Light", Font.BOLD, 23));
-		lblNewLabel.setBounds(10, 11, 201, 32);
-		panel.add(lblNewLabel);
-		
-		JLabel lblExpenseFlow = new JLabel("Expense Flow");
-		lblExpenseFlow.setForeground(new Color(252, 187, 109));
-		lblExpenseFlow.setFont(new Font("Quicksand Light", Font.BOLD, 23));
-		lblExpenseFlow.setBounds(10, 99, 201, 32);
-		panel.add(lblExpenseFlow);
-		
-		JButton calendarBTN = new JButton("view");
-		calendarBTN.setForeground(new Color(252, 187, 109));
-		calendarBTN.setBackground(new Color(252, 187, 109));
-		calendarBTN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		calendarBTN.setFont(new Font("Quicksand Light", Font.BOLD, 19));
-		calendarBTN.setBounds(10, 169, 198, 36);
-		Categories.add(calendarBTN);
+		JLabel expenseTXT = new JLabel("here goes expense");
+		expenseTXT.setBounds(0, 0, 230, 45);
+		panel_1.add(expenseTXT);
+		expenseTXT.setFont(new Font("Quicksand Light", Font.BOLD, 16));
 
 		layerpanebelow.add(budget_panel, Integer.valueOf(0));
 
@@ -636,7 +628,7 @@ public class mainmain extends JFrame {
 		unbudgeted_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		unbudgeted_lbl.setBounds(508, 26, 227, 25);
 		budget_panel.add(unbudgeted_lbl);
-		layerpanebelow.add(acc_panel, Integer.valueOf(5));
+		layerpanebelow.add(acc_panel, Integer.valueOf(0));
 
 		JButton acc_calcu = new JButton("+");
 		acc_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
@@ -781,7 +773,7 @@ public class mainmain extends JFrame {
 		accs_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 25));
 		accs_lbl.setBounds(560, 30, 125, 25);
 		acc_panel.add(accs_lbl);
-		layerpanebelow.add(categ_panel, Integer.valueOf(5));
+		layerpanebelow.add(categ_panel, Integer.valueOf(0));
 
 		JButton categ_calcu = new JButton("+");
 		categ_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
