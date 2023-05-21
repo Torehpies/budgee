@@ -347,11 +347,9 @@ public class mainmain extends JFrame {
 		budgeted_scrlpn.setBounds(10, 62, 447, 246);
 		budget_panel.add(budgeted_scrlpn);
 		
-		BudgeeDAOImpl BudgeeDAOImpl_budget = new BudgeeDAOImpl(connection);
-		List<Budget> budgets = BudgeeDAOImpl_budget.getAllBudgets();
+		List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
 		
-		MainFrameUtils mainFrameUtils_budget = new MainFrameUtils();
-		mainFrameUtils_budget.displayAllBudget(budgets, budgeted_scrlpn);
+		mainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
 		
 		JScrollPane unbudget_scrlpn = new JScrollPane();
 		unbudget_scrlpn.setBounds(467, 62, 315, 246);
@@ -907,7 +905,6 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
-				mainFrameUtils.refreshBudgets(recordScrollPane);
 				mainFrameUtils.refreshRecords(recordScrollPane);
 				activeScrollPane = recordScrollPane;
 			}
@@ -960,7 +957,7 @@ public class mainmain extends JFrame {
 				categ_panel.setVisible(false);
 //				activeScrollPane = budgetScrollPane;
 				user_panel.setVisible(false);
-				mainFrameUtils_budget.refreshBudgets(budgeted_scrlpn);
+				mainFrameUtils.refreshBudgets(budgeted_scrlpn);
 			}
 		});
 		budget_button.setFocusable(false);
