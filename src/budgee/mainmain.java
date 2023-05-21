@@ -342,6 +342,7 @@ public class mainmain extends JFrame {
 			}
 		});
 		categ_button.setFocusable(false);
+
 		layerpanebelow.setLayout(null);
 		layerpanebelow.add(rec_panel);
 		layerpanebelow.add(analytic_panel);
@@ -477,31 +478,6 @@ public class mainmain extends JFrame {
 		
 		MainFrameUtils mainFrameUtils_budget = new MainFrameUtils();
 		mainFrameUtils_budget.displayAllBudget(budgets, budgeted_scrlpn);
-		
-		budget_button = new JButton("Budget");
-		budget_button.setBorder(null);
-		budget_button.setBounds(37, 368, 139, 40);
-		budget_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		budget_button.setForeground(new Color(252, 187, 109));
-		budget_button.setBackground(new Color(85, 111, 146));
-		budget_button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rec_button.setBackground(new Color(85, 111, 146));
-				analytic_button.setBackground(new Color(85, 111, 146));
-				budget_button.setBackground(new Color(216, 115, 127));
-				acc_button.setBackground(new Color(85, 111, 146));
-				categ_button.setBackground(new Color(85, 111, 146));
-				user_button.setBackground(new Color(85, 111, 146));
-				rec_panel.setVisible(false);
-				analytic_panel.setVisible(false);
-				budget_panel.setVisible(true);
-				acc_panel.setVisible(false);
-				categ_panel.setVisible(false);
-				user_panel.setVisible(false);
-				mainFrameUtils_budget.refreshBudgets(budgeted_scrlpn);
-			}
-		});
-		budget_button.setFocusable(false);
 		
 		JScrollPane unbudget_scrlpn = new JScrollPane();
 		unbudget_scrlpn.setBounds(467, 62, 315, 246);
@@ -1036,6 +1012,132 @@ public class mainmain extends JFrame {
 		add_categ_btn.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		add_categ_btn.setBounds(292, 318, 211, 36);
 		categ_panel.add(add_categ_btn);
+		
+		rec_button = new JButton("Record");
+		rec_button.setBorder(null);
+		rec_button.setBounds(37, 247, 139, 40);
+		rec_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		rec_button.setForeground(new Color(252, 187, 109));
+		rec_button.setBackground(new Color(85, 111, 146));
+		rec_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rec_button.setBackground(new Color(216, 115, 127));
+				analytic_button.setBackground(new Color(85, 111, 146));
+				budget_button.setBackground(new Color(85, 111, 146));
+				acc_button.setBackground(new Color(85, 111, 146));
+				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
+				rec_panel.setVisible(true);
+				analytic_panel.setVisible(false);
+				budget_panel.setVisible(false);
+				acc_panel.setVisible(false);
+				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
+				mainFrameUtils.refreshBudgets(recordScrollPane);
+				mainFrameUtils.refreshRecords(recordScrollPane);
+				activeScrollPane = recordScrollPane;
+			}
+		});
+		rec_button.setFocusable(false);
+		
+		analytic_button = new JButton("Analytics");
+		analytic_button.setBorder(null);
+		analytic_button.setBounds(37, 307, 139, 40);
+		analytic_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		analytic_button.setForeground(new Color(252, 187, 109));
+		analytic_button.setBackground(new Color(85, 111, 146));
+		analytic_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rec_button.setBackground(new Color(85, 111, 146));
+				analytic_button.setBackground(new Color(216, 115, 127));
+				budget_button.setBackground(new Color(85, 111, 146));
+				acc_button.setBackground(new Color(85, 111, 146));
+				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
+				rec_panel.setVisible(false);
+				analytic_panel.setVisible(true);
+				budget_panel.setVisible(false);
+				acc_panel.setVisible(false);
+				categ_panel.setVisible(false);
+//				activeScrollPane = analyticScrollPane;
+				user_panel.setVisible(false);
+			}
+		});
+		analytic_button.setFocusable(false);
+		
+		budget_button = new JButton("Budget");
+		budget_button.setBorder(null);
+		budget_button.setBounds(37, 368, 139, 40);
+		budget_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		budget_button.setForeground(new Color(252, 187, 109));
+		budget_button.setBackground(new Color(85, 111, 146));
+		budget_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rec_button.setBackground(new Color(85, 111, 146));
+				analytic_button.setBackground(new Color(85, 111, 146));
+				budget_button.setBackground(new Color(216, 115, 127));
+				acc_button.setBackground(new Color(85, 111, 146));
+				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
+				rec_panel.setVisible(false);
+				analytic_panel.setVisible(false);
+				budget_panel.setVisible(true);
+				acc_panel.setVisible(false);
+				categ_panel.setVisible(false);
+//				activeScrollPane = budgetScrollPane;
+				user_panel.setVisible(false);
+				mainFrameUtils_budget.refreshBudgets(budgeted_scrlpn);
+			}
+		});
+		budget_button.setFocusable(false);
+
+		acc_button = new JButton("Account");
+		acc_button.setBorder(null);
+		acc_button.setBounds(37, 429, 139, 40);
+		acc_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		acc_button.setForeground(new Color(252, 187, 109));
+		acc_button.setBackground(new Color(85, 111, 146));
+		acc_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rec_button.setBackground(new Color(85, 111, 146));
+				analytic_button.setBackground(new Color(85, 111, 146));
+				budget_button.setBackground(new Color(85, 111, 146));
+				acc_button.setBackground(new Color(216, 115, 127));
+				categ_button.setBackground(new Color(85, 111, 146));
+				user_button.setBackground(new Color(85, 111, 146));
+				rec_panel.setVisible(false);
+				analytic_panel.setVisible(false);
+				budget_panel.setVisible(false);
+				acc_panel.setVisible(true);
+				categ_panel.setVisible(false);
+				user_panel.setVisible(false);
+			}
+		});
+		acc_button.setFocusable(false);
+
+		categ_button = new JButton("Category");
+		categ_button.setBorder(null);
+		categ_button.setBounds(37, 489, 139, 40);
+		categ_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		categ_button.setForeground(new Color(252, 187, 109));
+		categ_button.setBackground(new Color(85, 111, 146));
+		categ_button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rec_button.setBackground(new Color(85, 111, 146));
+				analytic_button.setBackground(new Color(85, 111, 146));
+				budget_button.setBackground(new Color(85, 111, 146));
+				acc_button.setBackground(new Color(85, 111, 146));
+				categ_button.setBackground(new Color(216, 115, 127));
+				user_button.setBackground(new Color(85, 111, 146));
+				rec_panel.setVisible(false);
+				analytic_panel.setVisible(false);
+				budget_panel.setVisible(false);
+				acc_panel.setVisible(false);
+				categ_panel.setVisible(true);
+				user_panel.setVisible(false);
+			}
+		});
+		categ_button.setFocusable(false);
 
 		JPanel exint = new JPanel();
 		exint.setBounds(675, 64, 325, 100);
