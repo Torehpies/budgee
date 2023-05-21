@@ -1516,14 +1516,18 @@ public class mainmain extends JFrame {
 	
 	private String getFormattedDatemonth() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM, yyyy");
-        LocalDate endDate = month_year_now.plusDays(30);
-        return month_year_now.format(formatter) + " - " + endDate.format(formatter);
+        String monthAndYear;
+        return monthAndYear = month_year_now.getMonth() + ", " + month_year_now.getYear();
+//        LocalDate endDate = month_year_now.plusDays(30);
+//        return month_year_now.format(formatter) + " - " + endDate.format(formatter);
     }
 	
 	private String getFormattedDateyear() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
-        LocalDate endDate = year_year_now.plusDays(365);
-        return year_year_now.format(formatter) + " - " + endDate.format(formatter);
+        String year;
+        return year = String.valueOf(year_year_now.getYear());
+//        LocalDate endDate = year_year_now.plusDays(365);
+//        return year_year_now.format(formatter) + " - " + endDate.format(formatter);
     }
 
 	private class SwingAction extends AbstractAction {
