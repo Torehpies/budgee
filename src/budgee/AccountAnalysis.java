@@ -43,7 +43,7 @@ public class AccountAnalysis {
 
         // Creating chart frame
         ChartFrame frame = new ChartFrame("BarChart Example", chart);
-        frame.setDefaultCloseOperation(ChartFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(ChartFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
