@@ -1,7 +1,6 @@
 package budgee;
 
 import java.awt.BorderLayout;
-import budgee.Analytics;
 import budgee.MainFrameUtils;
 import budgee.UserSession;
 import java.awt.EventQueue;
@@ -268,9 +267,7 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				
-				Analytics analyticsPanel = new Analytics();	
 				
-
 				user_panel.setVisible(false);
 
 			}
