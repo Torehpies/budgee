@@ -167,8 +167,8 @@ public class mainmain extends JFrame {
 		rec_panel.add(rec_calcu);
 
 		JLabel reclebel = new JLabel("RECORDS");
-		reclebel.setFont(new Font("Century Gothic", Font.PLAIN, 30));
-		reclebel.setBounds(265, 11, 131, 30);
+		reclebel.setFont(new Font("Quicksand Light", Font.BOLD, 30));
+		reclebel.setBounds(262, 11, 146, 30);
 		reclebel.setForeground(new Color(252, 187, 109));
 		rec_panel.add(reclebel);
 		
@@ -300,7 +300,7 @@ public class mainmain extends JFrame {
 		});
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel);
+		layerpanebelow.add(rec_panel, Integer.valueOf(5));
 		layerpanebelow.add(analytic_panel);
 
 		JButton calcu_analy = new JButton("+");
@@ -618,7 +618,7 @@ public class mainmain extends JFrame {
 		acc_panel.add(acc_calcu);
 
 		JPanel overall_acc_panel = new JPanel();
-		overall_acc_panel.setBackground(new Color(69, 92, 123));
+		overall_acc_panel.setBackground(new Color(85, 111, 146));
 		overall_acc_panel.setBounds(25, 62, 430, 246);
 		acc_panel.add(overall_acc_panel);
 		overall_acc_panel.setLayout(null);
@@ -665,7 +665,7 @@ public class mainmain extends JFrame {
 		total_lbl.setBackground(new Color(85, 111, 146));
 
 		JPanel cash_acc_panel = new JPanel();
-		cash_acc_panel.setBackground(new Color(69, 92, 123));
+		cash_acc_panel.setBackground(new Color(85, 111, 146));
 		cash_acc_panel.setBounds(471, 62, 300, 112);
 		acc_panel.add(cash_acc_panel);
 		cash_acc_panel.setLayout(null);
@@ -685,9 +685,10 @@ public class mainmain extends JFrame {
 		cash_acc_panel.add(cashbal_lbl);
 
 		cashbal_txtfld = new JTextField();
+		cashbal_txtfld.setForeground(new Color(252, 187, 109));
 		cashbal_txtfld.setFocusable(false);
 		cashbal_txtfld.setColumns(10);
-		cashbal_txtfld.setBackground(new Color(85, 111, 146));
+		cashbal_txtfld.setBackground(new Color(66, 83, 109));
 		cashbal_txtfld.setBounds(103, 44, 187, 27);
 		cash_acc_panel.add(cashbal_txtfld);
 
@@ -695,12 +696,12 @@ public class mainmain extends JFrame {
 		cashsve_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		cashsve_btn.setFocusable(false);
 		cashsve_btn.setForeground(new Color(252, 187, 109));
-		cashsve_btn.setBackground(new Color(85, 111, 146));
+		cashsve_btn.setBackground(new Color(66, 83, 109));
 		cashsve_btn.setBounds(154, 78, 89, 23);
 		cash_acc_panel.add(cashsve_btn);
 
 		JPanel savings_acc_panel = new JPanel();
-		savings_acc_panel.setBackground(new Color(69, 92, 123));
+		savings_acc_panel.setBackground(new Color(85, 111, 146));
 		savings_acc_panel.setBounds(471, 196, 300, 112);
 		acc_panel.add(savings_acc_panel);
 		savings_acc_panel.setLayout(null);
@@ -720,8 +721,9 @@ public class mainmain extends JFrame {
 		savings_acc_panel.add(savebal_lbl);
 
 		savebal_txtfld = new JTextField();
+		savebal_txtfld.setForeground(new Color(252, 187, 109));
 		savebal_txtfld.setColumns(10);
-		savebal_txtfld.setBackground(new Color(85, 111, 146));
+		savebal_txtfld.setBackground(new Color(66, 83, 109));
 		savebal_txtfld.setBounds(103, 44, 187, 27);
 		savings_acc_panel.add(savebal_txtfld);
 
@@ -729,7 +731,7 @@ public class mainmain extends JFrame {
 		svngssve_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		svngssve_btn.setFocusable(false);
 		svngssve_btn.setForeground(new Color(252, 187, 109));
-		svngssve_btn.setBackground(new Color(85, 111, 146));
+		svngssve_btn.setBackground(new Color(66, 83, 109));
 		svngssve_btn.setBounds(154, 78, 89, 23);
 		savings_acc_panel.add(svngssve_btn);
 
