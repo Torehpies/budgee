@@ -473,11 +473,8 @@ public class mainmain extends JFrame {
 		budgeted_scrlpn.setBounds(10, 62, 447, 246);
 		budget_panel.add(budgeted_scrlpn);
 		
-		BudgeeDAOImpl BudgeeDAOImpl_budget = new BudgeeDAOImpl(connection);
-		List<Budget> budgets = BudgeeDAOImpl_budget.getAllBudgets();
-		
-		MainFrameUtils mainFrameUtils_budget = new MainFrameUtils();
-		mainFrameUtils_budget.displayAllBudget(budgets, budgeted_scrlpn);
+		List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
+		mainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
 		
 		JScrollPane unbudget_scrlpn = new JScrollPane();
 		unbudget_scrlpn.setBounds(467, 62, 315, 246);
@@ -1086,7 +1083,7 @@ public class mainmain extends JFrame {
 				categ_panel.setVisible(false);
 //				activeScrollPane = budgetScrollPane;
 				user_panel.setVisible(false);
-				mainFrameUtils_budget.refreshBudgets(budgeted_scrlpn);
+				mainFrameUtils.refreshBudgets(budgeted_scrlpn);
 			}
 		});
 		budget_button.setFocusable(false);
@@ -1432,19 +1429,19 @@ public class mainmain extends JFrame {
 		frmMain.add(weekly_butt);
 		frmMain.add(exint);
 
-		JLabel exint_EX_lbl = new JLabel("");
+		JLabel exint_EX_lbl = new JLabel("-PHP " + BudgeeDAOImpl.getExpenseTotal());
 		exint_EX_lbl.setForeground(new Color(252, 187, 109));
 		exint_EX_lbl.setBackground(new Color(85, 111, 146));
 		exint_EX_lbl.setBounds(109, 15, 194, 18);
 		exint.add(exint_EX_lbl);
 
-		JLabel exint_inc_lbl = new JLabel("");
+		JLabel exint_inc_lbl = new JLabel("PHP " + BudgeeDAOImpl.getIncomeTotal());
 		exint_inc_lbl.setForeground(new Color(252, 187, 109));
 		exint_inc_lbl.setBackground(new Color(85, 111, 146));
 		exint_inc_lbl.setBounds(109, 42, 194, 18);
 		exint.add(exint_inc_lbl);
 
-		JLabel exint_total_lbl = new JLabel("");
+		JLabel exint_total_lbl = new JLabel("PHP " + (BudgeeDAOImpl.getIncomeTotal()).subtract(BudgeeDAOImpl.getExpenseTotal()));
 		exint_total_lbl.setForeground(new Color(252, 187, 109));
 		exint_total_lbl.setBackground(new Color(85, 111, 146));
 		exint_total_lbl.setBounds(109, 74, 194, 18);

@@ -209,5 +209,29 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 
 	        return budgets;
 	}
+
+	@Override
+	public BigDecimal getExpenseTotal() {
+		BigDecimal expenseTotal = new BigDecimal("0");
+		List<Record> records = getAllRecords();
+		for (Record record : records) {
+			if (record.getAction().equals("Expense")) {
+				expenseTotal = expenseTotal.add(record.getBalance_update());
+			}
+		}
+		return expenseTotal;
+	}
+
+	@Override
+	public BigDecimal getIncomeTotal() {
+		BigDecimal incomeTotal = new BigDecimal("0");
+		List<Record> records = getAllRecords();
+		for (Record record : records) {
+			if (record.getAction().equals("Income")) {
+				incomeTotal = incomeTotal.add(record.getBalance_update());
+			}
+		}
+		return incomeTotal;
+	}
 	
 }
