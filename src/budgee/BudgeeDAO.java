@@ -8,7 +8,11 @@ public interface BudgeeDAO {
 	void addExpense(Record record);
     void updateRecord(Record record);
     void deleteRecord(int recordId);
+    void addBudget(Budget budget);
+    void updateBudget(Budget budget);
+    void deleteBudget(int budgetId);
+    List<Budget> getAllBudgets();
     List<Record> getAllRecords();
-    List<Record> getExpensesByCategory(String category);
+    List<Record> getRecordsByDate(String Date);
     
 }

@@ -135,7 +135,7 @@ public class mainmain extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1034, 697);
 		frmMain = new JPanel();
-		frmMain.setBackground(new Color(69, 92, 123));
+		frmMain.setBackground(new Color(49, 64, 83));
 		frmMain.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -169,19 +169,20 @@ public class mainmain extends JFrame {
 		MainFrameUtils mainFrameUtils = new MainFrameUtils();
 		mainFrameUtils.displayAllRecords(records, recordScrollPane);
 		
-		JButton calcu = new JButton("+");
-		calcu.setFont(new Font("Verdana", Font.BOLD, 35));
+		JButton rec_calcu = new JButton("+");
+		rec_calcu.setFocusable(false);
+		rec_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
 
-		calcu.setForeground(new Color(252, 187, 109));
-		calcu.setBackground(new Color(85, 111, 146));
-		calcu.addActionListener(new ActionListener() {
+		rec_calcu.setForeground(new Color(252, 187, 109));
+		rec_calcu.setBackground(new Color(85, 111, 146));
+		rec_calcu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
-		calcu.setBounds(690, 365, 70, 70);
-		rec_panel.add(calcu);
+		rec_calcu.setBounds(690, 365, 70, 70);
+		rec_panel.add(rec_calcu);
 
 		JLabel reclebel = new JLabel("RECORDS");
 		reclebel.setFont(new Font("Century Gothic", Font.PLAIN, 30));
@@ -333,21 +334,22 @@ public class mainmain extends JFrame {
 		categ_button.setFocusable(false);
 		layerpanebelow.setLayout(null);
 		layerpanebelow.add(rec_panel);
-		layerpanebelow.add(analytic_panel, Integer.valueOf(5));
+		layerpanebelow.add(analytic_panel);
 
-		JButton calcu1 = new JButton("New button");
-		calcu1.setFocusable(false);
-		calcu1.setAction(action);
-		calcu1.setBackground(new Color(85, 111, 146));
-		calcu1.setForeground(new Color(252, 187, 109));
-		calcu1.addActionListener(new ActionListener() {
+		JButton calcu_analy = new JButton("+");
+		calcu_analy.setFont(new Font("Quicksand Light", Font.BOLD, 50));
+		calcu_analy.setFocusable(false);
+		calcu_analy.setAction(action);
+		calcu_analy.setBackground(new Color(85, 111, 146));
+		calcu_analy.setForeground(new Color(252, 187, 109));
+		calcu_analy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
-		calcu1.setBounds(685, 378, 97, 70);
-		analytic_panel.add(calcu1);
+		calcu_analy.setBounds(690, 365, 70, 70);
+		analytic_panel.add(calcu_analy);
 
 
 		JPanel analyticsBTN = new JPanel();
@@ -441,18 +443,19 @@ public class mainmain extends JFrame {
 		layerpanebelow.add(budget_panel);
 
 
-		JButton budget_btn = new JButton("New button");
-		budget_btn.setFocusable(false);
-		budget_btn.setForeground(new Color(252, 187, 109));
-		budget_btn.setBackground(new Color(85, 111, 146));
-		budget_btn.setBounds(685, 378, 97, 70);
-		budget_btn.addActionListener(new ActionListener() {
+		JButton budget_calcu = new JButton("+");
+		budget_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
+		budget_calcu.setFocusable(false);
+		budget_calcu.setForeground(new Color(252, 187, 109));
+		budget_calcu.setBackground(new Color(85, 111, 146));
+		budget_calcu.setBounds(690, 365, 70, 70);
+		budget_calcu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
-		budget_panel.add(budget_btn);
+		budget_panel.add(budget_calcu);
 		
 		JScrollPane budgeted_scrlpn = new JScrollPane();
 		budgeted_scrlpn.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -631,20 +634,21 @@ public class mainmain extends JFrame {
 		unbudgeted_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		unbudgeted_lbl.setBounds(508, 26, 227, 25);
 		budget_panel.add(unbudgeted_lbl);
-		layerpanebelow.add(acc_panel);
+		layerpanebelow.add(acc_panel, Integer.valueOf(5));
 
-		JButton acc_btn = new JButton("New button");
-		acc_btn.setFocusable(false);
-		acc_btn.setBackground(new Color(85, 111, 146));
-		acc_btn.setForeground(new Color(252, 187, 109));
-		acc_btn.setBounds(685, 378, 97, 70);
-		acc_btn.addActionListener(new ActionListener() {
+		JButton acc_calcu = new JButton("+");
+		acc_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
+		acc_calcu.setFocusable(false);
+		acc_calcu.setBackground(new Color(85, 111, 146));
+		acc_calcu.setForeground(new Color(252, 187, 109));
+		acc_calcu.setBounds(690, 365, 70, 70);
+		acc_calcu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
-		acc_panel.add(acc_btn);
+		acc_panel.add(acc_calcu);
 
 		JPanel overall_acc_panel = new JPanel();
 		overall_acc_panel.setBackground(new Color(69, 92, 123));
@@ -653,21 +657,23 @@ public class mainmain extends JFrame {
 		overall_acc_panel.setLayout(null);
 
 		JLabel income_atm_lbl = new JLabel("Income until now");
-		income_atm_lbl.setBounds(46, 31, 128, 19);
+		income_atm_lbl.setBounds(30, 31, 150, 19);
 		income_atm_lbl.setForeground(new Color(252, 187, 109));
-		income_atm_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
+		income_atm_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 18));
 		overall_acc_panel.add(income_atm_lbl);
 
 		JLabel expense_atm_lbl = new JLabel("Expense until now");
+		expense_atm_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		expense_atm_lbl.setForeground(new Color(252, 187, 109));
-		expense_atm_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
-		expense_atm_lbl.setBounds(253, 31, 135, 19);
+		expense_atm_lbl.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		expense_atm_lbl.setBounds(240, 31, 180, 19);
 		overall_acc_panel.add(expense_atm_lbl);
 
 		JLabel totalbal_lbl = new JLabel("Total Balance");
+		totalbal_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		totalbal_lbl.setForeground(new Color(252, 187, 109));
-		totalbal_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
-		totalbal_lbl.setBounds(167, 129, 101, 19);
+		totalbal_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 18));
+		totalbal_lbl.setBounds(155, 130, 130, 19);
 		overall_acc_panel.add(totalbal_lbl);
 
 		JLabel income_lbl = new JLabel("");
@@ -698,14 +704,16 @@ public class mainmain extends JFrame {
 		cash_acc_panel.setLayout(null);
 
 		JLabel cash_lbl = new JLabel("Cash");
-		cash_lbl.setBounds(21, 11, 56, 19);
+		cash_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		cash_lbl.setBounds(21, 11, 70, 22);
 		cash_lbl.setForeground(new Color(252, 187, 109));
-		cash_lbl.setFont(new Font("Century Gothic", Font.BOLD, 23));
+		cash_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 25));
 		cash_acc_panel.add(cash_lbl);
 
 		JLabel cashbal_lbl = new JLabel("Balance:");
+		cashbal_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		cashbal_lbl.setForeground(new Color(252, 187, 109));
-		cashbal_lbl.setFont(new Font("Century Gothic", Font.BOLD, 16));
+		cashbal_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		cashbal_lbl.setBounds(21, 48, 70, 19);
 		cash_acc_panel.add(cashbal_lbl);
 
@@ -717,6 +725,7 @@ public class mainmain extends JFrame {
 		cash_acc_panel.add(cashbal_txtfld);
 
 		JButton cashsve_btn = new JButton("Save");
+		cashsve_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		cashsve_btn.setFocusable(false);
 		cashsve_btn.setForeground(new Color(252, 187, 109));
 		cashsve_btn.setBackground(new Color(85, 111, 146));
@@ -730,14 +739,16 @@ public class mainmain extends JFrame {
 		savings_acc_panel.setLayout(null);
 
 		JLabel savings_lbl = new JLabel("Savings");
-		savings_lbl.setBounds(21, 11, 90, 28);
+		savings_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		savings_lbl.setBounds(21, 11, 95, 30);
 		savings_lbl.setForeground(new Color(252, 187, 109));
-		savings_lbl.setFont(new Font("Century Gothic", Font.BOLD, 23));
+		savings_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 25));
 		savings_acc_panel.add(savings_lbl);
 
 		JLabel savebal_lbl = new JLabel("Balance:");
+		savebal_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		savebal_lbl.setForeground(new Color(252, 187, 109));
-		savebal_lbl.setFont(new Font("Century Gothic", Font.BOLD, 16));
+		savebal_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		savebal_lbl.setBounds(21, 48, 70, 19);
 		savings_acc_panel.add(savebal_lbl);
 
@@ -748,6 +759,7 @@ public class mainmain extends JFrame {
 		savings_acc_panel.add(savebal_txtfld);
 
 		JButton svngssve_btn = new JButton("Save");
+		svngssve_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		svngssve_btn.setFocusable(false);
 		svngssve_btn.setForeground(new Color(252, 187, 109));
 		svngssve_btn.setBackground(new Color(85, 111, 146));
@@ -755,30 +767,34 @@ public class mainmain extends JFrame {
 		savings_acc_panel.add(svngssve_btn);
 
 		JLabel ovrall_lbl = new JLabel("Overall");
+		ovrall_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		ovrall_lbl.setForeground(new Color(252, 187, 109));
-		ovrall_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
-		ovrall_lbl.setBounds(211, 37, 56, 14);
+		ovrall_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 25));
+		ovrall_lbl.setBounds(187, 30, 97, 25);
 		acc_panel.add(ovrall_lbl);
 
 		JLabel accs_lbl = new JLabel("Accounts");
+		accs_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		accs_lbl.setForeground(new Color(252, 187, 109));
-		accs_lbl.setFont(new Font("Century Gothic", Font.BOLD, 15));
-		accs_lbl.setBounds(590, 37, 67, 14);
+		accs_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 25));
+		accs_lbl.setBounds(560, 30, 125, 25);
 		acc_panel.add(accs_lbl);
-		layerpanebelow.add(categ_panel, Integer.valueOf(11));
+		layerpanebelow.add(categ_panel);
 
-		JButton categ_btn = new JButton("New button");
-		categ_btn.setFocusable(false);
-		categ_btn.setForeground(new Color(252, 187, 109));
-		categ_btn.setBackground(new Color(85, 111, 146));
-		categ_btn.setBounds(685, 378, 97, 70);
-		categ_btn.addActionListener(new ActionListener() {
+
+		JButton categ_calcu = new JButton("+");
+		categ_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
+		categ_calcu.setFocusable(false);
+		categ_calcu.setForeground(new Color(252, 187, 109));
+		categ_calcu.setBackground(new Color(85, 111, 146));
+		categ_calcu.setBounds(690, 365, 70, 70);
+		categ_calcu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
 			}
 		});
-		categ_panel.add(categ_btn);
+		categ_panel.add(categ_calcu);
 
 		JScrollPane income_categ_sp = new JScrollPane();
 		income_categ_sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1187,7 +1203,7 @@ public class mainmain extends JFrame {
 		Yearly.setLayout(null);
 		Yearly.setBackground(new Color(66, 83, 109));
 		Yearly.setBounds(0, 0, 457, 58);
-		layeredPane.add(Yearly, Integer.valueOf(5));
+		layeredPane.add(Yearly);
 		
 		year_year_now = LocalDate.now();
         yearly_date = new JLabel(getFormattedDateyear());
@@ -1304,21 +1320,24 @@ public class mainmain extends JFrame {
 		exint.setLayout(null);
 
 		JLabel ex_lebel = new JLabel("Expense:");
+		ex_lebel.setHorizontalAlignment(SwingConstants.CENTER);
 		ex_lebel.setForeground(new Color(252, 187, 109));
 		ex_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		ex_lebel.setBounds(28, 15, 60, 18);
+		ex_lebel.setBounds(10, 15, 78, 18);
 		exint.add(ex_lebel);
 
 		JLabel inc_lebel = new JLabel("Income:");
+		inc_lebel.setHorizontalAlignment(SwingConstants.CENTER);
 		inc_lebel.setForeground(new Color(252, 187, 109));
 		inc_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		inc_lebel.setBounds(38, 44, 52, 18);
+		inc_lebel.setBounds(10, 44, 80, 18);
 		exint.add(inc_lebel);
 
 		JLabel tot_lebel = new JLabel("Total:");
+		tot_lebel.setHorizontalAlignment(SwingConstants.CENTER);
 		tot_lebel.setForeground(new Color(252, 187, 109));
 		tot_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		tot_lebel.setBounds(52, 71, 36, 18);
+		tot_lebel.setBounds(10, 71, 78, 18);
 		exint.add(tot_lebel);
 		frmMain.setLayout(null);
 		frmMain.add(layeredPane);
@@ -1482,7 +1501,7 @@ public class mainmain extends JFrame {
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
-			putValue(NAME, "SwingAction");
+			putValue(NAME, "+");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 

@@ -22,6 +22,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import budgee.DatabaseManager;
+import budgee.Budget;
+
 //import javafx.scene.layout.Border;
 
 public class MainFrameUtils {
@@ -162,5 +164,9 @@ public class MainFrameUtils {
 		List<Record> records = BudgeeDAOImpl.getAllRecords();
 	    displayAllRecords(records, parentPanel);
 	}
+	
+//	static JPanel createBudgetPanel (Budget budget, JScrollPane parentPanel) {
+//	
+//	}
 
 }
