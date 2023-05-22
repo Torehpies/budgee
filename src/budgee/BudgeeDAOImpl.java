@@ -4,12 +4,21 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import budgee.UserSession;
 import budgee.Record;
 import java.time.LocalDate;
 
 public class BudgeeDAOImpl implements BudgeeDAO {
 	
+	//LocalDate variables
+	LocalDate startDate = LocalDate.now();
+	LocalDate endDate = LocalDate.now();
+	
+	
+	private List <String> expenseCategories = new ArrayList<>(Arrays.asList("Bills", "Food", "Tax", "Insurance", "Health", "Shopping"));
+	private List<String> unbudgetedCategories;
 	
 	//UserSession object and variables
 	UserSession session = UserSession.getInstance();
@@ -22,7 +31,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 	
 	@Override
-	public void addExpense(Record record) {
+	public void addRecord(Record record) {
 		String insertQuery = "INSERT INTO budgee_accounts.recordsTable(userID, date, time, balanceUpdate, notes, action, category, account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		 try (PreparedStatement preparedStatement = 
@@ -193,11 +202,12 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	            while (resultSet.next()) {
 	                int id = resultSet.getInt("id");
 	                int userId = resultSet.getInt("userID");
+	                Date date = resultSet.getDate("date");
 	                String category = resultSet.getString("category");
 	                BigDecimal limitBudget = resultSet.getBigDecimal("limitBudget");
 	                BigDecimal spentBudget = resultSet.getBigDecimal("spentBudget");
 
-	                Budget budget = new Budget(id, userId, category, limitBudget, spentBudget);
+	                Budget budget = new Budget(id, userId, date, category, limitBudget, spentBudget);
 	                budgets.add(budget);
 	            }
 
@@ -209,5 +219,47 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 
 	        return budgets;
 	}
+
+	@Override
+	public List<String> getUnbudgetedCategories(List<Budget> budgets){
+		List<String> unbudgetedCategories = new ArrayList<>();
+		
+		 for (Budget budget : budgets) {
+			 String category = budget.getCategory();
+			 if (!expenseCategories.contains(category)) {
+				 unbudgetedCategories.add(category);
+			 }
+		 }
+		 
+		 if (unbudgetedCategories.isEmpty()) {
+			 unbudgetedCategories.addAll(expenseCategories);
+		 }
+	
+		return unbudgetedCategories;
+	}
+	
+	@Override
+	public BigDecimal getExpenseTotal(List<Record> records) {
+		BigDecimal expenseTotal = new BigDecimal("0");
+		for (Record record : records) {
+			if (record.getAction().equals("Expense")) {
+				expenseTotal = expenseTotal.add(record.getBalance_update());
+			}
+		}
+		return expenseTotal;
+	}
+
+	@Override
+	public BigDecimal getIncomeTotal(List<Record> records) {
+		BigDecimal incomeTotal = new BigDecimal("0");
+		for (Record record : records) {
+			if (record.getAction().equals("Income")) {
+				incomeTotal = incomeTotal.add(record.getBalance_update());
+			}
+		}
+		return incomeTotal;
+	}
+	
+	
 	
 }

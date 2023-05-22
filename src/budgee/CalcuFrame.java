@@ -51,6 +51,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.EtchedBorder;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -546,26 +547,26 @@ import com.toedter.calendar.JDateChooser;
 			panel.add(tutuldok_1);
 			
 			JComboBox<String> hourComboBox = new JComboBox<>();
-		    hourComboBox.setBounds(45, 385, 117, 50);
-		    panel.add(hourComboBox);
-		 
-		    for (int hour = 1; hour <= 24; hour++) {
-			 hourComboBox.addItem(String.valueOf(hour));
-	        }
-		 
-		    JComboBox<String> minuteComboBox = new JComboBox<>();
-		    minuteComboBox.setBounds(179, 385, 117, 50);
-		    panel.add(minuteComboBox);
-		 
-		    for (int minute = 0; minute <= 59; minute++) {
-	        String formattedMinute = String.format("%02d", minute);
-	        minuteComboBox.addItem(formattedMinute);
-            }
-		    
-		    hourComboBox.setSelectedItem(1);
-	        minuteComboBox.setSelectedItem("00");
-		    
-		 
+			hourComboBox.setBounds(45, 385, 117, 50);
+			panel.add(hourComboBox);
+
+			for (int hour = 1; hour <= 24; hour++) {
+			    hourComboBox.addItem(String.valueOf(hour));
+			}
+
+			JComboBox<String> minuteComboBox = new JComboBox<>();
+			minuteComboBox.setBounds(179, 385, 117, 50);
+			panel.add(minuteComboBox);
+
+			for (int minute = 0; minute <= 59; minute++) {
+			    String formattedMinute = String.format("%02d", minute);
+			    minuteComboBox.addItem(formattedMinute);
+			}
+
+			LocalTime currentTime = LocalTime.now();
+
+			hourComboBox.setSelectedItem(String.valueOf(currentTime.getHour()));
+			minuteComboBox.setSelectedItem(String.format("%02d",currentTime.getMinute()));
 		        
 			JButton btnSave_1 = new JButton("Save");
 			btnSave_1.addActionListener(new ActionListener() {
@@ -600,9 +601,9 @@ import com.toedter.calendar.JDateChooser;
 
 					if (accountObject == null) {
 						int lastIndex = accounts.getItemCount() - 1;
-						recordAccount = (accounts.getItemAt(lastIndex).toString()).toLowerCase();
+						recordAccount = accounts.getItemAt(lastIndex).toString();
 					} else {
-						recordAccount = (accountObject.toString()).toLowerCase();
+						recordAccount = accountObject.toString();
 					}
 
 					Object categoryObject = category.getSelectedItem();
@@ -611,10 +612,10 @@ import com.toedter.calendar.JDateChooser;
 					if (categoryObject == null) {
 
 						int lastIndex = category.getItemCount() - 1;
-						recordCategory = (category.getItemAt(lastIndex).toString()).toLowerCase();
+						recordCategory = category.getItemAt(lastIndex).toString();
 					} else {
 
-						recordCategory = (categoryObject.toString()).toLowerCase();
+						recordCategory = categoryObject.toString();
 					}
 					
 					Record record = new Record(sessionId, recordDate, recordTime, recordBalanceUpdate, 
@@ -622,7 +623,7 @@ import com.toedter.calendar.JDateChooser;
 					
 					Connection connection = DatabaseManager.getConnection();				
 					BudgeeDAOImpl BudgeeDAO = new BudgeeDAOImpl(connection);
-					BudgeeDAO.addExpense(record);
+					BudgeeDAO.addRecord(record);
 					
 					MainFrameUtils.refreshRecords(parentPanel);
 				}
@@ -645,11 +646,7 @@ import com.toedter.calendar.JDateChooser;
 			btnCancel_1.setBounds(514, 460, 91, 38);
 			panel.add(btnCancel_1);
 			
-		
 
-			
-			
-			
 			
 			JPanel panel_3 = new JPanel();
 			panel_3.setBackground(new Color(69, 92, 123));
@@ -679,9 +676,8 @@ import com.toedter.calendar.JDateChooser;
 			        List<String> incomeItems = new ArrayList<>();
 			        incomeItems.add("Salary");
 			        incomeItems.add("Awards");
-			        incomeItems.add("Coupons");
-			        incomeItems.add("Sale");
-			        incomeItems.add("Rental");
+			        incomeItems.add("Coupons");			      
+			        incomeItems.add("Business");
 			        updateComboBoxItems(category, incomeItems);
 
 			        recordAction = "income";

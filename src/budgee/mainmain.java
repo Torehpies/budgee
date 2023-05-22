@@ -1409,8 +1409,8 @@ public class mainmain extends JFrame {
 	String databaseName = "budgee_accounts";
 	String checkIfDatabaseExistSQL = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" + databaseName +  "'";
 	String createNewDatabaseSQL = "CREATE NEW DATABASE IF NOT EXISTS " + databaseName ;
-	String selectedImagePath = null;
-	String filename = null;
+	 selectedImagePath = null;
+	 filename = null;
 	stmnt = null;
 	rs = null;
 	databaseExists = false; 
@@ -1437,7 +1437,7 @@ public class mainmain extends JFrame {
 				        filename = selectedFile.getName();
 				        JOptionPane.showMessageDialog(null, selectedImagePath);
 				        
-				        ImageIcon ii = new ImageIcon(selectedImagePath);
+				        ImageIcon ii = new ImageIcon((String) selectedImagePath);
 				        Image image = ii.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
 				        user_image.setIcon(new ImageIcon(image));
 
