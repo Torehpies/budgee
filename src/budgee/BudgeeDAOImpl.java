@@ -148,14 +148,15 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 
 	@Override
 	public void addBudget(Budget budget) {
-		String insertQuery = "INSERT INTO budgee_accounts.budgetsTable(userID, category, limitBudget, spentBudget) VALUES(?, ?, ?, ?)";
+		String insertQuery = "INSERT INTO budgee_accounts.budgetsTable(userID, date, category, limitBudget, spentBudget) VALUES(?, ?, ?, ?, ?)";
 		
 		 try (PreparedStatement preparedStatement = 
 				connection.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
 			 preparedStatement.setInt(1, budget.getUserId());
-			 preparedStatement.setString(2, budget.getCategory());
-			 preparedStatement.setBigDecimal(3, budget.getLimitBudget());
-			 preparedStatement.setBigDecimal(4, budget.getSpentBudget());
+			 preparedStatement.setDate(2, budget.getDate());
+			 preparedStatement.setString(3, budget.getCategory());
+			 preparedStatement.setBigDecimal(4, budget.getLimitBudget());
+			 preparedStatement.setBigDecimal(5, budget.getSpentBudget());
 		
 			 int affectedRows = preparedStatement.executeUpdate();
 
@@ -194,7 +195,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	public List<Budget> getAllBudgets() {
 		 List<Budget> budgets = new ArrayList<>();
 
-	        String selectQuery = "SELECT id, userID, category, limitBudget, spentBudget account FROM budgee_accounts.budgetsTable WHERE userID = " + sessionId;
+	        String selectQuery = "SELECT id, userID, date, category, limitBudget, spentBudget FROM budgee_accounts.budgetsTable WHERE userID = " + sessionId;
 
 	        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 	            ResultSet resultSet = preparedStatement.executeQuery();
@@ -218,6 +219,37 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        }
 
 	        return budgets;
+	}
+	
+	public List <Budget> getBudgetsByDateRange(java.time.LocalDate startDate, java.time.LocalDate endDate) {
+	    try {
+	        Connection conn = DatabaseManager.getConnection();
+	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM budgetsTable WHERE date >= ? AND date <= ?");
+	        stmt.setDate(1, java.sql.Date.valueOf(startDate));
+	        stmt.setDate(2, java.sql.Date.valueOf(endDate));
+	        ResultSet resultSet = stmt.executeQuery();
+
+	        List<Budget> budgets = new ArrayList<>();
+	        while (resultSet.next()) {
+	        	 int id = resultSet.getInt("id");
+	        	 int userId = resultSet.getInt("userID");
+	        	 Date date = resultSet.getDate("date");
+	        	 String category = resultSet.getString("category");
+	        	 BigDecimal limitBudget = resultSet.getBigDecimal("limitBudget");
+	        	 BigDecimal spentBudget = resultSet.getBigDecimal("spentBudget");
+
+	             Budget budget = new Budget(id, userId, date, category, limitBudget, spentBudget);
+	        }
+
+	        resultSet.close();
+	        stmt.close();
+	        conn.close();
+
+	        return budgets;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 
 	@Override

@@ -149,8 +149,8 @@ public class mainmain extends JFrame {
 	private BigDecimal SavingsExpenseTotal = new BigDecimal("0");
 	private List<Record> recordsByDate;
 	
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private LocalDate startDate = LocalDate.now().withDayOfMonth(1);
+	private LocalDate endDate = LocalDate.now().withDayOfMonth(1);
 	
 	public mainmain() {		
 		
@@ -226,7 +226,7 @@ public class mainmain extends JFrame {
 		JLayeredPane layeredPane = new JLayeredPane();
 		layeredPane.setBounds(208, 106, 457, 58);
 		
-		JLabel exint_EX_lbl = new JLabel("-PHP 0");
+		JLabel exint_EX_lbl = new JLabel("PHP 0");
 		exint_EX_lbl.setForeground(new Color(252, 187, 109));
 		exint_EX_lbl.setBackground(new Color(85, 111, 146));
 		exint_EX_lbl.setBounds(109, 15, 194, 18);
@@ -264,7 +264,9 @@ public class mainmain extends JFrame {
 		reclebel.setForeground(new Color(252, 187, 109));
 		rec_panel.add(reclebel);
 		
-
+		JScrollPane budgeted_scrlpn = new JScrollPane();
+		JScrollPane unbudget_scrlpn = new JScrollPane();
+		
 		analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
 		analytic_panel.setBounds(0, 0, 792, 459);
@@ -305,6 +307,7 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
+				System.out.println("pressed records button");
 				MainFrameUtils.refreshRecords(recordScrollPane);
 				activeScrollPane = recordScrollPane;
 
@@ -357,8 +360,11 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(true);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
-//				activeScrollPane = budgetScrollPane;
+				activeScrollPane = budgeted_scrlpn;
 				user_panel.setVisible(false);
+				List<Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate, endDate);
+				
+				mainFrameUtils.displayAllBudget(budgets, activeScrollPane);
 			}
 		});
 		budget_button.setFocusable(false);
@@ -412,8 +418,9 @@ public class mainmain extends JFrame {
 		categ_button.setFocusable(false);
 
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel, Integer.valueOf(0));
-		layerpanebelow.add(analytic_panel, Integer.valueOf(19));
+
+		layerpanebelow.add(rec_panel);
+		layerpanebelow.add(analytic_panel);
 
 
 		JButton calcu_analy = new JButton("+");
@@ -520,6 +527,7 @@ public class mainmain extends JFrame {
 		panel_1_1.add(lblNewLabel_2_1);
 		
 		
+
 		final JLabel income_cash = new JLabel("PHP"+ CashIncomeTotal);
 		income_cash.setBounds(448, 83, 133, 51);
 		panel_1_1.add(income_cash);
@@ -550,16 +558,10 @@ public class mainmain extends JFrame {
 		});
 		budget_panel.add(budget_calcu);
 		
-		JScrollPane budgeted_scrlpn = new JScrollPane();
 		budgeted_scrlpn.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		budgeted_scrlpn.setBounds(10, 62, 447, 246);
 		budget_panel.add(budgeted_scrlpn);
 		
-		List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
-
-		mainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
-		
-		JScrollPane unbudget_scrlpn = new JScrollPane();
 		unbudget_scrlpn.setBounds(467, 62, 315, 246);
 	    unbudget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		budget_panel.add(unbudget_scrlpn);
@@ -733,7 +735,7 @@ public class mainmain extends JFrame {
 		accs_lbl.setBounds(560, 30, 125, 25);
 		acc_panel.add(accs_lbl);
 
-		layerpanebelow.add(categ_panel);
+		layerpanebelow.add(categ_panel, Integer.valueOf(5));
 
 
 
@@ -1010,14 +1012,12 @@ public class mainmain extends JFrame {
 		expense_categ_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		expense_categ_lbl.setBounds(502, 27, 188, 25);
 		categ_panel.add(expense_categ_lbl);
-
-		JButton add_categ_btn = new JButton("Add Category");
-		add_categ_btn.setFocusable(false);
-		add_categ_btn.setBackground(new Color(85, 111, 146));
-		add_categ_btn.setForeground(new Color(252, 187, 109));
-		add_categ_btn.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		add_categ_btn.setBounds(292, 318, 211, 36);
-		categ_panel.add(add_categ_btn);
+		
+		JPanel dateSelectorContainer = new JPanel();
+		final JPanel Daily = new JPanel();
+		final JPanel Weekly = new JPanel();
+		final JPanel Monthly = new JPanel();
+		final JPanel Yearly = new JPanel();
 		
 		rec_button = new JButton("Record");
 		rec_button.setBorder(null);
@@ -1051,6 +1051,8 @@ public class mainmain extends JFrame {
 				exint_EX_lbl.setText("-PHP " + expenseTotal);
 				exint_inc_lbl.setText("PHP " + incomeTotal);
 				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				layeredPane.setVisible(true);
+				dateSelectorContainer.setVisible(true);
 			}
 		});
 		rec_button.setFocusable(false);
@@ -1076,10 +1078,13 @@ public class mainmain extends JFrame {
 				categ_panel.setVisible(false);
 //				activeScrollPane = analyticScrollPane;
 				user_panel.setVisible(false);
+
 				income_cash.setText("PHP"+ CashIncomeTotal);
 				expense_cash.setText("PHP"+ SavingsExpenseTotal);
 				income_cash.setText("PHP"+ SavingsIncomeTotal);
 				expense_cash.setText("PHP"+ CashExpenseTotal);
+				dateSelectorContainer.setVisible(true);
+				layeredPane.setVisible(true);
 			}
 		});
 		analytic_button.setFocusable(false);
@@ -1107,7 +1112,15 @@ public class mainmain extends JFrame {
 				user_panel.setVisible(false);
 				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
 				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
-				mainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn);
+				LocalDate budgetDate = startDate.withDayOfMonth(1);
+				mainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, budgetDate);
+				Daily.setVisible(false);
+				Weekly.setVisible(false);
+				Monthly.setVisible(true);
+				Yearly.setVisible(false);
+				activeDatePanel = Monthly;
+				dateSelectorContainer.setVisible(false);
+				layeredPane.setVisible(true);
 			}
 		});
 		budget_button.setFocusable(false);
@@ -1132,6 +1145,8 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(true);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
+				layeredPane.setVisible(false);
+				dateSelectorContainer.setVisible(false);
 			}
 		});
 		acc_button.setFocusable(false);
@@ -1156,6 +1171,8 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(true);
 				user_panel.setVisible(false);
+				layeredPane.setVisible(false);
+				dateSelectorContainer.setVisible(false);
 			}
 		});
 		categ_button.setFocusable(false);
@@ -1169,7 +1186,7 @@ public class mainmain extends JFrame {
         daily_date.setFont(new Font("Quicksand Light", Font.BOLD, 20));
         daily_date.setBounds(140, 11, 185, 34);
 
-		final JPanel Daily = new JPanel();
+	
 		Daily.setLayout(null);
 		Daily.setBackground(new Color(66, 83, 109));
 		Daily.setBounds(0, 0, 457, 58);
@@ -1238,7 +1255,7 @@ public class mainmain extends JFrame {
 		Daily.add(daily_right);
 		Daily.add(daily_date);
 
-		final JPanel Weekly = new JPanel();
+
 		Weekly.setLayout(null);
 		Weekly.setBackground(new Color(66, 83, 109));
 		Weekly.setBounds(0, 0, 457, 58);
@@ -1314,7 +1331,7 @@ public class mainmain extends JFrame {
 		weekly_right.setBounds(406, 11, 41, 34);
 		Weekly.add(weekly_right);
 
-		final JPanel Monthly = new JPanel();
+		
 		Monthly.setLayout(null);
 		Monthly.setBackground(new Color(66, 83, 109));
 		Monthly.setBounds(0, 0, 457, 58);
@@ -1390,7 +1407,7 @@ public class mainmain extends JFrame {
 		monthly_right.setBounds(406, 11, 41, 34);
 		Monthly.add(monthly_right);
 
-		final JPanel Yearly = new JPanel();
+
 		Yearly.setLayout(null);
 		Yearly.setBackground(new Color(66, 83, 109));
 		Yearly.setBounds(0, 0, 457, 58);
@@ -1551,10 +1568,10 @@ public class mainmain extends JFrame {
 		frmMain.setLayout(null);
 		frmMain.add(layeredPane);
 
-		frmMain.add(monthly_butt);
-		frmMain.add(yearly_butt);
-		frmMain.add(daily_butt);
-		frmMain.add(weekly_butt);
+//		frmMain.add(monthly_butt);
+//		frmMain.add(yearly_butt);
+//		frmMain.add(daily_butt);
+//		frmMain.add(weekly_butt);
 		frmMain.add(exint);
 
 		frmMain.add(categ_button);
@@ -1674,6 +1691,15 @@ public class mainmain extends JFrame {
 		});
 		user_button.setBounds(37, 546, 139, 40);
 		frmMain.add(user_button);
+		
+		dateSelectorContainer.add(daily_butt);
+		dateSelectorContainer.add(weekly_butt);
+		dateSelectorContainer.add(monthly_butt);
+		dateSelectorContainer.add(yearly_butt);
+		
+		dateSelectorContainer.setBackground(new Color(49, 64, 83));
+		dateSelectorContainer.setBounds(208, 53, 457, 50);
+		frmMain.add(dateSelectorContainer);
 
 	}
 	

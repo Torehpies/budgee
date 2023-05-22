@@ -104,55 +104,41 @@ public class LoginFrameUwU {
 		loginBTN.setForeground(new Color(252, 187, 109));
 		loginBTN.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		loginBTN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
-					Statement statement=connection.createStatement();
-					
-					String loginQuery = "SELECT * FROM budgee_accounts.accounts1 where username='" + user.getText()
-							+ "' and password='" + pass.getText() + "'";
-					ResultSet resultLoginQuery = statement.executeQuery(loginQuery);	
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            Class.forName("com.mysql.cj.jdbc.Driver");
+		            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
 
-					if (resultLoginQuery != null) {
-			
-						int sessionId = 0;
-						String sessionUsername = "";
-						
-						while(resultLoginQuery.next()) {
-							sessionId = resultLoginQuery.getInt("ID");
-							sessionUsername = resultLoginQuery.getString("username");
-						}
-						//Setting session variables
-						UserSession session = UserSession.getInstance();
-						session.setId(sessionId);
-						session.setUsername(sessionUsername);
-						
-						PreparedStatement pst = connection.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
-							+ "WHERE username='" + user.getText() + "' and password='" + pass.getText() + "'");
-						ResultSet rs3 = pst.executeQuery();
-						
-						mainmain main = new mainmain();
-						main.setVisible(true);
-						frmLoginBudgee.dispose();
-						JOptionPane.showMessageDialog(null,"Login Sucessfully... ");
-						
-						resultLoginQuery.close();
-						statement.close();
-						connection.close();
+		            String loginQuery = "SELECT * FROM budgee_accounts.accounts1 WHERE username=? AND password=?";
+		            PreparedStatement statement = connection.prepareStatement(loginQuery);
+		            statement.setString(1, user.getText());
+		            statement.setString(2, pass.getText());
+		            ResultSet resultLoginQuery = statement.executeQuery();
 
-					}
-						
-					else {
-						JOptionPane.showMessageDialog(null,"Login Denied... ");
-						resultLoginQuery.close();
-						statement.close();
-						connection.close();
-					}
-				}catch(Exception e1) {System.out.print(e1);}
-				
-			}		
+		            if (resultLoginQuery.next()) {
+		                int sessionId = resultLoginQuery.getInt("ID");
+		                String sessionUsername = resultLoginQuery.getString("username");
+
+		                // Setting session variables
+		                UserSession session = UserSession.getInstance();
+		                session.setId(sessionId);
+		                session.setUsername(sessionUsername);
+
+		                mainmain main = new mainmain();
+		                main.setVisible(true);
+		                frmLoginBudgee.dispose();
+		                JOptionPane.showMessageDialog(null, "Login Successfully...");
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Login Denied...");
+		            }
+
+		            resultLoginQuery.close();
+		            statement.close();
+		            connection.close();
+		        } catch (Exception e1) {
+		            JOptionPane.showMessageDialog(null, "An error occurred during login: " + e1.getMessage(), "Login Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
 		});
 		
 		loginBTN.setBounds(270, 396, 89, 23);
