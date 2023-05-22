@@ -601,9 +601,9 @@ import com.toedter.calendar.JDateChooser;
 
 					if (accountObject == null) {
 						int lastIndex = accounts.getItemCount() - 1;
-						recordAccount = (accounts.getItemAt(lastIndex).toString()).toLowerCase();
+						recordAccount = accounts.getItemAt(lastIndex).toString();
 					} else {
-						recordAccount = (accountObject.toString()).toLowerCase();
+						recordAccount = accountObject.toString();
 					}
 
 					Object categoryObject = category.getSelectedItem();
@@ -612,10 +612,10 @@ import com.toedter.calendar.JDateChooser;
 					if (categoryObject == null) {
 
 						int lastIndex = category.getItemCount() - 1;
-						recordCategory = (category.getItemAt(lastIndex).toString()).toLowerCase();
+						recordCategory = category.getItemAt(lastIndex).toString();
 					} else {
 
-						recordCategory = (categoryObject.toString()).toLowerCase();
+						recordCategory = categoryObject.toString();
 					}
 					
 					Record record = new Record(sessionId, recordDate, recordTime, recordBalanceUpdate, 
