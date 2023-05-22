@@ -680,9 +680,8 @@ import com.toedter.calendar.JDateChooser;
 			        List<String> incomeItems = new ArrayList<>();
 			        incomeItems.add("Salary");
 			        incomeItems.add("Awards");
-			        incomeItems.add("Coupons");
-			        incomeItems.add("Sale");
-			        incomeItems.add("Rental");
+			        incomeItems.add("Coupons");			      
+			        incomeItems.add("Business");
 			        updateComboBoxItems(category, incomeItems);
 
 			        recordAction = "income";
