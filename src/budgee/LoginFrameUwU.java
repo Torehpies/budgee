@@ -22,6 +22,8 @@ import java.sql.*;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginFrameUwU {
 
@@ -189,6 +191,14 @@ public class LoginFrameUwU {
 		frmLoginBudgee.getContentPane().add(newAccBTN);
 		
 		pass = new JPasswordField();
+		pass.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		            loginBTN.doClick();
+		        }
+			}
+		});
 		pass.setForeground(new Color(252, 187, 109));
 		pass.setBackground(new Color(66, 83, 109));
 		pass.setBounds(211, 341, 307, 37);
