@@ -202,11 +202,12 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	            while (resultSet.next()) {
 	                int id = resultSet.getInt("id");
 	                int userId = resultSet.getInt("userID");
+	                Date date = resultSet.getDate("date");
 	                String category = resultSet.getString("category");
 	                BigDecimal limitBudget = resultSet.getBigDecimal("limitBudget");
 	                BigDecimal spentBudget = resultSet.getBigDecimal("spentBudget");
 
-	                Budget budget = new Budget(id, userId, category, limitBudget, spentBudget);
+	                Budget budget = new Budget(id, userId, date, category, limitBudget, spentBudget);
 	                budgets.add(budget);
 	            }
 

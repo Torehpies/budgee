@@ -148,8 +148,7 @@ public class mainmain extends JFrame {
 	private LocalDate endDate;
 	
 	public mainmain() {		
-	
-	
+		
         setSize(400, 300);
         setLocationRelativeTo(null);
 		setResizable(false);
@@ -175,6 +174,8 @@ public class mainmain extends JFrame {
 		recordScrollPane.setBounds(0,52,670,385);
 		rec_panel.add(recordScrollPane);
 		recordScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		activeScrollPane = recordScrollPane;
 		
 		Connection connection = null;
 		try {
