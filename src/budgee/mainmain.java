@@ -23,11 +23,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
@@ -84,8 +87,12 @@ import javax.swing.BoxLayout;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.mysql.cj.jdbc.Driver;
 import com.toedter.calendar.JCalendar;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.UIManager;
 
 public class mainmain extends JFrame {
 
@@ -127,6 +134,11 @@ public class mainmain extends JFrame {
 	private JButton weekly_butt;
 	private JButton monthly_butt;
 	private JButton yearly_butt;
+	private ResultSet rs;
+	private Statement stmnt;
+	private boolean databaseExists;
+	private Object selectedImagePath;
+	private Object filename;
 	
 
 	public mainmain() {		
@@ -1379,45 +1391,75 @@ public class mainmain extends JFrame {
 		user_panel.setBounds(0, 0, 792, 459);
 		Border border = BorderFactory.createLineBorder(new Color(109, 74, 194, 18), 3);
 		user_panel.setBorder(border);
-		layerpanebelow.add(user_panel);
+		layerpanebelow.add(user_panel, Integer.valueOf(13));
 		user_panel.setLayout(null);
 		
 		JLabel user_image = new JLabel("");
 		user_image.setBorder(new LineBorder(new Color(252, 187, 109), 3, true));
-		user_image.setBounds(27, 104, 250, 250);
+		user_image.setBounds(258, 40, 225, 225);
 		user_panel.add(user_image);
 		
-		JButton btnNewButton = new JButton("Change Profile");
-		btnNewButton.setFont(new Font("Quicksand Light", Font.BOLD, 12));
-		btnNewButton.setForeground(new Color(252, 187, 109));
-		btnNewButton.setBackground(new Color(85, 111, 149));
-		btnNewButton.setFocusable(false);
-		btnNewButton.addActionListener(new ActionListener() {
+	@SuppressWarnings("unchecked")
+	
+	Connection connect = null;
+	String url = "jdbc:mysql://localhost:3306/budgee_accounts";
+	String user = "root";
+	String password = "";
+	String jdbcDriver = "com.mysql.cj.jdbc.Driver";
+	String databaseName = "budgee_accounts";
+	String checkIfDatabaseExistSQL = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" + databaseName +  "'";
+	String createNewDatabaseSQL = "CREATE NEW DATABASE IF NOT EXISTS " + databaseName ;
+	String selectedImagePath = null;
+	String filename = null;
+	stmnt = null;
+	rs = null;
+	databaseExists = false; 
+
+		JButton profileBtn = new JButton("Change Profile");
+		profileBtn.setBorder(null);
+		profileBtn.setFont(new Font("Quicksand Light", Font.BOLD, 12));
+		profileBtn.setHorizontalAlignment(SwingConstants.CENTER);
+		profileBtn.setVerticalAlignment(SwingConstants.CENTER);
+		profileBtn.setForeground(new Color(252, 187, 109));
+		profileBtn.setBackground(new Color(85, 111, 149));
+		profileBtn.setFocusable(false);
+		profileBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser browseImageFile = new JFileChooser();
-				//Filter Image Extensions
-				FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
-				browseImageFile.addChoosableFileFilter(fnef);
+				 
 				
-				
-				int showOpenDialogue = browseImageFile.showOpenDialog(null);
-				if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
-					File selectedImageFile = browseImageFile.getSelectedFile();
-					String selectedImagePath = selectedImageFile.getAbsolutePath();
-					JOptionPane.showMessageDialog(null, selectedImagePath);
-					//Display Image on Jlabel
-					ImageIcon ii = new ImageIcon(selectedImagePath);
-					//Resize Selected Image
-					Image image = ii.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
-					user_image.setIcon(new ImageIcon(image));
-					
-				}
+					JFileChooser fileChooser = new JFileChooser();    
+				    FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
+				    fileChooser.addChoosableFileFilter(fnef);
+				    int OpenDialogue = fileChooser.showOpenDialog(null);
+				    if (OpenDialogue == fileChooser.APPROVE_OPTION) {
+				        File selectedFile = fileChooser.getSelectedFile();
+				        selectedImagePath = selectedFile.getAbsolutePath();
+				        filename = selectedFile.getName();
+				        JOptionPane.showMessageDialog(null, selectedImagePath);
+				        
+				        ImageIcon ii = new ImageIcon(selectedImagePath);
+				        Image image = ii.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
+				        user_image.setIcon(new ImageIcon(image));
+
+				        int confirmOption = JOptionPane.showConfirmDialog(null, "Do you want to save this image?");
+				        if (confirmOption == JOptionPane.YES_OPTION) {
+				            JOptionPane.showMessageDialog(null, "Image saved successfully!");
+				        } else {
+				            
+				        }
+
+					}
+			
 			}
 		});
-		btnNewButton.setBounds(86, 365, 136, 23);
-		user_panel.add(btnNewButton);
+		
+		profileBtn.setBounds(268, 275, 136, 23);
+		user_panel.add(profileBtn);
 		
 		JButton logOut_button = new JButton("Log Out");
+		logOut_button.setForeground(new Color(252, 187, 109));
+		logOut_button.setBackground(new Color(85, 111, 146));
+		logOut_button.setFont(new Font("Quicksand Light", Font.BOLD, 11));
 		logOut_button.setFocusable(false);
 		logOut_button.setBorder(null);
 		logOut_button.addActionListener(new ActionListener() {
@@ -1443,8 +1485,106 @@ public class mainmain extends JFrame {
 		        }
 		    }
 		});
-		logOut_button.setBounds(693, 425, 89, 23);
+		logOut_button.setBounds(733, 426, 49, 23);
 		user_panel.add(logOut_button);
+		
+		JLabel nameUser = new JLabel(sessionUsername);
+		nameUser.setForeground(new Color(252, 187, 109));
+		nameUser.setFont(new Font("Quicksand Light", Font.BOLD, 17));
+		nameUser.setBorder(new LineBorder(new Color(252, 187, 109), 3));
+		nameUser.setHorizontalAlignment(SwingConstants.CENTER);
+		nameUser.setVerticalAlignment(SwingConstants.CENTER);
+		nameUser.setFocusable(false);
+		nameUser.setBounds(241, 308, 258, 54);
+		user_panel.add(nameUser);
+		
+		JLabel contactUser = new JLabel("");
+		contactUser.setFont(new Font("Quicksand Light", Font.BOLD, 17));
+		contactUser.setForeground(new Color(252, 187, 109));
+		contactUser.setHorizontalAlignment(SwingConstants.CENTER);
+		contactUser.setVerticalAlignment(SwingConstants.CENTER);
+		contactUser.setBorder(new LineBorder(new Color(252, 187, 109), 3));
+		contactUser.setBounds(241, 373, 258, 54);
+		user_panel.add(contactUser);
+		
+		JButton btnEditInformation = new JButton("Edit");
+		btnEditInformation.setForeground(new Color(252, 187, 109));
+		btnEditInformation.setFont(new Font("Quicksand Light", Font.BOLD, 12));
+		btnEditInformation.setFocusable(false);
+		btnEditInformation.setBorder(null);
+		btnEditInformation.setBackground(new Color(85, 111, 149));
+		btnEditInformation.setBounds(509, 380, 49, 43);
+		user_panel.add(btnEditInformation);
+		
+		JButton btnEdit = new JButton("Edit");
+		btnEdit.setForeground(new Color(252, 187, 109));
+		btnEdit.setFont(new Font("Quicksand Light", Font.BOLD, 12));
+		btnEdit.setFocusable(false);
+		btnEdit.setBorder(null);
+		btnEdit.setBackground(new Color(85, 111, 149));
+		btnEdit.setBounds(509, 315, 49, 43);
+		user_panel.add(btnEdit);
+		
+		JButton btnUpload = new JButton("Upload");
+		btnUpload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					
+					Class.forName(jdbcDriver);
+					System.out.println("Driver Found");
+					Connection connect = DriverManager.getConnection(url, user, password);
+					System.out.println("Uploaded to Server");
+					System.out.println("Database Query = " + checkIfDatabaseExistSQL);
+					stmnt = connect.createStatement();
+					rs = stmnt.executeQuery(checkIfDatabaseExistSQL);
+					if(rs.next()){
+						System.out.println("Database Found");
+						databaseExists = true;
+						connect = DriverManager.getConnection(url, user, password);
+						System.out.println("Connected to Existing Database" + databaseName);
+						InsertDataIntoMysqlDatabase();
+					} 
+
+					if(!databaseExists) {
+						System.out.println("Database Not Found");
+						System.out.println("Creating New Database");
+							System.out.println("Create Database Query = " + createNewDatabaseSQL);
+							int databaseCreated = stmnt.executeUpdate(createNewDatabaseSQL);
+							if (databaseCreated > 0){
+								System.out.println(databaseName + "Database Created");
+								connect = DriverManager.getConnection(url, user, password);
+								System.out.println("Connected Successfuly");
+								stmnt.executeQuery(createNewDatabaseSQL);
+								System.out.println("New Table Created ");
+								
+								System.out.println("Insterting Data Into The Database...");
+								
+								InsertDataIntoMysqlDatabase();
+								
+							}
+					}
+					
+					}catch (SQLException ex) {
+						ex.printStackTrace();
+					}catch (ClassNotFoundException ex) {
+						System.out.println("Driver Not Found");
+						ex.printStackTrace();
+				}
+			}
+
+			private void InsertDataIntoMysqlDatabase() {
+				System.out.println("Image Name " + filename);
+				System.out.println("Image Absolute Path " + selectedImagePath);
+				
+			}
+		});
+		btnUpload.setForeground(new Color(252, 187, 109));
+		btnUpload.setFont(new Font("Quicksand Light", Font.BOLD, 11));
+		btnUpload.setFocusable(false);
+		btnUpload.setBorder(null);
+		btnUpload.setBackground(new Color(85, 111, 149));
+		btnUpload.setBounds(414, 275, 49, 23);
+		user_panel.add(btnUpload);
 
 		JLabel logoBudgee = new JLabel("");
 		ImageIcon loglog = new ImageIcon("imgs/budgeeLogoMain.png");
@@ -1455,7 +1595,7 @@ public class mainmain extends JFrame {
 		JLabel usernameLabel = new JLabel(sessionUsername);
 		usernameLabel.setForeground(new Color(255, 255, 255));
 		usernameLabel.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		usernameLabel.setBounds(53, 11, 123, 42);
+		usernameLabel.setBounds(37, 24, 139, 40);
 		frmMain.add(usernameLabel);
 		
 		user_button = new JButton("User");
