@@ -1,7 +1,6 @@
 package budgee;
 
 import java.awt.BorderLayout;
-
 import budgee.MainFrameUtils;
 import budgee.UserSession;
 import java.awt.EventQueue;
@@ -22,15 +21,15 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
@@ -66,6 +65,7 @@ import java.util.Date;
 import java.util.List;
 import java.sql.Time;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
@@ -87,18 +87,21 @@ import javax.swing.BoxLayout;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.mysql.cj.jdbc.Driver;
+import java.math.BigDecimal;
+
 import com.toedter.calendar.JCalendar;
 import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.UIManager;
+
+import budgee.DatabaseManager;
+import budgee.UserSession;
+import budgee.Record;
 
 public class mainmain extends JFrame {
 
 	private UserSession session = UserSession.getInstance();
 	private String sessionUsername = session.getUsername();
-
+	private MainFrameUtils mainFrameUtils = new MainFrameUtils();
+	
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
 	private JTextField cashbal_txtfld;
@@ -116,8 +119,7 @@ public class mainmain extends JFrame {
 	private JPanel categ_panel;
 	private JPanel rec_panel;
 	private JPanel user_panel;
-	
-	
+		
 	private LocalDate daily_year_now;
 	private JLabel daily_date;
 	
@@ -134,15 +136,19 @@ public class mainmain extends JFrame {
 	private JButton weekly_butt;
 	private JButton monthly_butt;
 	private JButton yearly_butt;
-	private ResultSet rs;
-	private Statement stmnt;
-	private boolean databaseExists;
-	private Object selectedImagePath;
-	private Object filename;
 	
-
+	private JScrollPane activeScrollPane;
+	private JPanel activeDatePanel;
+	
+	private BigDecimal expenseTotal = new BigDecimal("0");
+	private BigDecimal incomeTotal = new BigDecimal("0");
+	private List<Record> recordsByDate;
+	
+	private LocalDate startDate;
+	private LocalDate endDate;
+	
 	public mainmain() {		
-
+		
         setSize(400, 300);
         setLocationRelativeTo(null);
 		setResizable(false);
@@ -169,6 +175,8 @@ public class mainmain extends JFrame {
 		rec_panel.add(recordScrollPane);
 		recordScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
+		activeScrollPane = recordScrollPane;
+		
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
@@ -181,12 +189,59 @@ public class mainmain extends JFrame {
 		List<Record> records = BudgeeDAOImpl.getAllRecords();
 		
 		MainFrameUtils mainFrameUtils = new MainFrameUtils();
-		mainFrameUtils.displayAllRecords(records, recordScrollPane);
+
+		mainFrameUtils.displayAllRecords(records, recordScrollPane);		
+				
+		
+		JPanel exint = new JPanel();
+		exint.setBounds(675, 64, 325, 100);
+		exint.setBackground(new Color(66, 83, 109));
+		exint.setForeground(new Color(255, 255, 255));
+
+		JLabel ex_lebel = new JLabel("Expense:");
+		ex_lebel.setHorizontalAlignment(SwingConstants.CENTER);
+		ex_lebel.setForeground(new Color(252, 187, 109));
+		ex_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
+		ex_lebel.setBounds(10, 15, 78, 18);
+		exint.add(ex_lebel);
+
+		JLabel inc_lebel = new JLabel("Income:");
+		inc_lebel.setHorizontalAlignment(SwingConstants.CENTER);
+		inc_lebel.setForeground(new Color(252, 187, 109));
+		inc_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
+		inc_lebel.setBounds(10, 44, 80, 18);
+		exint.add(inc_lebel);
+
+		JLabel tot_lebel = new JLabel("Total:");
+		tot_lebel.setHorizontalAlignment(SwingConstants.CENTER);
+		tot_lebel.setForeground(new Color(252, 187, 109));
+		tot_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
+		tot_lebel.setBounds(10, 71, 78, 18);
+		exint.add(tot_lebel);
+		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBounds(208, 106, 457, 58);
+		
+		JLabel exint_EX_lbl = new JLabel("-PHP 0");
+		exint_EX_lbl.setForeground(new Color(252, 187, 109));
+		exint_EX_lbl.setBackground(new Color(85, 111, 146));
+		exint_EX_lbl.setBounds(109, 15, 194, 18);
+		exint.add(exint_EX_lbl);
+
+		JLabel exint_inc_lbl = new JLabel("PHP 0");
+		exint_inc_lbl.setForeground(new Color(252, 187, 109));
+		exint_inc_lbl.setBackground(new Color(85, 111, 146));
+		exint_inc_lbl.setBounds(109, 42, 194, 18);
+		exint.add(exint_inc_lbl);
+
+		JLabel exint_total_lbl = new JLabel("PHP " + (incomeTotal.subtract(expenseTotal)));
+		exint_total_lbl.setForeground(new Color(252, 187, 109));
+		exint_total_lbl.setBackground(new Color(85, 111, 146));
+		exint_total_lbl.setBounds(109, 74, 194, 18);
+		exint.add(exint_total_lbl);
 		
 		JButton rec_calcu = new JButton("+");
 		rec_calcu.setFocusable(false);
 		rec_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
-
 		rec_calcu.setForeground(new Color(252, 187, 109));
 		rec_calcu.setBackground(new Color(85, 111, 146));
 		rec_calcu.addActionListener(new ActionListener() {
@@ -199,8 +254,8 @@ public class mainmain extends JFrame {
 		rec_panel.add(rec_calcu);
 
 		JLabel reclebel = new JLabel("RECORDS");
-		reclebel.setFont(new Font("Century Gothic", Font.PLAIN, 30));
-		reclebel.setBounds(265, 11, 131, 30);
+		reclebel.setFont(new Font("Quicksand Light", Font.BOLD, 30));
+		reclebel.setBounds(262, 11, 146, 30);
 		reclebel.setForeground(new Color(252, 187, 109));
 		rec_panel.add(reclebel);
 		
@@ -208,13 +263,12 @@ public class mainmain extends JFrame {
 		analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
 		analytic_panel.setBounds(0, 0, 792, 459);
-		analytic_panel.setLayout(null);
 
 		budget_panel = new JPanel();
 		budget_panel.setBackground(new Color(66, 83, 109));
 		budget_panel.setBounds(0, 0, 792, 459);
 		budget_panel.setLayout(null);
-
+		
 		acc_panel = new JPanel();
 		acc_panel.setBackground(new Color(66, 83, 109));
 		acc_panel.setBounds(0, 0, 792, 459);
@@ -246,7 +300,10 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
-				mainFrameUtils.refreshRecords(recordScrollPane);
+
+				MainFrameUtils.refreshRecords(recordScrollPane);
+				activeScrollPane = recordScrollPane;
+
 			}
 		});
 		rec_button.setFocusable(false);
@@ -270,7 +327,10 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+
+//				activeScrollPane = analyticScrollPane;
 				user_panel.setVisible(false);
+
 			}
 		});
 		analytic_button.setFocusable(false);
@@ -294,6 +354,7 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(true);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+//				activeScrollPane = budgetScrollPane;
 				user_panel.setVisible(false);
 			}
 		});
@@ -346,11 +407,14 @@ public class mainmain extends JFrame {
 			}
 		});
 		categ_button.setFocusable(false);
+
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel);
-		layerpanebelow.add(analytic_panel);
+		layerpanebelow.add(rec_panel, Integer.valueOf(0));
+		layerpanebelow.add(analytic_panel, Integer.valueOf(5));
+
 
 		JButton calcu_analy = new JButton("+");
+		calcu_analy.setBounds(690, 365, 70, 70);
 		calcu_analy.setFont(new Font("Quicksand Light", Font.BOLD, 50));
 		calcu_analy.setFocusable(false);
 		calcu_analy.setAction(action);
@@ -362,99 +426,130 @@ public class mainmain extends JFrame {
 				win.setVisible(true);
 			}
 		});
-		calcu_analy.setBounds(690, 365, 70, 70);
+		analytic_panel.setLayout(null);
 		analytic_panel.add(calcu_analy);
-
-
-		JPanel analyticsBTN = new JPanel();
-		analyticsBTN.setBackground(new Color(85, 111, 146));
-		analyticsBTN.setBounds(23, 31, 583, 63);
-		analytic_panel.add(analyticsBTN);
-		analyticsBTN.setLayout(null);
-		
-		JComboBox<String> comboBox = new JComboBox<>();
-		comboBox.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        String selectedOption = (String) comboBox.getSelectedItem();
-		        if (selectedOption.equals("Expense Overview")) {
-		            ExpenseOverview expenseOverview = new ExpenseOverview();
-		            expenseOverview.createChart();
-		        } else if (selectedOption.equals("Income Overview")) {
-		        	
-		            // Add code for handling "Income Overview" selection
-		        } else if (selectedOption.equals("Expense Flow")) {
-		        	
-		            // Add code for handling "Expense Flow" selection
-		        } else if (selectedOption.equals("Income Flow")) {
-		        	
-		            // Add code for handling "Income Flow" selection
-		        } else if (selectedOption.equals("Account Analysis")) {
-		        	AccountAnalysis accountAnalysis = new AccountAnalysis();
-		            accountAnalysis.createChart();
-		        }
-		    }
-		});
-		comboBox.setFont(new Font("Quicksand Light", Font.BOLD, 16));
-		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Expense Overview", "Income Overview", "Expense Flow", "Income Flow", "Account Analysis"}));
-		comboBox.setMaximumRowCount(5);
-		comboBox.setBounds(10, 11, 563, 41);
-		analyticsBTN.add(comboBox);
-		
-		JScrollPane anali_scrlpne = new JScrollPane();
-		anali_scrlpne.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		anali_scrlpne.setBounds(23, 105, 582, 343);
-		analytic_panel.add(anali_scrlpne);
-
-
-
-		JPanel Categories = new JPanel();
-		Categories.setPreferredSize(new Dimension(582, 800));
-		anali_scrlpne.setViewportView(Categories);
-		Categories.setBackground(new Color(85, 111, 146));
-		Categories.setLayout(null);
-		
-		JCalendar calendar = new JCalendar();
-		calendar.getDayChooser().setBackground(new Color(0, 128, 64));
-		calendar.setBounds(10, 11, 198, 153);
-		Categories.add(calendar);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(49, 64, 83));
-		panel.setBounds(218, 11, 332, 194);
-		Categories.add(panel);
+		panel.setBackground(new Color(66, 83, 109));
+		panel.setBounds(27, 57, 638, 378);
+		analytic_panel.add(panel);
 		panel.setLayout(null);
 		
-		JPanel IncomeFlow = new JPanel();
-		IncomeFlow.setBounds(10, 54, 312, 34);
-		panel.add(IncomeFlow);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(49, 64, 83));
+		panel_1.setBounds(10, 22, 618, 164);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
 		
-		JPanel panel_1_3 = new JPanel();
-		panel_1_3.setBounds(10, 144, 312, 34);
-		panel.add(panel_1_3);
+		JLabel cash_txtlbl = new JLabel("Cash");
+		cash_txtlbl.setForeground(new Color(252, 187, 109));
+		cash_txtlbl.setHorizontalAlignment(SwingConstants.CENTER);
+		cash_txtlbl.setFont(new Font("Quicksand Light", Font.BOLD, 35));
+		cash_txtlbl.setBounds(169, 11, 110, 65);
+		panel_1.add(cash_txtlbl);
 		
-		JLabel lblNewLabel = new JLabel("Income Flow");
-		lblNewLabel.setForeground(new Color(252, 187, 109));
-		lblNewLabel.setFont(new Font("Quicksand Light", Font.BOLD, 23));
-		lblNewLabel.setBounds(10, 11, 201, 32);
-		panel.add(lblNewLabel);
+		JLabel lblNewLabel_2 = new JLabel("This Period:");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setForeground(new Color(252, 187, 109));
+		lblNewLabel_2.setFont(new Font("Quicksand Light", Font.BOLD, 20));
+		lblNewLabel_2.setBounds(169, 101, 110, 51);
+		panel_1.add(lblNewLabel_2);
 		
-		JLabel lblExpenseFlow = new JLabel("Expense Flow");
-		lblExpenseFlow.setForeground(new Color(252, 187, 109));
-		lblExpenseFlow.setFont(new Font("Quicksand Light", Font.BOLD, 23));
-		lblExpenseFlow.setBounds(10, 99, 201, 32);
-		panel.add(lblExpenseFlow);
+		JLabel expense_anal = new JLabel("" + expenseTotal );
+		expense_anal.setToolTipText("Expense");
+		expense_anal.setForeground(new Color(231, 65, 115));
+		expense_anal.setFont(new Font("Rockwell Nova", Font.BOLD, 17));
+		expense_anal.setBounds(289, 101, 145, 51);
+		panel_1.add(expense_anal);
+		ImageIcon cashlogo = new ImageIcon("imgs/dollar1.png");
 		
-		JButton calendarBTN = new JButton("view");
-		calendarBTN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		calendarBTN.setFont(new Font("Quicksand Light", Font.BOLD, 19));
-		calendarBTN.setBounds(10, 169, 198, 36);
-		Categories.add(calendarBTN);
+		JPanel bg = new JPanel();
+		bg.setBorder(new LineBorder(new Color(252, 187, 109), 3));
+		bg.setBackground(new Color(49, 64, 83));
+		bg.setBounds(10, 11, 149, 141);
+		panel_1.add(bg);
+		bg.setLayout(null);
+		
+		JLabel cash_logo = new JLabel("");
+		cash_logo.setBounds(0, 0, 149, 141);
+		bg.add(cash_logo);
+		cash_logo.setIcon(cashlogo);
+		
+		final JLabel income_anal = new JLabel("PHP"+ incomeTotal);
+		income_anal.setToolTipText("Income");
+		income_anal.setForeground(new Color(0, 234, 117));
+		income_anal.setFont(new Font("Rockwell Nova", Font.BOLD, 17));
+		income_anal.setBounds(451, 102, 133, 51);
+		panel_1.add(income_anal);
+		
+		JPanel panel_1_1 = new JPanel();
+		panel_1_1.setBackground(new Color(49, 64, 83));
+		panel_1_1.setBounds(10, 197, 618, 164);
+		panel.add(panel_1_1);
+		panel_1_1.setLayout(null);
+		
+		JLabel savings_txtlbl = new JLabel("Savings");
+		savings_txtlbl.setForeground(new Color(252, 187, 109));
+		savings_txtlbl.setHorizontalAlignment(SwingConstants.CENTER);
+		savings_txtlbl.setFont(new Font("Quicksand Light", Font.BOLD, 35));
+		savings_txtlbl.setBounds(169, 11, 140, 65);
+		panel_1_1.add(savings_txtlbl);
+		ImageIcon savingslogo = new ImageIcon("imgs/piggy1.png");
+		
+		JPanel bg1 = new JPanel();
+		bg1.setBorder(new LineBorder(new Color(252, 187, 109), 3));
+		bg1.setBackground(new Color(49, 64, 83));
+		bg1.setBounds(10, 12, 149, 141);
+		panel_1_1.add(bg1);
+		bg1.setLayout(null);
+		
+		JLabel savings_logo = new JLabel("");
+		savings_logo.setBackground(new Color(238, 123, 157));
+		savings_logo.setBounds(0, 0, 149, 141);
+		bg1.add(savings_logo);
+		savings_logo.setIcon(savingslogo);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("This Period:");
+		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_1.setForeground(new Color(252, 187, 109));
+		lblNewLabel_2_1.setFont(new Font("Quicksand Light", Font.BOLD, 20));
+		lblNewLabel_2_1.setBounds(169, 87, 110, 51);
+		panel_1_1.add(lblNewLabel_2_1);
+		
+		JLabel expense_anal1 = new JLabel("<expenseSav>");
+		expense_anal1.setToolTipText("Expense");
+		expense_anal1.setForeground(new Color(231, 65, 115));
+		expense_anal1.setFont(new Font("Rockwell Nova", Font.BOLD, 17));
+		expense_anal1.setBounds(289, 87, 151, 51);
+		panel_1_1.add(expense_anal1);
+		
+		JLabel income_anal1 = new JLabel("<incomeSav>");
+		income_anal1.setToolTipText("Income");
+		income_anal1.setForeground(new Color(0, 234, 117));
+		income_anal1.setFont(new Font("Rockwell Nova", Font.BOLD, 17));
+		income_anal1.setBounds(450, 88, 132, 51);
+		panel_1_1.add(income_anal1);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		layerpanebelow.add(budget_panel);
+		class SelectedDateWrapper {
+		    private Date selectedDate;
+		    
+		    public void setSelectedDate(Date date) {
+		        selectedDate = date;
+		    }
+		    
+		    public Date getSelectedDate() {
+		        return selectedDate;
+		    }
+		}
+
+		final SelectedDateWrapper selectedDateWrapper = new SelectedDateWrapper();
+
+		layerpanebelow.add(budget_panel, Integer.valueOf(0));
+
+
+		layerpanebelow.add(budget_panel, Integer.valueOf(5));
+
 
 
 		JButton budget_calcu = new JButton("+");
@@ -476,166 +571,20 @@ public class mainmain extends JFrame {
 		budgeted_scrlpn.setBounds(10, 62, 447, 246);
 		budget_panel.add(budgeted_scrlpn);
 		
-		JPanel stted_bdgt_pnl = new JPanel();
-		stted_bdgt_pnl.setPreferredSize(new Dimension(447, 400));
-		budgeted_scrlpn.setViewportView(stted_bdgt_pnl);
-		stted_bdgt_pnl.setBackground(new Color(85, 111, 146));
-		stted_bdgt_pnl.setLayout(null);
-		
-		JPanel std_home_bdgt_pnl = new JPanel();
-		std_home_bdgt_pnl.setBackground(new Color(63, 83, 109));
-		std_home_bdgt_pnl.setBounds(10, 11, 410, 104);
-		stted_bdgt_pnl.add(std_home_bdgt_pnl);
-		std_home_bdgt_pnl.setLayout(null);
-		
-		JLabel std_bdgt_lbl = new JLabel("HOME");
-		std_bdgt_lbl.setForeground(new Color(252, 187, 109));
-		std_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		std_bdgt_lbl.setBounds(21, 11, 61, 18);
-		std_home_bdgt_pnl.add(std_bdgt_lbl);
-		
-		JLabel limit_bdgt_lbl = new JLabel("Limit:");
-		limit_bdgt_lbl.setForeground(new Color(252, 187, 109));
-		limit_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		limit_bdgt_lbl.setBounds(21, 37, 43, 14);
-		std_home_bdgt_pnl.add(limit_bdgt_lbl);
-		
-		JLabel spent_bdgt_lbl = new JLabel("Spent:");
-		spent_bdgt_lbl.setForeground(new Color(252, 187, 109));
-		spent_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		spent_bdgt_lbl.setBounds(21, 55, 51, 18);
-		std_home_bdgt_pnl.add(spent_bdgt_lbl);
-		
-		JLabel remain_bdgt_lbl = new JLabel("Remaining:");
-		remain_bdgt_lbl.setForeground(new Color(252, 187, 109));
-		remain_bdgt_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		remain_bdgt_lbl.setBounds(21, 75, 81, 18);
-		std_home_bdgt_pnl.add(remain_bdgt_lbl);
-		
-		JLabel limamount_lbl = new JLabel("P500");
-		limamount_lbl.setForeground(new Color(216, 115, 127));
-		limamount_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		limamount_lbl.setBounds(72, 39, 37, 14);
-		std_home_bdgt_pnl.add(limamount_lbl);
-		
-		JLabel spamount_lbl = new JLabel("P250");
-		spamount_lbl.setForeground(new Color(216, 115, 127));
-		spamount_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		spamount_lbl.setBounds(82, 59, 37, 14);
-		std_home_bdgt_pnl.add(spamount_lbl);
-		
-		JLabel remamoun_lbl = new JLabel("P250");
-		remamoun_lbl.setForeground(new Color(216, 115, 127));
-		remamoun_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		remamoun_lbl.setBounds(115, 79, 37, 14);
-		std_home_bdgt_pnl.add(remamoun_lbl);
-		
-		JButton chnge_limit_btn = new JButton("Change Limit");
-		chnge_limit_btn.setFocusable(false);
-		chnge_limit_btn.setBackground(new Color(85, 111, 146));
-		chnge_limit_btn.setForeground(new Color(252, 191, 109));
-		chnge_limit_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		chnge_limit_btn.setBounds(245, 31, 148, 30);
-		std_home_bdgt_pnl.add(chnge_limit_btn);
-		
-		JButton del_bdgt = new JButton("Delete Budget");
-		del_bdgt.setFocusable(false);
-		del_bdgt.setForeground(new Color(252, 191, 109));
-		del_bdgt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		del_bdgt.setBackground(new Color(85, 111, 146));
-		del_bdgt.setBounds(245, 63, 148, 30);
-		std_home_bdgt_pnl.add(del_bdgt);
+		List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
+
+		mainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
 		
 		JScrollPane unbudget_scrlpn = new JScrollPane();
 		unbudget_scrlpn.setBounds(467, 62, 315, 246);
 	    unbudget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		budget_panel.add(unbudget_scrlpn);
 
-		JPanel unstted_bdgt_pnl = new JPanel();
-		unstted_bdgt_pnl.setPreferredSize(new Dimension(200, 400));
-		unbudget_scrlpn.setViewportView(unstted_bdgt_pnl);
-		unstted_bdgt_pnl.setBackground(new Color(85, 111, 146));
-		unstted_bdgt_pnl.setLayout(null);
-
-		JPanel bill_bdgt = new JPanel();
-		bill_bdgt.setBackground(new Color(69, 92, 123));
-		bill_bdgt.setBounds(10, 11, 281, 67);
-		unstted_bdgt_pnl.add(bill_bdgt);
-		bill_bdgt.setLayout(null);
-
-		JLabel bills = new JLabel("BILLS");
-		bills.setForeground(new Color(252, 187, 109));
-		bills.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		bills.setBounds(51, 10, 62, 45);
-		bill_bdgt.add(bills);
-
-		JButton set_bdgt_btn = new JButton("Set Budget");
-		set_bdgt_btn.setFocusable(false);
-		set_bdgt_btn.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn.setBounds(155, 20, 116, 29);
-		bill_bdgt.add(set_bdgt_btn);
-
-		JPanel shoppng_bdgt = new JPanel();
-		shoppng_bdgt.setBackground(new Color(69, 92, 123));
-		shoppng_bdgt.setBounds(10, 89, 281, 67);
-		unstted_bdgt_pnl.add(shoppng_bdgt);
-		shoppng_bdgt.setLayout(null);
-
-		JLabel shopping = new JLabel("SHOPPING");
-		shopping.setBounds(25, 10, 103, 45);
-		shopping.setForeground(new Color(252, 187, 109));
-		shopping.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		shoppng_bdgt.add(shopping);
-
-		JButton set_bdgt_btn_2 = new JButton("Set Budget");
-		set_bdgt_btn_2.setFocusable(false);
-		set_bdgt_btn_2.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn_2.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn_2.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn_2.setBounds(155, 20, 116, 29);
-		shoppng_bdgt.add(set_bdgt_btn_2);
-
-		JPanel food_bdgt = new JPanel();
-		food_bdgt.setBackground(new Color(69, 92, 123));
-		food_bdgt.setBounds(10, 168, 281, 67);
-		unstted_bdgt_pnl.add(food_bdgt);
-		food_bdgt.setLayout(null);
-
-		JLabel food = new JLabel("FOOD");
-		food.setBounds(50, 10, 58, 45);
-		food.setForeground(new Color(252, 187, 109));
-		food.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		food_bdgt.add(food);
-
-		JButton set_bdgt_btn_3 = new JButton("Set Budget");
-		set_bdgt_btn_3.setFocusable(false);
-		set_bdgt_btn_3.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn_3.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn_3.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn_3.setBounds(155, 20, 116, 29);
-		food_bdgt.add(set_bdgt_btn_3);
-
-		JPanel educ_bdgt = new JPanel();
-		educ_bdgt.setLayout(null);
-		educ_bdgt.setBackground(new Color(69, 92, 123));
-		educ_bdgt.setBounds(10, 247, 281, 67);
-		unstted_bdgt_pnl.add(educ_bdgt);
-
-		JLabel educ = new JLabel("EDUCATION");
-		educ.setForeground(new Color(252, 187, 109));
-		educ.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		educ.setBounds(21, 10, 118, 45);
-		educ_bdgt.add(educ);
-
-		JButton set_bdgt_btn_3_1 = new JButton("Set Budget");
-		set_bdgt_btn_3_1.setFocusable(false);
-		set_bdgt_btn_3_1.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn_3_1.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn_3_1.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn_3_1.setBounds(155, 20, 116, 29);
-		educ_bdgt.add(set_bdgt_btn_3_1);
+//		JPanel unstted_bdgt_pnl = new JPanel();
+//		unstted_bdgt_pnl.setPreferredSize(new Dimension(200, 485));
+//		unbudget_scrlpn.setViewportView(unstted_bdgt_pnl);
+//		unstted_bdgt_pnl.setBackground(new Color(85, 111, 146));
+//		unstted_bdgt_pnl.setLayout(null);
 
 		JLabel budgeted_lbl = new JLabel("Budgeted Categories");
 		budgeted_lbl.setForeground(new Color(252, 187, 109));
@@ -648,7 +597,11 @@ public class mainmain extends JFrame {
 		unbudgeted_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		unbudgeted_lbl.setBounds(508, 26, 227, 25);
 		budget_panel.add(unbudgeted_lbl);
-		layerpanebelow.add(acc_panel, Integer.valueOf(5));
+
+
+		layerpanebelow.add(acc_panel, Integer.valueOf(0));
+
+
 
 		JButton acc_calcu = new JButton("+");
 		acc_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
@@ -665,7 +618,7 @@ public class mainmain extends JFrame {
 		acc_panel.add(acc_calcu);
 
 		JPanel overall_acc_panel = new JPanel();
-		overall_acc_panel.setBackground(new Color(69, 92, 123));
+		overall_acc_panel.setBackground(new Color(85, 111, 146));
 		overall_acc_panel.setBounds(25, 62, 430, 246);
 		acc_panel.add(overall_acc_panel);
 		overall_acc_panel.setLayout(null);
@@ -712,7 +665,7 @@ public class mainmain extends JFrame {
 		total_lbl.setBackground(new Color(85, 111, 146));
 
 		JPanel cash_acc_panel = new JPanel();
-		cash_acc_panel.setBackground(new Color(69, 92, 123));
+		cash_acc_panel.setBackground(new Color(85, 111, 146));
 		cash_acc_panel.setBounds(471, 62, 300, 112);
 		acc_panel.add(cash_acc_panel);
 		cash_acc_panel.setLayout(null);
@@ -732,9 +685,10 @@ public class mainmain extends JFrame {
 		cash_acc_panel.add(cashbal_lbl);
 
 		cashbal_txtfld = new JTextField();
+		cashbal_txtfld.setForeground(new Color(252, 187, 109));
 		cashbal_txtfld.setFocusable(false);
 		cashbal_txtfld.setColumns(10);
-		cashbal_txtfld.setBackground(new Color(85, 111, 146));
+		cashbal_txtfld.setBackground(new Color(66, 83, 109));
 		cashbal_txtfld.setBounds(103, 44, 187, 27);
 		cash_acc_panel.add(cashbal_txtfld);
 
@@ -742,12 +696,12 @@ public class mainmain extends JFrame {
 		cashsve_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		cashsve_btn.setFocusable(false);
 		cashsve_btn.setForeground(new Color(252, 187, 109));
-		cashsve_btn.setBackground(new Color(85, 111, 146));
+		cashsve_btn.setBackground(new Color(66, 83, 109));
 		cashsve_btn.setBounds(154, 78, 89, 23);
 		cash_acc_panel.add(cashsve_btn);
 
 		JPanel savings_acc_panel = new JPanel();
-		savings_acc_panel.setBackground(new Color(69, 92, 123));
+		savings_acc_panel.setBackground(new Color(85, 111, 146));
 		savings_acc_panel.setBounds(471, 196, 300, 112);
 		acc_panel.add(savings_acc_panel);
 		savings_acc_panel.setLayout(null);
@@ -767,8 +721,9 @@ public class mainmain extends JFrame {
 		savings_acc_panel.add(savebal_lbl);
 
 		savebal_txtfld = new JTextField();
+		savebal_txtfld.setForeground(new Color(252, 187, 109));
 		savebal_txtfld.setColumns(10);
-		savebal_txtfld.setBackground(new Color(85, 111, 146));
+		savebal_txtfld.setBackground(new Color(66, 83, 109));
 		savebal_txtfld.setBounds(103, 44, 187, 27);
 		savings_acc_panel.add(savebal_txtfld);
 
@@ -776,7 +731,7 @@ public class mainmain extends JFrame {
 		svngssve_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		svngssve_btn.setFocusable(false);
 		svngssve_btn.setForeground(new Color(252, 187, 109));
-		svngssve_btn.setBackground(new Color(85, 111, 146));
+		svngssve_btn.setBackground(new Color(66, 83, 109));
 		svngssve_btn.setBounds(154, 78, 89, 23);
 		savings_acc_panel.add(svngssve_btn);
 
@@ -793,7 +748,9 @@ public class mainmain extends JFrame {
 		accs_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 25));
 		accs_lbl.setBounds(560, 30, 125, 25);
 		acc_panel.add(accs_lbl);
+
 		layerpanebelow.add(categ_panel);
+
 
 
 		JButton categ_calcu = new JButton("+");
@@ -1077,13 +1034,6 @@ public class mainmain extends JFrame {
 		add_categ_btn.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		add_categ_btn.setBounds(292, 318, 211, 36);
 		categ_panel.add(add_categ_btn);
-<<<<<<< HEAD
-		
-		final JPanel Daily = new JPanel();
-		final JPanel Weekly = new JPanel();
-		final JPanel Monthly = new JPanel();
-		final JPanel Yearly = new JPanel();
-		JPanel dateSelectorContainer = new JPanel();
 		
 		rec_button = new JButton("Record");
 		rec_button.setBorder(null);
@@ -1113,8 +1063,6 @@ public class mainmain extends JFrame {
 				exint_EX_lbl.setText("-PHP " + expenseTotal);
 				exint_inc_lbl.setText("PHP " + incomeTotal);
 				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
-				layeredPane.setVisible(true);
-				dateSelectorContainer.setVisible(true);
 			}
 		});
 		rec_button.setFocusable(false);
@@ -1140,8 +1088,6 @@ public class mainmain extends JFrame {
 				categ_panel.setVisible(false);
 //				activeScrollPane = analyticScrollPane;
 				user_panel.setVisible(false);
-				layeredPane.setVisible(true);
-				dateSelectorContainer.setVisible(true);
 			}
 		});
 		analytic_button.setFocusable(false);
@@ -1170,22 +1116,10 @@ public class mainmain extends JFrame {
 				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
 				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
 				mainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn);
-				Daily.setVisible(false);
-				Weekly.setVisible(false);
-				Monthly.setVisible(true);
-				Yearly.setVisible(false);
-				dateSelectorContainer.setVisible(false);
-				layeredPane.setVisible(true);
-				activeDatePanel = Monthly;
-				
-				
 			}
 		});
 		budget_button.setFocusable(false);
-=======
->>>>>>> branch 'debugging' of https://github.com/Torehpies/budgee.git
 
-<<<<<<< HEAD
 		acc_button = new JButton("Account");
 		acc_button.setBorder(null);
 		acc_button.setBounds(37, 429, 139, 40);
@@ -1206,8 +1140,6 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(true);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
-				dateSelectorContainer.setVisible(false);
-				layeredPane.setVisible(false);
 			}
 		});
 		acc_button.setFocusable(false);
@@ -1232,22 +1164,11 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(true);
 				user_panel.setVisible(false);
-				dateSelectorContainer.setVisible(false);
-				layeredPane.setVisible(false);
 			}
 		});
 		categ_button.setFocusable(false);
 
-=======
-		JPanel exint = new JPanel();
-		exint.setBounds(675, 64, 325, 100);
-		exint.setBackground(new Color(66, 83, 109));
-		exint.setForeground(new Color(255, 255, 255));
->>>>>>> branch 'debugging' of https://github.com/Torehpies/budgee.git
 		
-
-		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setBounds(208, 106, 457, 58);
 		
 		daily_year_now = LocalDate.now();
         daily_date = new JLabel(formatDate(daily_year_now));
@@ -1256,7 +1177,7 @@ public class mainmain extends JFrame {
         daily_date.setFont(new Font("Quicksand Light", Font.BOLD, 20));
         daily_date.setBounds(140, 11, 185, 34);
 
-		
+		final JPanel Daily = new JPanel();
 		Daily.setLayout(null);
 		Daily.setBackground(new Color(66, 83, 109));
 		Daily.setBounds(0, 0, 457, 58);
@@ -1271,6 +1192,17 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.minusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
+				recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now);
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				startDate = daily_year_now;
+				endDate = daily_year_now;
+				income_anal.setText("PHP"+ incomeTotal);
+				expense_anal.setText("PHP"+ expenseTotal);
 			}
 		});
 		daily_left.setBounds(10, 11, 41, 34);
@@ -1285,13 +1217,24 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.plusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
+				recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now);
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				startDate = daily_year_now;
+				endDate = daily_year_now;
+				income_anal.setText("PHP"+ incomeTotal);
+				expense_anal.setText("PHP"+ expenseTotal);				
 			}
 		});
 		daily_right.setBounds(406, 11, 41, 34);
 		Daily.add(daily_right);
 		Daily.add(daily_date);
 
-		
+		final JPanel Weekly = new JPanel();
 		Weekly.setLayout(null);
 		Weekly.setBackground(new Color(66, 83, 109));
 		Weekly.setBounds(0, 0, 457, 58);
@@ -1314,6 +1257,17 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				week_year_now = week_year_now.minusWeeks(1);
 	            weekly_date.setText(getFormattedDateweek());
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				startDate = week_year_now;
+				endDate = week_year_now.plusDays(6);
+				income_anal.setText("PHP"+ incomeTotal);
+				expense_anal.setText("PHP"+ expenseTotal);
 			}
 		});
 		weekly_left.setBounds(10, 11, 41, 34);
@@ -1326,14 +1280,25 @@ public class mainmain extends JFrame {
 		weekly_right.setBackground(new Color(85, 111, 146));
 		weekly_right.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 week_year_now = week_year_now.plusWeeks(1);
-	             weekly_date.setText(getFormattedDateweek());
+				week_year_now = week_year_now.plusWeeks(1);
+	            weekly_date.setText(getFormattedDateweek());
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				startDate = week_year_now;
+				endDate = week_year_now.plusDays(6);
+				income_anal.setText("PHP"+ incomeTotal);
+				expense_anal.setText("PHP"+ expenseTotal);
 			}
 		});
 		weekly_right.setBounds(406, 11, 41, 34);
 		Weekly.add(weekly_right);
 
-	
+		final JPanel Monthly = new JPanel();
 		Monthly.setLayout(null);
 		Monthly.setBackground(new Color(66, 83, 109));
 		Monthly.setBounds(0, 0, 457, 58);
@@ -1356,6 +1321,17 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.minusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				startDate = month_year_now.withDayOfMonth(1);
+				endDate = month_year_now.withDayOfMonth(month_year_now.lengthOfMonth());
+				income_anal.setText("PHP"+ incomeTotal);
+				expense_anal.setText("PHP"+ expenseTotal);
 			}
 		});
 		monthly_left.setBounds(10, 11, 41, 34);
@@ -1370,12 +1346,23 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.plusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				startDate = month_year_now.withDayOfMonth(1);
+				endDate = month_year_now.withDayOfMonth(month_year_now.lengthOfMonth());
+				income_anal.setText("PHP"+ incomeTotal);
+				expense_anal.setText("PHP"+ expenseTotal);
 			}
 		});
 		monthly_right.setBounds(406, 11, 41, 34);
 		Monthly.add(monthly_right);
 
-	
+		final JPanel Yearly = new JPanel();
 		Yearly.setLayout(null);
 		Yearly.setBackground(new Color(66, 83, 109));
 		Yearly.setBounds(0, 0, 457, 58);
@@ -1399,6 +1386,17 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				year_year_now = year_year_now.minusYears(1);
 	            yearly_date.setText(getFormattedDateyear());
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear()));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				startDate = year_year_now.withDayOfYear(1);
+				endDate = year_year_now.withDayOfYear(year_year_now.lengthOfYear());
+				income_anal.setText("PHP"+ incomeTotal);
+				expense_anal.setText("PHP"+ expenseTotal);
 			}
 		});
 		yearly_left.setBounds(10, 11, 41, 34);
@@ -1413,11 +1411,21 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				year_year_now = year_year_now.plusYears(1);
 	            yearly_date.setText(getFormattedDateyear());
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear()));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				startDate = year_year_now.withDayOfYear(1);
+				endDate = year_year_now.withDayOfYear(year_year_now.lengthOfYear());
+				income_anal.setText("PHP"+ incomeTotal);
+				expense_anal.setText("PHP"+ expenseTotal);
 			}
 		});
 		yearly_right.setBounds(406, 11, 41, 34);
 		Yearly.add(yearly_right);
-
 
 		daily_butt = new JButton("Daily");
 		daily_butt.addActionListener(new ActionListener() {
@@ -1430,9 +1438,10 @@ public class mainmain extends JFrame {
 				Weekly.setVisible(false);
 				Monthly.setVisible(false);
 				Yearly.setVisible(false);
+				activeDatePanel = Daily;
 			}
 		});
-		daily_butt.setBounds(10, 16, 92, 31);
+		daily_butt.setBounds(226, 64, 92, 31);
 		daily_butt.setForeground(new Color(252, 187, 109));
 		daily_butt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		daily_butt.setFocusable(false);
@@ -1449,9 +1458,10 @@ public class mainmain extends JFrame {
 				Weekly.setVisible(true);
 				Monthly.setVisible(false);
 				Yearly.setVisible(false);
+				activeDatePanel = Weekly;
 			}
 		});
-		weekly_butt.setBounds(125, 16, 92, 31);
+		weekly_butt.setBounds(339, 64, 92, 31);
 		weekly_butt.setForeground(new Color(252, 187, 109));
 		weekly_butt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		weekly_butt.setFocusable(false);
@@ -1468,9 +1478,10 @@ public class mainmain extends JFrame {
 				Weekly.setVisible(false);
 				Monthly.setVisible(true);
 				Yearly.setVisible(false);
+				activeDatePanel = Monthly;
 			}
 		});
-		monthly_butt.setBounds(240, 16, 92, 31);
+		monthly_butt.setBounds(447, 64, 92, 31);
 		monthly_butt.setForeground(new Color(252, 187, 109));
 		monthly_butt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		monthly_butt.setFocusable(false);
@@ -1487,74 +1498,25 @@ public class mainmain extends JFrame {
 				Weekly.setVisible(false);
 				Monthly.setVisible(false);
 				Yearly.setVisible(true);
+				activeDatePanel = Yearly;
 			}
 		});
-		yearly_butt.setBounds(355, 16, 92, 31);
+		yearly_butt.setBounds(555, 64, 92, 31);
 		yearly_butt.setForeground(new Color(252, 187, 109));
 		yearly_butt.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		yearly_butt.setFocusable(false);
 		yearly_butt.setBackground(new Color(85, 111, 146));
-		
-		
-		dateSelectorContainer.setBackground(new Color(49, 64, 83));
-		dateSelectorContainer.setLocation(208, 37);
-		dateSelectorContainer.setSize(457, 58);
-		dateSelectorContainer.setLayout(null);
-		
-		dateSelectorContainer.add(daily_butt);
-		dateSelectorContainer.add(weekly_butt);
-		dateSelectorContainer.add(monthly_butt);
-		dateSelectorContainer.add(yearly_butt);
-		
 		exint.setLayout(null);
-
-		JLabel ex_lebel = new JLabel("Expense:");
-		ex_lebel.setHorizontalAlignment(SwingConstants.CENTER);
-		ex_lebel.setForeground(new Color(252, 187, 109));
-		ex_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		ex_lebel.setBounds(10, 15, 78, 18);
-		exint.add(ex_lebel);
-
-		JLabel inc_lebel = new JLabel("Income:");
-		inc_lebel.setHorizontalAlignment(SwingConstants.CENTER);
-		inc_lebel.setForeground(new Color(252, 187, 109));
-		inc_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		inc_lebel.setBounds(10, 44, 80, 18);
-		exint.add(inc_lebel);
-
-		JLabel tot_lebel = new JLabel("Total:");
-		tot_lebel.setHorizontalAlignment(SwingConstants.CENTER);
-		tot_lebel.setForeground(new Color(252, 187, 109));
-		tot_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		tot_lebel.setBounds(10, 71, 78, 18);
-		exint.add(tot_lebel);
+		
 		frmMain.setLayout(null);
 		frmMain.add(layeredPane);
 
-		frmMain.add(dateSelectorContainer);
-//		frmMain.add(monthly_butt);
-//		frmMain.add(yearly_butt);
-//		frmMain.add(daily_butt);
-//		frmMain.add(weekly_butt);
+		frmMain.add(monthly_butt);
+		frmMain.add(yearly_butt);
+		frmMain.add(daily_butt);
+		frmMain.add(weekly_butt);
 		frmMain.add(exint);
 
-		JLabel exint_EX_lbl = new JLabel("");
-		exint_EX_lbl.setForeground(new Color(252, 187, 109));
-		exint_EX_lbl.setBackground(new Color(85, 111, 146));
-		exint_EX_lbl.setBounds(109, 15, 194, 18);
-		exint.add(exint_EX_lbl);
-
-		JLabel exint_inc_lbl = new JLabel("");
-		exint_inc_lbl.setForeground(new Color(252, 187, 109));
-		exint_inc_lbl.setBackground(new Color(85, 111, 146));
-		exint_inc_lbl.setBounds(109, 42, 194, 18);
-		exint.add(exint_inc_lbl);
-
-		JLabel exint_total_lbl = new JLabel("");
-		exint_total_lbl.setForeground(new Color(252, 187, 109));
-		exint_total_lbl.setBackground(new Color(85, 111, 146));
-		exint_total_lbl.setBounds(109, 74, 194, 18);
-		exint.add(exint_total_lbl);
 		frmMain.add(categ_button);
 		frmMain.add(acc_button);
 		frmMain.add(budget_button);
@@ -1567,75 +1529,45 @@ public class mainmain extends JFrame {
 		user_panel.setBounds(0, 0, 792, 459);
 		Border border = BorderFactory.createLineBorder(new Color(109, 74, 194, 18), 3);
 		user_panel.setBorder(border);
-		layerpanebelow.add(user_panel, Integer.valueOf(13));
+		layerpanebelow.add(user_panel);
 		user_panel.setLayout(null);
 		
 		JLabel user_image = new JLabel("");
 		user_image.setBorder(new LineBorder(new Color(252, 187, 109), 3, true));
-		user_image.setBounds(258, 40, 225, 225);
+		user_image.setBounds(27, 104, 250, 250);
 		user_panel.add(user_image);
 		
-	@SuppressWarnings("unchecked")
-	
-	Connection connect = null;
-	String url = "jdbc:mysql://localhost:3306/budgee_accounts";
-	String user = "root";
-	String password = "";
-	String jdbcDriver = "com.mysql.cj.jdbc.Driver";
-	String databaseName = "budgee_accounts";
-	String checkIfDatabaseExistSQL = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '" + databaseName +  "'";
-	String createNewDatabaseSQL = "CREATE NEW DATABASE IF NOT EXISTS " + databaseName ;
-	 selectedImagePath = null;
-	 filename = null;
-	stmnt = null;
-	rs = null;
-	databaseExists = false; 
-
-		JButton profileBtn = new JButton("Change Profile");
-		profileBtn.setBorder(null);
-		profileBtn.setFont(new Font("Quicksand Light", Font.BOLD, 12));
-		profileBtn.setHorizontalAlignment(SwingConstants.CENTER);
-		profileBtn.setVerticalAlignment(SwingConstants.CENTER);
-		profileBtn.setForeground(new Color(252, 187, 109));
-		profileBtn.setBackground(new Color(85, 111, 149));
-		profileBtn.setFocusable(false);
-		profileBtn.addActionListener(new ActionListener() {
+		JButton btnNewButton = new JButton("Change Profile");
+		btnNewButton.setFont(new Font("Quicksand Light", Font.BOLD, 12));
+		btnNewButton.setForeground(new Color(252, 187, 109));
+		btnNewButton.setBackground(new Color(85, 111, 149));
+		btnNewButton.setFocusable(false);
+		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 
+				JFileChooser browseImageFile = new JFileChooser();
+				//Filter Image Extensions
+				FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
+				browseImageFile.addChoosableFileFilter(fnef);
 				
-					JFileChooser fileChooser = new JFileChooser();    
-				    FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
-				    fileChooser.addChoosableFileFilter(fnef);
-				    int OpenDialogue = fileChooser.showOpenDialog(null);
-				    if (OpenDialogue == fileChooser.APPROVE_OPTION) {
-				        File selectedFile = fileChooser.getSelectedFile();
-				        selectedImagePath = selectedFile.getAbsolutePath();
-				        filename = selectedFile.getName();
-				        JOptionPane.showMessageDialog(null, selectedImagePath);
-				        
-				        ImageIcon ii = new ImageIcon((String) selectedImagePath);
-				        Image image = ii.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
-				        user_image.setIcon(new ImageIcon(image));
-
-				        int confirmOption = JOptionPane.showConfirmDialog(null, "Do you want to save this image?");
-				        if (confirmOption == JOptionPane.YES_OPTION) {
-				            JOptionPane.showMessageDialog(null, "Image saved successfully!");
-				        } else {
-				            
-				        }
-
-					}
-			
+				
+				int showOpenDialogue = browseImageFile.showOpenDialog(null);
+				if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+					File selectedImageFile = browseImageFile.getSelectedFile();
+					String selectedImagePath = selectedImageFile.getAbsolutePath();
+					JOptionPane.showMessageDialog(null, selectedImagePath);
+					//Display Image on Jlabel
+					ImageIcon ii = new ImageIcon(selectedImagePath);
+					//Resize Selected Image
+					Image image = ii.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
+					user_image.setIcon(new ImageIcon(image));
+					
+				}
 			}
 		});
-		
-		profileBtn.setBounds(268, 275, 136, 23);
-		user_panel.add(profileBtn);
+		btnNewButton.setBounds(86, 365, 136, 23);
+		user_panel.add(btnNewButton);
 		
 		JButton logOut_button = new JButton("Log Out");
-		logOut_button.setForeground(new Color(252, 187, 109));
-		logOut_button.setBackground(new Color(85, 111, 146));
-		logOut_button.setFont(new Font("Quicksand Light", Font.BOLD, 11));
 		logOut_button.setFocusable(false);
 		logOut_button.setBorder(null);
 		logOut_button.addActionListener(new ActionListener() {
@@ -1661,106 +1593,8 @@ public class mainmain extends JFrame {
 		        }
 		    }
 		});
-		logOut_button.setBounds(733, 426, 49, 23);
+		logOut_button.setBounds(693, 425, 89, 23);
 		user_panel.add(logOut_button);
-		
-		JLabel nameUser = new JLabel(sessionUsername);
-		nameUser.setForeground(new Color(252, 187, 109));
-		nameUser.setFont(new Font("Quicksand Light", Font.BOLD, 17));
-		nameUser.setBorder(new LineBorder(new Color(252, 187, 109), 3));
-		nameUser.setHorizontalAlignment(SwingConstants.CENTER);
-		nameUser.setVerticalAlignment(SwingConstants.CENTER);
-		nameUser.setFocusable(false);
-		nameUser.setBounds(241, 308, 258, 54);
-		user_panel.add(nameUser);
-		
-		JLabel contactUser = new JLabel("");
-		contactUser.setFont(new Font("Quicksand Light", Font.BOLD, 17));
-		contactUser.setForeground(new Color(252, 187, 109));
-		contactUser.setHorizontalAlignment(SwingConstants.CENTER);
-		contactUser.setVerticalAlignment(SwingConstants.CENTER);
-		contactUser.setBorder(new LineBorder(new Color(252, 187, 109), 3));
-		contactUser.setBounds(241, 373, 258, 54);
-		user_panel.add(contactUser);
-		
-		JButton btnEditInformation = new JButton("Edit");
-		btnEditInformation.setForeground(new Color(252, 187, 109));
-		btnEditInformation.setFont(new Font("Quicksand Light", Font.BOLD, 12));
-		btnEditInformation.setFocusable(false);
-		btnEditInformation.setBorder(null);
-		btnEditInformation.setBackground(new Color(85, 111, 149));
-		btnEditInformation.setBounds(509, 380, 49, 43);
-		user_panel.add(btnEditInformation);
-		
-		JButton btnEdit = new JButton("Edit");
-		btnEdit.setForeground(new Color(252, 187, 109));
-		btnEdit.setFont(new Font("Quicksand Light", Font.BOLD, 12));
-		btnEdit.setFocusable(false);
-		btnEdit.setBorder(null);
-		btnEdit.setBackground(new Color(85, 111, 149));
-		btnEdit.setBounds(509, 315, 49, 43);
-		user_panel.add(btnEdit);
-		
-		JButton btnUpload = new JButton("Upload");
-		btnUpload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					
-					Class.forName(jdbcDriver);
-					System.out.println("Driver Found");
-					Connection connect = DriverManager.getConnection(url, user, password);
-					System.out.println("Uploaded to Server");
-					System.out.println("Database Query = " + checkIfDatabaseExistSQL);
-					stmnt = connect.createStatement();
-					rs = stmnt.executeQuery(checkIfDatabaseExistSQL);
-					if(rs.next()){
-						System.out.println("Database Found");
-						databaseExists = true;
-						connect = DriverManager.getConnection(url, user, password);
-						System.out.println("Connected to Existing Database" + databaseName);
-						InsertDataIntoMysqlDatabase();
-					} 
-
-					if(!databaseExists) {
-						System.out.println("Database Not Found");
-						System.out.println("Creating New Database");
-							System.out.println("Create Database Query = " + createNewDatabaseSQL);
-							int databaseCreated = stmnt.executeUpdate(createNewDatabaseSQL);
-							if (databaseCreated > 0){
-								System.out.println(databaseName + "Database Created");
-								connect = DriverManager.getConnection(url, user, password);
-								System.out.println("Connected Successfuly");
-								stmnt.executeQuery(createNewDatabaseSQL);
-								System.out.println("New Table Created ");
-								
-								System.out.println("Insterting Data Into The Database...");
-								
-								InsertDataIntoMysqlDatabase();
-								
-							}
-					}
-					
-					}catch (SQLException ex) {
-						ex.printStackTrace();
-					}catch (ClassNotFoundException ex) {
-						System.out.println("Driver Not Found");
-						ex.printStackTrace();
-				}
-			}
-
-			private void InsertDataIntoMysqlDatabase() {
-				System.out.println("Image Name " + filename);
-				System.out.println("Image Absolute Path " + selectedImagePath);
-				
-			}
-		});
-		btnUpload.setForeground(new Color(252, 187, 109));
-		btnUpload.setFont(new Font("Quicksand Light", Font.BOLD, 11));
-		btnUpload.setFocusable(false);
-		btnUpload.setBorder(null);
-		btnUpload.setBackground(new Color(85, 111, 149));
-		btnUpload.setBounds(414, 275, 49, 23);
-		user_panel.add(btnUpload);
 
 		JLabel logoBudgee = new JLabel("");
 		ImageIcon loglog = new ImageIcon("imgs/budgeeLogoMain.png");
@@ -1771,7 +1605,7 @@ public class mainmain extends JFrame {
 		JLabel usernameLabel = new JLabel(sessionUsername);
 		usernameLabel.setForeground(new Color(255, 255, 255));
 		usernameLabel.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		usernameLabel.setBounds(37, 24, 139, 40);
+		usernameLabel.setBounds(53, 11, 123, 42);
 		frmMain.add(usernameLabel);
 		
 		user_button = new JButton("User");
@@ -1794,21 +1628,23 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(true);
-<<<<<<< HEAD
 				income_anal.setText("PHP"+ incomeTotal);
 				expense_anal.setText("PHP"+ expenseTotal);
-				layeredPane.setVisible(false);
-				dateSelectorContainer.setVisible(false);
-=======
-				
->>>>>>> branch 'debugging' of https://github.com/Torehpies/budgee.git
 			}
 		});
 		user_button.setBounds(37, 546, 139, 40);
 		frmMain.add(user_button);
 
 	}
+	
+	LocalDate getPanelStartDate() {
+		return startDate;
+	}
 
+	LocalDate getPanelEndDate() {
+		return endDate;
+	}
+	
 	private String formatDate(LocalDate year_now2) {
 		// TODO Auto-generated method stub
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, YYYY");
@@ -1823,16 +1659,21 @@ public class mainmain extends JFrame {
 	
 	private String getFormattedDatemonth() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM, yyyy");
-        LocalDate endDate = month_year_now.plusDays(30);
-        return month_year_now.format(formatter) + " - " + endDate.format(formatter);
+        String monthAndYear;
+        return monthAndYear = month_year_now.getMonth() + ", " + month_year_now.getYear();
+//        LocalDate endDate = month_year_now.plusDays(30);
+//        return month_year_now.format(formatter) + " - " + endDate.format(formatter);
     }
 	
 	private String getFormattedDateyear() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
-        LocalDate endDate = year_year_now.plusDays(365);
-        return year_year_now.format(formatter) + " - " + endDate.format(formatter);
+        String year;
+        return year = String.valueOf(year_year_now.getYear());
+//        LocalDate endDate = year_year_now.plusDays(365);
+//        return year_year_now.format(formatter) + " - " + endDate.format(formatter);
     }
 
+	
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "+");
