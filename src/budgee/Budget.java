@@ -1,34 +1,37 @@
 package budgee;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 public class Budget {
 	
-	public Budget(int id, int userId, String category, BigDecimal limitBudget, BigDecimal spentBudget) {
+
+	public Budget(int userId, Date date, String category, BigDecimal limitBudget, BigDecimal spentBudget) {
+		super();
+		this.userId = userId;
+		this.date = date;
+		this.category = category;
+		this.limitBudget = limitBudget;
+		this.spentBudget = spentBudget;
+	}
+	public Budget(int id, int userId, Date date, String category, BigDecimal limitBudget, BigDecimal spentBudget) {
 		super();
 		this.id = id;
 		this.userId = userId;
+		this.date = date;
 		this.category = category;
 		this.limitBudget = limitBudget;
 		this.spentBudget = spentBudget;
 	}
-	public Budget(int userId, String category, BigDecimal limitBudget, BigDecimal spentBudget) {
-		super();
-		this.userId = userId;
-		this.category = category;
-		this.limitBudget = limitBudget;
-		this.spentBudget = spentBudget;
-	}
-	
 	//Class attributes
 	
 	private int id;
 	private int userId;
+	private Date date;
 	private String category;
 	private BigDecimal limitBudget;
 	private BigDecimal spentBudget;
-	private boolean isBudgeted;
 	
 	public int getId() {
 		return id;
@@ -59,6 +62,12 @@ public class Budget {
 	}
 	public void setSpentBudget(BigDecimal spentBudget) {
 		this.spentBudget = spentBudget;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 	
