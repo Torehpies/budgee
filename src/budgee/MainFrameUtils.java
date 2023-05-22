@@ -179,7 +179,7 @@ public class MainFrameUtils {
 		budgetPanel.setLayout(null);
 		
 		JLabel lblGet_Categ = new JLabel(budget.getCategory());
-		lblGet_Categ.setBounds(21, 11, 61, 18);
+		lblGet_Categ.setBounds(21, 11, 100, 18);
 		lblGet_Categ.setForeground(new Color(252, 187, 109));
 		lblGet_Categ.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		lblGet_Categ.setBackground(Color.WHITE);
@@ -196,7 +196,7 @@ public class MainFrameUtils {
 		lbl_blnce_limit.setForeground(new Color(216, 115, 127));
 		lbl_blnce_limit.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		lbl_blnce_limit.setBackground(Color.WHITE);
-		lbl_blnce_limit.setBounds(72, 39, 60, 14);
+		lbl_blnce_limit.setBounds(72, 39, 80, 14);
 		budgetPanel.add(lbl_blnce_limit);
 		
 		JLabel lbl_spent = new JLabel("Spent: ");
@@ -210,7 +210,7 @@ public class MainFrameUtils {
 		lbl_blnce_spent.setForeground(new Color(216, 115, 127));
 		lbl_blnce_spent.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		lbl_blnce_spent.setBackground(Color.WHITE);
-		lbl_blnce_spent.setBounds(82, 59, 60, 14);
+		lbl_blnce_spent.setBounds(82, 59, 80, 14);
 		budgetPanel.add(lbl_blnce_spent);
 		
 		JButton budget_btn_Del = new JButton("Delete Budget");
@@ -258,7 +258,7 @@ public class MainFrameUtils {
 		categoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		categoryLabel.setForeground(new Color(252, 187, 109));
 		categoryLabel.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		categoryLabel.setBounds(51, 10, 62, 45);
+		categoryLabel.setBounds(51, 10, 100, 45);
 		unbudgetedPanel.add(categoryLabel);
 
 		JButton set_bdgt_btn = new JButton("Set Budget");
