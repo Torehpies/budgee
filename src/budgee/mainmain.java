@@ -221,7 +221,7 @@ public class mainmain extends JFrame {
 		JLayeredPane layeredPane = new JLayeredPane();
 		layeredPane.setBounds(208, 106, 457, 58);
 		
-		JLabel exint_EX_lbl = new JLabel("-PHP 0");
+		JLabel exint_EX_lbl = new JLabel("PHP 0");
 		exint_EX_lbl.setForeground(new Color(252, 187, 109));
 		exint_EX_lbl.setBackground(new Color(85, 111, 146));
 		exint_EX_lbl.setBounds(109, 15, 194, 18);
@@ -409,8 +409,8 @@ public class mainmain extends JFrame {
 		categ_button.setFocusable(false);
 
 		layerpanebelow.setLayout(null);
-		layerpanebelow.add(rec_panel, Integer.valueOf(0));
-		layerpanebelow.add(analytic_panel, Integer.valueOf(5));
+		layerpanebelow.add(rec_panel);
+		layerpanebelow.add(analytic_panel);
 
 
 		JButton calcu_analy = new JButton("+");
@@ -545,12 +545,7 @@ public class mainmain extends JFrame {
 
 		final SelectedDateWrapper selectedDateWrapper = new SelectedDateWrapper();
 
-		layerpanebelow.add(budget_panel, Integer.valueOf(0));
-
-
-		layerpanebelow.add(budget_panel, Integer.valueOf(5));
-
-
+		layerpanebelow.add(budget_panel);
 
 		JButton budget_calcu = new JButton("+");
 		budget_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
@@ -749,7 +744,7 @@ public class mainmain extends JFrame {
 		accs_lbl.setBounds(560, 30, 125, 25);
 		acc_panel.add(accs_lbl);
 
-		layerpanebelow.add(categ_panel);
+		layerpanebelow.add(categ_panel, Integer.valueOf(5));
 
 
 
@@ -1026,14 +1021,6 @@ public class mainmain extends JFrame {
 		expense_categ_lbl.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		expense_categ_lbl.setBounds(502, 27, 188, 25);
 		categ_panel.add(expense_categ_lbl);
-
-		JButton add_categ_btn = new JButton("Add Category");
-		add_categ_btn.setFocusable(false);
-		add_categ_btn.setBackground(new Color(85, 111, 146));
-		add_categ_btn.setForeground(new Color(252, 187, 109));
-		add_categ_btn.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		add_categ_btn.setBounds(292, 318, 211, 36);
-		categ_panel.add(add_categ_btn);
 		
 		rec_button = new JButton("Record");
 		rec_button.setBorder(null);
