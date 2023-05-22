@@ -1653,7 +1653,7 @@ public class mainmain extends JFrame {
 		return startDate;
 	}
 
-	LocalDate getPanelEndDate() {
+	private LocalDate getPanelEndDate() {
 		return endDate;
 	}
 	
