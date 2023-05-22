@@ -622,7 +622,7 @@ import com.toedter.calendar.JDateChooser;
 					
 					Connection connection = DatabaseManager.getConnection();				
 					BudgeeDAOImpl BudgeeDAO = new BudgeeDAOImpl(connection);
-					BudgeeDAO.addExpense(record);
+					BudgeeDAO.addRecord(record);
 					
 					MainFrameUtils.refreshRecords(parentPanel);
 				}

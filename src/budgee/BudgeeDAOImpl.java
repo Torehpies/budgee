@@ -22,7 +22,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 	
 	@Override
-	public void addExpense(Record record) {
+	public void addRecord(Record record) {
 		String insertQuery = "INSERT INTO budgee_accounts.recordsTable(userID, date, time, balanceUpdate, notes, action, category, account) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		 try (PreparedStatement preparedStatement = 
@@ -208,6 +208,30 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        }
 
 	        return budgets;
+	}
+
+	@Override
+	public BigDecimal getExpenseTotal() {
+		BigDecimal expenseTotal = new BigDecimal("0");
+		List<Record> records = getAllRecords();
+		for (Record record : records) {
+			if (record.getAction().equals("Expense")) {
+				expenseTotal = expenseTotal.add(record.getBalance_update());
+			}
+		}
+		return expenseTotal;
+	}
+
+	@Override
+	public BigDecimal getIncomeTotal() {
+		BigDecimal incomeTotal = new BigDecimal("0");
+		List<Record> records = getAllRecords();
+		for (Record record : records) {
+			if (record.getAction().equals("Income")) {
+				incomeTotal = incomeTotal.add(record.getBalance_update());
+			}
+		}
+		return incomeTotal;
 	}
 	
 }
