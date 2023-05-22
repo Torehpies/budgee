@@ -1109,10 +1109,9 @@ public class mainmain extends JFrame {
 				user_panel.setVisible(false);
 				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
 				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
-				LocalDate budgetDate = startDate.withDayOfMonth(1);
-				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, budgetDate,budgeted_scrlpn);
+				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
 				activeScrollPane = budgeted_scrlpn;
-				List<Budget> budgetsByDate = BudgeeDAOImpl.getBudgetsByDateRange(startDate, endDate);
+				List<Budget> budgetsByDate = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
 				MainFrameUtils.displayAllBudget(budgetsByDate, activeScrollPane);
 				Daily.setVisible(false);
 				Weekly.setVisible(false);
@@ -1371,6 +1370,9 @@ public class mainmain extends JFrame {
 				expense_cash.setText("PHP"+ SavingsExpenseTotal);
 				income_cash.setText("PHP"+ SavingsIncomeTotal);
 				expense_cash.setText("PHP"+ CashExpenseTotal);
+				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
+				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
+				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
 			}
 		});
 		monthly_left.setBounds(10, 11, 41, 34);
@@ -1402,6 +1404,9 @@ public class mainmain extends JFrame {
 				expense_cash.setText("PHP"+ SavingsExpenseTotal);
 				income_cash.setText("PHP"+ SavingsIncomeTotal);
 				expense_cash.setText("PHP"+ CashExpenseTotal);
+				List<Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
+				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
+				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
 			}
 		});
 		monthly_right.setBounds(406, 11, 41, 34);

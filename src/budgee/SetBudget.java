@@ -51,7 +51,7 @@ public class SetBudget extends JFrame {
 	 * Create the frame.
 	 */
 	public SetBudget(String category, LocalDate dateBudget, JScrollPane parentPanel) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 444, 415);
 		SetBudgetPanel = new JPanel();
 		SetBudgetPanel.setBackground(new Color(66, 83, 109));
@@ -93,7 +93,7 @@ public class SetBudget extends JFrame {
 		lblCateg.setBounds(132, 11, 69, 19);
 		panel.add(lblCateg);
 		
-		JLabel lblLimit = new JLabel("Limit");
+		JLabel lblLimit = new JLabel("Limit: PHP ");
 		lblLimit.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLimit.setForeground(new Color(252, 187, 129));
 		lblLimit.setFont(new Font("Quicksand Light", Font.BOLD, 20));
@@ -119,7 +119,7 @@ public class SetBudget extends JFrame {
 		lblMonth.setBounds(115, 268, 71, 31);
 		SetBudgetPanel.add(lblMonth);
 		
-		JLabel SetMonth = new JLabel("May, 2023");
+		JLabel SetMonth = new JLabel(dateBudget.getMonth() + ", " + dateBudget.getYear());
 		SetMonth.setHorizontalAlignment(SwingConstants.CENTER);
 		SetMonth.setBackground(new Color(85, 111, 146));
 		SetMonth.setForeground(new Color(85, 111, 146));
@@ -161,7 +161,7 @@ public class SetBudget extends JFrame {
 				Connection connection = DatabaseManager.getConnection();
 				BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
 				BudgeeDAOImpl.addBudget(budget);
-				List <Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate, endDate);
+				List <Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
 				MainFrameUtils.displayAllBudget(budgets, parentPanel);
 				
 				dispose();

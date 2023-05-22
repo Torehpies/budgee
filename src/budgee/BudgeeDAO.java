@@ -29,6 +29,6 @@ public interface BudgeeDAO {
     List<Record> getAllRecords();
     List<Record> getRecordsByDateRange(LocalDate startDate, LocalDate endDate);
 
-    List<Budget> getBudgetsByDateRange(LocalDate startDate, LocalDate endDate);
+    List<Budget> getBudgetsByDateRange(LocalDate startDate);
 
 }

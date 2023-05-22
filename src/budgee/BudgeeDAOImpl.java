@@ -221,12 +221,12 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        return budgets;
 	}
 	
-	public List <Budget> getBudgetsByDateRange(java.time.LocalDate startDate, java.time.LocalDate endDate) {
+	public List <Budget> getBudgetsByDateRange(LocalDate startDate) {
 	    try {
 	        Connection conn = DatabaseManager.getConnection();
 	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM budgetsTable WHERE date >= ? AND date <= ?");
-	        stmt.setDate(1, java.sql.Date.valueOf(startDate));
-	        stmt.setDate(2, java.sql.Date.valueOf(endDate));
+	        stmt.setDate(1, java.sql.Date.valueOf(startDate.withDayOfMonth(1)));
+	        stmt.setDate(2, java.sql.Date.valueOf(startDate.withDayOfMonth(startDate.lengthOfMonth())));
 	        ResultSet resultSet = stmt.executeQuery();
 
 	        List<Budget> budgets = new ArrayList<>();
