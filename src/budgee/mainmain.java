@@ -144,8 +144,8 @@ public class mainmain extends JFrame {
 	private BigDecimal incomeTotal = new BigDecimal("0");
 	private List<Record> recordsByDate;
 	
-	private LocalDate startDate = LocalDate.now();
-	private LocalDate endDate = LocalDate.now();
+	private LocalDate startDate = LocalDate.now().withDayOfMonth(1);
+	private LocalDate endDate = LocalDate.now().withDayOfMonth(1);
 	
 	public mainmain() {		
 		
@@ -259,7 +259,9 @@ public class mainmain extends JFrame {
 		reclebel.setForeground(new Color(252, 187, 109));
 		rec_panel.add(reclebel);
 		
-
+		JScrollPane budgeted_scrlpn = new JScrollPane();
+		JScrollPane unbudget_scrlpn = new JScrollPane();
+		
 		analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
 		analytic_panel.setBounds(0, 0, 792, 459);
@@ -300,7 +302,7 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
-
+				System.out.println("pressed records button");
 				MainFrameUtils.refreshRecords(recordScrollPane);
 				activeScrollPane = recordScrollPane;
 
@@ -327,7 +329,6 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
-
 //				activeScrollPane = analyticScrollPane;
 				user_panel.setVisible(false);
 
@@ -354,8 +355,11 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(true);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
-//				activeScrollPane = budgetScrollPane;
+				activeScrollPane = budgeted_scrlpn;
 				user_panel.setVisible(false);
+				List<Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate, endDate);
+				
+				mainFrameUtils.displayAllBudget(budgets, activeScrollPane);
 			}
 		});
 		budget_button.setFocusable(false);
@@ -561,16 +565,10 @@ public class mainmain extends JFrame {
 		});
 		budget_panel.add(budget_calcu);
 		
-		JScrollPane budgeted_scrlpn = new JScrollPane();
 		budgeted_scrlpn.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		budgeted_scrlpn.setBounds(10, 62, 447, 246);
 		budget_panel.add(budgeted_scrlpn);
 		
-		List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
-
-		mainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
-		
-		JScrollPane unbudget_scrlpn = new JScrollPane();
 		unbudget_scrlpn.setBounds(467, 62, 315, 246);
 	    unbudget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		budget_panel.add(unbudget_scrlpn);
