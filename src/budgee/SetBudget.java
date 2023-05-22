@@ -25,23 +25,23 @@ public class SetBudget extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SetBudget frame = new SetBudget();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					SetBudget frame = new SetBudget();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public SetBudget() {
+	public SetBudget(String category) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 444, 415);
 		SetBudgetPanel = new JPanel();
@@ -68,7 +68,7 @@ public class SetBudget extends JFrame {
         // Set the border for the panel
         panel.setBorder(border);
 		
-		JLabel SetCateg = new JLabel("Baby");
+		JLabel SetCateg = new JLabel(category);
 		SetCateg.setForeground(new Color(252, 187, 129));
 		SetCateg.setHorizontalAlignment(SwingConstants.CENTER);
 		SetCateg.setFont(new Font("Tahoma", Font.BOLD, 35));
@@ -124,11 +124,16 @@ public class SetBudget extends JFrame {
 		btnCancel.setBounds(85, 310, 130, 40);
 		SetBudgetPanel.add(btnCancel);
 		
-		JButton btnCancel_1 = new JButton("New button");
-		btnCancel_1.setForeground(new Color(252, 187, 129));
-		btnCancel_1.setBackground(new Color(66, 83, 109));
-		btnCancel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnCancel_1.setBounds(225, 310, 130, 40);
-		SetBudgetPanel.add(btnCancel_1);
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnSave.setForeground(new Color(252, 187, 129));
+		btnSave.setBackground(new Color(66, 83, 109));
+		btnSave.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		btnSave.setBounds(225, 310, 130, 40);
+		SetBudgetPanel.add(btnSave);
 	}
 }
