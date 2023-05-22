@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -16,6 +17,14 @@ import javax.swing.JButton;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.time.LocalDate;
+import java.util.List;
+import java.sql.Connection;
+import java.sql.Date;
+import java.math.BigDecimal;
+
+import budgee.UserSession;
+import budgee.DatabaseManager;
 
 public class SetBudget extends JFrame {
 
@@ -41,7 +50,7 @@ public class SetBudget extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SetBudget(String category) {
+	public SetBudget(String category, LocalDate dateBudget, JScrollPane parentPanel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 444, 415);
 		SetBudgetPanel = new JPanel();
@@ -121,6 +130,7 @@ public class SetBudget extends JFrame {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
 		btnCancel.setForeground(new Color(252, 187, 129));
@@ -134,6 +144,24 @@ public class SetBudget extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				LocalDate startDate = dateBudget;
+				LocalDate endDate = dateBudget.withDayOfMonth(dateBudget.lengthOfMonth());
+				
+				UserSession session = UserSession.getInstance();
+				int sessionId = session.getId();
+				Date date = Date.valueOf(dateBudget);
+				BigDecimal limitBudget = new BigDecimal(SetLimit.getText());
+				BigDecimal spentBudget = new BigDecimal("0");
+				
+				Budget budget = new Budget(sessionId, date, category, limitBudget, spentBudget);
+				
+				Connection connection = DatabaseManager.getConnection();
+				BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
+				BudgeeDAOImpl.addBudget(budget);
+				List <Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate, endDate);
+				MainFrameUtils.displayAllBudget(budgets, parentPanel);
+				
+				dispose();
 			}
 		});
 		btnSave.setForeground(new Color(252, 187, 129));

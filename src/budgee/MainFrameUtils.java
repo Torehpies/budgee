@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -29,7 +30,7 @@ import budgee.mainmain;
 
 public class MainFrameUtils {
 
-	private static List<Record> recordsByDate;
+	private static List<Record> recordsByDate; 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -191,7 +192,7 @@ public class MainFrameUtils {
 		lbl_limit.setBounds(21, 37, 43, 14);
 		budgetPanel.add(lbl_limit);
 		
-		JLabel lbl_blnce_limit = new JLabel("₱" + (budget.getLimitBudget()).toString());
+		JLabel lbl_blnce_limit = new JLabel("PHP " + (budget.getLimitBudget()).toString());
 		lbl_blnce_limit.setForeground(new Color(216, 115, 127));
 		lbl_blnce_limit.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		lbl_blnce_limit.setBackground(Color.WHITE);
@@ -205,7 +206,7 @@ public class MainFrameUtils {
 		lbl_spent.setBounds(21, 55, 51, 18);
 		budgetPanel.add(lbl_spent);
 		
-		JLabel lbl_blnce_spent = new JLabel("₱" + (budget.getSpentBudget()).toString());
+		JLabel lbl_blnce_spent = new JLabel("PHP " + (budget.getSpentBudget()).toString());
 		lbl_blnce_spent.setForeground(new Color(216, 115, 127));
 		lbl_blnce_spent.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		lbl_blnce_spent.setBackground(Color.WHITE);
@@ -246,7 +247,7 @@ public class MainFrameUtils {
 		return budgetPanel;
 	}
 	
-	public static JPanel createUnbudgetedPanel(String category, JScrollPane parentPanel) {
+	public static JPanel createUnbudgetedPanel(String category, JScrollPane parentPanel, LocalDate dateBudget) {
 		JPanel unbudgetedPanel = new JPanel();
 		unbudgetedPanel.setBackground(new Color(69, 92, 123));
 		unbudgetedPanel.setBounds(10, 11, 281, 67);
@@ -263,8 +264,8 @@ public class MainFrameUtils {
 		JButton set_bdgt_btn = new JButton("Set Budget");
 		set_bdgt_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SetBudget setbudg = new SetBudget(category);
-                setbudg.setVisible(true);
+				SetBudget setbudget = new SetBudget(category, dateBudget, parentPanel);
+                setbudget.setVisible(true);
 			}
 		});
 		set_bdgt_btn.setFocusable(false);
@@ -294,7 +295,7 @@ public class MainFrameUtils {
 		parentPanel_budget.repaint();
 	}
 	
-	public static void displayUnbudgetedCategories(List<String> unbudgetedCategories, JScrollPane parentPanel) {
+	public static void displayUnbudgetedCategories(List<String> unbudgetedCategories, JScrollPane parentPanel, LocalDate budgetDate) {
 		JPanel containerPanel = new JPanel();
 	    containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 	    javax.swing.border.Border lineBorder = BorderFactory.createLineBorder(Color.GRAY);  
@@ -302,7 +303,7 @@ public class MainFrameUtils {
 	    CompoundBorder compoundBorder = new CompoundBorder(lineBorder, emptyBorder);  
 		
 		for (String category : unbudgetedCategories) {
-			JPanel unbudgetedPanel = createUnbudgetedPanel(category, parentPanel);
+			JPanel unbudgetedPanel = createUnbudgetedPanel(category, parentPanel, budgetDate);
 			unbudgetedPanel.setPreferredSize(new Dimension(50,60));
 			unbudgetedPanel.setBorder(compoundBorder);
 			containerPanel.add(unbudgetedPanel);

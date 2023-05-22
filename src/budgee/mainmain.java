@@ -144,8 +144,8 @@ public class mainmain extends JFrame {
 	private BigDecimal incomeTotal = new BigDecimal("0");
 	private List<Record> recordsByDate;
 	
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private LocalDate startDate = LocalDate.now();
+	private LocalDate endDate = LocalDate.now();
 	
 	public mainmain() {		
 		
@@ -1112,7 +1112,8 @@ public class mainmain extends JFrame {
 				user_panel.setVisible(false);
 				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
 				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
-				mainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn);
+				LocalDate budgetDate = startDate.withDayOfMonth(1);
+				mainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, budgetDate);
 				Daily.setVisible(false);
 				Weekly.setVisible(false);
 				Monthly.setVisible(true);

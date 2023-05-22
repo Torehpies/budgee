@@ -626,8 +626,8 @@ import com.toedter.calendar.JDateChooser;
 					BudgeeDAO.addRecord(record);
 					
 					MainFrameUtils.refreshRecords(parentPanel);
-				}
 					}
+				}
 			});
 			
 			btnSave_1.setFocusable(false);
