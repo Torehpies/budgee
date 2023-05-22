@@ -15,10 +15,12 @@ public interface BudgeeDAO {
     void updateBudget(Budget budget);
     void deleteBudget(int budgetId);
     
+    
     BigDecimal getExpenseTotal(List<Record> records);
     BigDecimal getIncomeTotal(List<Record> records);
     
     List<Budget> getAllBudgets();
+    List<String> getUnbudgetedCategories(List<Budget> budgets);
     List<Record> getAllRecords();
     List<Record> getRecordsByDateRange(LocalDate startDate, LocalDate endDate);
     

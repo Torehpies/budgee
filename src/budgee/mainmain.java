@@ -538,161 +538,11 @@ public class mainmain extends JFrame {
 	    unbudget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		budget_panel.add(unbudget_scrlpn);
 
-		JPanel unstted_bdgt_pnl = new JPanel();
-		unstted_bdgt_pnl.setPreferredSize(new Dimension(200, 485));
-		unbudget_scrlpn.setViewportView(unstted_bdgt_pnl);
-		unstted_bdgt_pnl.setBackground(new Color(85, 111, 146));
-		unstted_bdgt_pnl.setLayout(null);
-
-		JPanel bill_bdgt = new JPanel();
-		bill_bdgt.setBackground(new Color(69, 92, 123));
-		bill_bdgt.setBounds(10, 11, 281, 67);
-		unstted_bdgt_pnl.add(bill_bdgt);
-		bill_bdgt.setLayout(null);
-
-		JLabel bills = new JLabel("BILLS");
-		bills.setHorizontalAlignment(SwingConstants.CENTER);
-		bills.setForeground(new Color(252, 187, 109));
-		bills.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		bills.setBounds(51, 10, 62, 45);
-		bill_bdgt.add(bills);
-
-		JButton set_bdgt_btn = new JButton("Set Budget");
-		set_bdgt_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SetBudget setbudg = new SetBudget();
-                setbudg.setVisible(true);
-			}
-		});
-		set_bdgt_btn.setFocusable(false);
-		set_bdgt_btn.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn.setBounds(155, 20, 116, 29);
-		bill_bdgt.add(set_bdgt_btn);
-
-		JPanel shoppng_bdgt = new JPanel();
-		shoppng_bdgt.setBackground(new Color(69, 92, 123));
-		shoppng_bdgt.setBounds(10, 89, 281, 67);
-		unstted_bdgt_pnl.add(shoppng_bdgt);
-		shoppng_bdgt.setLayout(null);
-
-		JLabel shopping = new JLabel("SHOPPING");
-		shopping.setHorizontalAlignment(SwingConstants.CENTER);
-		shopping.setBounds(25, 10, 103, 45);
-		shopping.setForeground(new Color(252, 187, 109));
-		shopping.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		shoppng_bdgt.add(shopping);
-
-		JButton set_bdgt_btn_2 = new JButton("Set Budget");
-		set_bdgt_btn_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SetBudget setbudg = new SetBudget();
-                setbudg.setVisible(true);
-			}
-		});
-		set_bdgt_btn_2.setFocusable(false);
-		set_bdgt_btn_2.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn_2.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn_2.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn_2.setBounds(155, 20, 116, 29);
-		shoppng_bdgt.add(set_bdgt_btn_2);
-
-		JPanel food_bdgt = new JPanel();
-		food_bdgt.setBackground(new Color(69, 92, 123));
-		food_bdgt.setBounds(10, 168, 281, 67);
-		unstted_bdgt_pnl.add(food_bdgt);
-		food_bdgt.setLayout(null);
-
-		JLabel food = new JLabel("FOOD");
-		food.setHorizontalAlignment(SwingConstants.CENTER);
-		food.setBounds(50, 10, 58, 45);
-		food.setForeground(new Color(252, 187, 109));
-		food.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		food_bdgt.add(food);
-
-		JButton set_bdgt_btn_3 = new JButton("Set Budget");
-		set_bdgt_btn_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SetBudget setbudg = new SetBudget();
-                setbudg.setVisible(true);
-			}
-		});
-		set_bdgt_btn_3.setFocusable(false);
-		set_bdgt_btn_3.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn_3.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn_3.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn_3.setBounds(155, 20, 116, 29);
-		food_bdgt.add(set_bdgt_btn_3);
-
-		JPanel health_bdgt = new JPanel();
-		health_bdgt.setLayout(null);
-		health_bdgt.setBackground(new Color(69, 92, 123));
-		health_bdgt.setBounds(10, 247, 281, 67);
-		unstted_bdgt_pnl.add(health_bdgt);
-
-		JLabel educ = new JLabel("HEALTH");
-		educ.setHorizontalAlignment(SwingConstants.CENTER);
-		educ.setForeground(new Color(252, 187, 109));
-		educ.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		educ.setBounds(21, 10, 118, 45);
-		health_bdgt.add(educ);
-
-		JButton set_bdgt_btn_3_1 = new JButton("Set Budget");
-		set_bdgt_btn_3_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SetBudget setbudg = new SetBudget();
-                setbudg.setVisible(true);
-			}
-		});
-		set_bdgt_btn_3_1.setFocusable(false);
-		set_bdgt_btn_3_1.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn_3_1.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn_3_1.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn_3_1.setBounds(155, 20, 116, 29);
-		health_bdgt.add(set_bdgt_btn_3_1);
-		
-		JPanel tax_bdgt = new JPanel();
-		tax_bdgt.setLayout(null);
-		tax_bdgt.setBackground(new Color(69, 92, 123));
-		tax_bdgt.setBounds(10, 325, 281, 67);
-		unstted_bdgt_pnl.add(tax_bdgt);
-		
-		JLabel educ_1 = new JLabel("TAX");
-		educ_1.setHorizontalAlignment(SwingConstants.CENTER);
-		educ_1.setForeground(new Color(252, 187, 109));
-		educ_1.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		educ_1.setBounds(21, 10, 118, 45);
-		tax_bdgt.add(educ_1);
-		
-		JButton set_bdgt_btn_3_1_1 = new JButton("Set Budget");
-		set_bdgt_btn_3_1_1.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn_3_1_1.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn_3_1_1.setFocusable(false);
-		set_bdgt_btn_3_1_1.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn_3_1_1.setBounds(155, 20, 116, 29);
-		tax_bdgt.add(set_bdgt_btn_3_1_1);
-		
-		JPanel insu_bdgt = new JPanel();
-		insu_bdgt.setLayout(null);
-		insu_bdgt.setBackground(new Color(69, 92, 123));
-		insu_bdgt.setBounds(10, 403, 281, 67);
-		unstted_bdgt_pnl.add(insu_bdgt);
-		
-		JLabel educ_1_1 = new JLabel("INSURANCE");
-		educ_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		educ_1_1.setForeground(new Color(252, 187, 109));
-		educ_1_1.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		educ_1_1.setBounds(21, 10, 118, 45);
-		insu_bdgt.add(educ_1_1);
-		
-		JButton set_bdgt_btn_3_1_1_1 = new JButton("Set Budget");
-		set_bdgt_btn_3_1_1_1.setForeground(new Color(252, 187, 109));
-		set_bdgt_btn_3_1_1_1.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		set_bdgt_btn_3_1_1_1.setFocusable(false);
-		set_bdgt_btn_3_1_1_1.setBackground(new Color(85, 111, 146));
-		set_bdgt_btn_3_1_1_1.setBounds(155, 20, 116, 29);
-		insu_bdgt.add(set_bdgt_btn_3_1_1_1);
+//		JPanel unstted_bdgt_pnl = new JPanel();
+//		unstted_bdgt_pnl.setPreferredSize(new Dimension(200, 485));
+//		unbudget_scrlpn.setViewportView(unstted_bdgt_pnl);
+//		unstted_bdgt_pnl.setBackground(new Color(85, 111, 146));
+//		unstted_bdgt_pnl.setLayout(null);
 
 		JLabel budgeted_lbl = new JLabel("Budgeted Categories");
 		budgeted_lbl.setForeground(new Color(252, 187, 109));
@@ -1266,9 +1116,11 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(true);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
-//				activeScrollPane = budgetScrollPane;
+				activeScrollPane = budgeted_scrlpn;
 				user_panel.setVisible(false);
-				mainFrameUtils.refreshBudgets(budgeted_scrlpn);
+				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
+				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
+				mainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn);
 			}
 		});
 		budget_button.setFocusable(false);

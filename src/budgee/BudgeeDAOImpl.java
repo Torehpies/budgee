@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import budgee.UserSession;
 import budgee.Record;
 import java.time.LocalDate;
@@ -13,6 +15,10 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	//LocalDate variables
 	LocalDate startDate = LocalDate.now();
 	LocalDate endDate = LocalDate.now();
+	
+	
+	private List <String> expenseCategories = new ArrayList<>(Arrays.asList("Bills", "Food", "Tax", "Insurance", "Health", "Shopping"));
+	private List<String> unbudgetedCategories;
 	
 	//UserSession object and variables
 	UserSession session = UserSession.getInstance();
@@ -213,6 +219,24 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        return budgets;
 	}
 
+	@Override
+	public List<String> getUnbudgetedCategories(List<Budget> budgets){
+		List<String> unbudgetedCategories = new ArrayList<>();
+		
+		 for (Budget budget : budgets) {
+			 String category = budget.getCategory();
+			 if (!expenseCategories.contains(category)) {
+				 unbudgetedCategories.add(category);
+			 }
+		 }
+		 
+		 if (unbudgetedCategories.isEmpty()) {
+			 unbudgetedCategories.addAll(expenseCategories);
+		 }
+	
+		return unbudgetedCategories;
+	}
+	
 	@Override
 	public BigDecimal getExpenseTotal(List<Record> records) {
 		BigDecimal expenseTotal = new BigDecimal("0");

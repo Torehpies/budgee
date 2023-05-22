@@ -1,6 +1,7 @@
 package budgee;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Budget {
 	
@@ -19,8 +20,9 @@ public class Budget {
 		this.limitBudget = limitBudget;
 		this.spentBudget = spentBudget;
 	}
+	
 	//Class attributes
-	private String expenseCategories[] = {"Bills", "Food", "Tax", "Insurance", "Health", "Shopping"};
+	
 	private int id;
 	private int userId;
 	private String category;
@@ -58,16 +60,7 @@ public class Budget {
 	public void setSpentBudget(BigDecimal spentBudget) {
 		this.spentBudget = spentBudget;
 	}
-	public String[] getExpenseCategories() {
-		return expenseCategories;
-	}
-	public boolean isBudgeted() {
-		return isBudgeted;
-	}
-	public void setBudgeted(boolean isBudgeted) {
-		this.isBudgeted = isBudgeted;
-	}
-
+	
 	
 	
 }

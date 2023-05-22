@@ -246,6 +246,37 @@ public class MainFrameUtils {
 		return budgetPanel;
 	}
 	
+	public static JPanel createUnbudgetedPanel(String category, JScrollPane parentPanel) {
+		JPanel unbudgetedPanel = new JPanel();
+		unbudgetedPanel.setBackground(new Color(69, 92, 123));
+		unbudgetedPanel.setBounds(10, 11, 281, 67);
+		parentPanel.add(unbudgetedPanel);
+		unbudgetedPanel.setLayout(null);
+
+		JLabel categoryLabel = new JLabel(category);
+		categoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		categoryLabel.setForeground(new Color(252, 187, 109));
+		categoryLabel.setFont(new Font("Quicksand Light", Font.BOLD, 20));
+		categoryLabel.setBounds(51, 10, 62, 45);
+		unbudgetedPanel.add(categoryLabel);
+
+		JButton set_bdgt_btn = new JButton("Set Budget");
+		set_bdgt_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SetBudget setbudg = new SetBudget();
+                setbudg.setVisible(true);
+			}
+		});
+		set_bdgt_btn.setFocusable(false);
+		set_bdgt_btn.setBackground(new Color(85, 111, 146));
+		set_bdgt_btn.setFont(new Font("Quicksand Light", Font.BOLD, 15));
+		set_bdgt_btn.setForeground(new Color(252, 187, 109));
+		set_bdgt_btn.setBounds(155, 20, 116, 29);
+		unbudgetedPanel.add(set_bdgt_btn);
+		
+		return unbudgetedPanel;
+	}
+	
 	public static void displayAllBudget(List<Budget> budgets, JScrollPane parentPanel_budget) {		
 		JPanel stted_bdgt_pnl = new JPanel();
 		stted_bdgt_pnl.setPreferredSize(new Dimension(447, 600));
@@ -261,6 +292,25 @@ public class MainFrameUtils {
 		parentPanel_budget.setViewportView(stted_bdgt_pnl);
 		parentPanel_budget.revalidate();
 		parentPanel_budget.repaint();
+	}
+	
+	public static void displayUnbudgetedCategories(List<String> unbudgetedCategories, JScrollPane parentPanel) {
+		JPanel containerPanel = new JPanel();
+	    containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
+	    javax.swing.border.Border lineBorder = BorderFactory.createLineBorder(Color.GRAY);  
+	    EmptyBorder emptyBorder = new EmptyBorder(0, 0, 5, 0);  
+	    CompoundBorder compoundBorder = new CompoundBorder(lineBorder, emptyBorder);  
+		
+		for (String category : unbudgetedCategories) {
+			JPanel unbudgetedPanel = createUnbudgetedPanel(category, parentPanel);
+			unbudgetedPanel.setPreferredSize(new Dimension(50,60));
+			unbudgetedPanel.setBorder(compoundBorder);
+			containerPanel.add(unbudgetedPanel);
+		}
+		
+		parentPanel.setViewportView(containerPanel);
+		parentPanel.revalidate();
+		parentPanel.repaint();
 	}
 	
 	public static void refreshBudgets(JScrollPane parentPanel_budget) {
