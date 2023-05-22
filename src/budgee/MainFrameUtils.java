@@ -98,17 +98,7 @@ public class MainFrameUtils {
 		lbl_Value.setBounds(366, 77, 113, 19);
 		recordPanel.add(lbl_Value);
 		
-		JButton btn_Edit = new JButton("Edit");
-		btn_Edit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btn_Edit.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btn_Edit.setForeground(new Color(252, 187, 109));
-		btn_Edit.setBackground(new Color(68, 83, 109));
-		btn_Edit.setFont(new Font("Century Gothic", Font.BOLD, 15));
-		btn_Edit.setBounds(514, 8, 89, 36);
-		recordPanel.add(btn_Edit);
+	
 		
 		JLabel lblGet_Acc = new JLabel(record.getAccount());
 		lblGet_Acc.setForeground(new Color(252, 187, 109));
