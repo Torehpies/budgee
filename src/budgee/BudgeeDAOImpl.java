@@ -295,4 +295,55 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	
 	
+	//
+	@Override
+	public BigDecimal getCashIncomeTotal(List<Record> records) {
+		BigDecimal CashIncomeTotal = new BigDecimal("0");
+		for (Record record : records) {
+			if (record.getAction().equals("Income") && record.getAccount().equals("Cash")) {
+				CashIncomeTotal = CashIncomeTotal.add(record.getBalance_update());
+			}
+		}
+		return CashIncomeTotal;
+	}
+	
+	
+	//
+	@Override
+	public BigDecimal getSavingsIncomeTotal(List<Record> records) {
+		BigDecimal SavingsIncomeTotal = new BigDecimal("0");
+		for (Record record : records) {
+			if (record.getAction().equals("Income") && record.getAccount().equals("Savings")) {
+				SavingsIncomeTotal = SavingsIncomeTotal.add(record.getBalance_update());
+			}
+		}
+		return SavingsIncomeTotal;
+	}
+	
+	
+	//gumagana sabi ni mark
+	@Override
+	public BigDecimal getCashExpenseTotal(List<Record> records) {
+		BigDecimal CashExpenseTotal = new BigDecimal("0");
+		for (Record record : records) {
+			if (record.getAction().equals("Expense") && record.getAccount().equals("Cash")) {
+				CashExpenseTotal = CashExpenseTotal.add(record.getBalance_update());
+			}
+		}
+		return CashExpenseTotal;
+	}
+	
+	//
+	@Override
+	public BigDecimal getSavingsExpenseTotal(List<Record> records) {
+		BigDecimal SavingsExpenseTotal = new BigDecimal("0");
+		for (Record record : records) {
+			if (record.getAction().equals("Expense")&& record.getAccount().equals("Savings")) {
+				SavingsExpenseTotal = SavingsExpenseTotal.add(record.getBalance_update());
+			}
+		}
+		return SavingsExpenseTotal;
+	}
+	
+	
 }
