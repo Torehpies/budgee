@@ -18,7 +18,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	
 	private List <String> expenseCategories = new ArrayList<>(Arrays.asList("Bills", "Food", "Tax", "Insurance", "Health", "Shopping"));
-	private List<String> unbudgetedCategories;
+	
 	
 	//UserSession object and variables
 	UserSession session = UserSession.getInstance();
@@ -256,16 +256,16 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	@Override
 	public List<String> getUnbudgetedCategories(List<Budget> budgets){
 		List<String> unbudgetedCategories = new ArrayList<>();
+		List<String> budgetedCategories = new ArrayList<>();
 		
 		 for (Budget budget : budgets) {
-			 String category = budget.getCategory();
-			 if (!expenseCategories.contains(category)) {
-				 unbudgetedCategories.add(category);
-			 }
+			 budgetedCategories.add(budget.getCategory());
 		 }
 		 
-		 if (unbudgetedCategories.isEmpty()) {
-			 unbudgetedCategories.addAll(expenseCategories);
+		 for (String category : expenseCategories) {
+			 if (!budgetedCategories.contains(category)) {
+				 unbudgetedCategories.add(category);
+			 }
 		 }
 	
 		return unbudgetedCategories;
