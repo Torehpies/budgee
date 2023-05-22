@@ -65,6 +65,7 @@ import java.util.Date;
 import java.util.List;
 import java.sql.Time;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
@@ -97,9 +98,8 @@ public class mainmain extends JFrame {
 
 	private UserSession session = UserSession.getInstance();
 	private String sessionUsername = session.getUsername();
-	
 	private MainFrameUtils mainFrameUtils = new MainFrameUtils();
-
+	
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
 	private JTextField cashbal_txtfld;
@@ -416,64 +416,125 @@ public class mainmain extends JFrame {
 		scrollPane.setViewportView(analytics);
 		analytics.setLayout(null);
 		
+		final JLabel dateLBL = new JLabel("here goes date");
+		dateLBL.setBounds(324, 216, 230, 33);
+		analytics.add(dateLBL);
+		dateLBL.setFont(new Font("Quicksand Light", Font.BOLD, 16));
 		
 		// TODO Auto-generated catch block
-		JCalendar calendar = new JCalendar();
-		 calendar.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
-	            public void propertyChange(PropertyChangeEvent e) {
-	            	Connection connection = null;
-	        		try {
-	        			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
-	        		} catch (SQLException e1) {	        			
-	        			e1.printStackTrace();
-	        		}
-	        			        		
-	        		BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
-	        		List<Record> records = BudgeeDAOImpl.getAllRecords();
-	        		
-	        		System.out.println(records);
-	        		// find/make method where you get the income/expense
-	        		// print it jonathan beside
-	        		
-	            }
-	        });
+		JCalendar kalendaryo = new JCalendar();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		calendar.setBounds(10, 11, 304, 250);
-		analytics.add(calendar);
-		
+		class SelectedDateWrapper {
+		    private Date selectedDate;
+		    
+		    public void setSelectedDate(Date date) {
+		        selectedDate = date;
+		    }
+		    
+		    public Date getSelectedDate() {
+		        return selectedDate;
+		    }
+		}
+
+		final SelectedDateWrapper selectedDateWrapper = new SelectedDateWrapper();
+
+		kalendaryo.addPropertyChangeListener("calendar", new PropertyChangeListener() {
+		    public void propertyChange(PropertyChangeEvent e) {
+		        if (e.getPropertyName().equals("calendar")) {
+		            Date selectedDate = kalendaryo.getDate();
+		            selectedDateWrapper.setSelectedDate(selectedDate);
+		            String formattedDate = sdf.format(selectedDate);
+
+		            // Perform the database query to retrieve data based on the selected date
+		            Connection connection = null;
+		            try {
+		                connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+		                BudgeeDAOImpl budgeeDAOImpl = new BudgeeDAOImpl(connection);
+
+		                // Convert the selected date to LocalDate
+		                LocalDate startDate = LocalDate.parse(formattedDate);
+		                // Set the end date as the same as the selected date
+		                LocalDate endDate = startDate;
+
+		                List<Record> records = budgeeDAOImpl.getRecordsByDateRange(startDate, endDate);
+
+		                // Print the retrieved data
+		                for (Record record : records) {
+		                    System.out.println("Date: " + record.getDate());
+		                    // System.out.println("Income: " + record.balanceUpdate());
+		                }
+
+		                // Update the JLabel with the selected date
+		                dateLBL.setText(sdf.format(selectedDateWrapper.getSelectedDate()));
+
+		            } catch (SQLException e1) {
+		                e1.printStackTrace();
+		            } finally {
+		                // Close the database connection
+		                if (connection != null) {
+		                    try {
+		                        connection.close();
+		                    } catch (SQLException e2) {
+		                        e2.printStackTrace();
+		                    }
+		                }
+		            }
+		        }
+		    }
+		});
+
+		kalendaryo.setBounds(10, 11, 304, 250);
+		analytics.add(kalendaryo);
+
+
 		JLabel incomeTXT = new JLabel("Income");
 		incomeTXT.setFont(new Font("Quicksand Light", Font.BOLD, 22));
 		incomeTXT.setForeground(new Color(252, 187, 109));
-		incomeTXT.setBounds(324, 11, 230, 45);
+		incomeTXT.setBounds(324, 11, 230, 33);
 		analytics.add(incomeTXT);
 		
 		JLabel lblExpense = new JLabel("Expense");
 		lblExpense.setFont(new Font("Quicksand Light", Font.BOLD, 22));
 		lblExpense.setForeground(new Color(252, 187, 109));
-		lblExpense.setBounds(324, 123, 230, 45);
+		lblExpense.setBounds(324, 93, 230, 33);
 		analytics.add(lblExpense);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(252, 187, 109));
-		panel.setBounds(324, 67, 230, 45);
+		panel.setBounds(324, 49, 230, 33);
 		analytics.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblHereGoesIncome = new JLabel("here goes income");
-		lblHereGoesIncome.setBounds(0, 0, 230, 45);
+		lblHereGoesIncome.setBounds(0, 0, 230, 34);
 		panel.add(lblHereGoesIncome);
 		lblHereGoesIncome.setFont(new Font("Quicksand Light", Font.BOLD, 16));
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(252, 187, 109));
-		panel_1.setBounds(324, 185, 230, 45);
+		panel_1.setBounds(324, 137, 230, 33);
 		analytics.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel expenseTXT = new JLabel("here goes expense");
-		expenseTXT.setBounds(0, 0, 230, 45);
+		expenseTXT.setBounds(0, 0, 230, 33);
 		panel_1.add(expenseTXT);
 		expenseTXT.setFont(new Font("Quicksand Light", Font.BOLD, 16));
+		
+		JLabel lblDate = new JLabel("Date:");
+		lblDate.setForeground(new Color(252, 187, 109));
+		lblDate.setFont(new Font("Quicksand Light", Font.BOLD, 22));
+		lblDate.setBounds(324, 180, 230, 33);
+		analytics.add(lblDate);
+			
+	
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(252, 187, 109));
+		panel_2.setBounds(324, 216, 230, 33);
+		analytics.add(panel_2);
+		panel_2.setLayout(null);
 
 		layerpanebelow.add(budget_panel, Integer.valueOf(0));
 
