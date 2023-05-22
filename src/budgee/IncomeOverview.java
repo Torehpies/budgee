@@ -3,6 +3,7 @@ package budgee;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
@@ -10,40 +11,50 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import budgee.DatabaseManager;
 import budgee.BudgeeDAOImpl;
+import budgee.UserSession;
 
 public class IncomeOverview {
-	DefaultPieDataset dataset = new DefaultPieDataset();
+	//LocalDate variables
+	LocalDate startDate = LocalDate.now();
+	LocalDate endDate = LocalDate.now();
+		
+	//UserSession object and variables
+	UserSession session = UserSession.getInstance();
+	int sessionId = session.getId();
+	
+	private Connection connection;
+	private String category;
+	private Double balanceUpdate;
+	
+	String newCategory = category;
+	Double newValue = balanceUpdate;
+	static DefaultPieDataset dataset = new DefaultPieDataset();
+		
 	
 	
-//	public void addData(String category, double value) {
-//		Connection connection = null;
-//		try {
-//			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
-//		} catch (SQLException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		
+	public void addData(String category, double value) {
+		
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 //		BudgeeDAOImpl bdi = new BudgeeDAOImpl(connection);
-//		bdi.getRecordsByDateRange();		
+//		daily_year_now = daily_year_now.plusDays(1);
+//		daily_date.setText(formatDate(daily_year_now));
+//		bdi.getRecordsByDateRange(startDate, endDate);	
+//		bdi.getIncomeTotal(recordsByDate);
 //		
-//		String category = bdi.getCategory;
-//		String category = bdi.getValue;
-//	    dataset.setValue(category, value);
-//	}
+		String category1 = newCategory;
+		System.out.println(category);
+//i		String value1 = balanceUpdate;
+	    dataset.setValue(category, value);
+	}
 
-    public void createChart() {  
-        dataset.setValue("JavaScript", 80);
-        dataset.setValue("Ruby", 11.8);
-        dataset.setValue("Java", 10.8);
-        dataset.setValue("Python", 11.6);
-        dataset.setValue("PHP", 7.2);
-        dataset.setValue("Objective-C", 10.7);
-        dataset.setValue("C", 5.2);
-        dataset.setValue("C++", 4.3);
-        dataset.setValue("Go", 3.8);
-        dataset.setValue("CSS", 3.8);
-
+    public static void createChart() {  
+  //      addData(newCategory, newValue);
         // Creating chart
         JFreeChart chart = ChartFactory.createPieChart("Testtiiinhhhng", dataset, true, true, false);
 

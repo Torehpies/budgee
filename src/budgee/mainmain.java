@@ -395,16 +395,10 @@ public class mainmain extends JFrame {
 		            expenseOverview.createChart();
 		        } else if (selectedOption.equals("Income Overview")) {
 		        	
-		            // Add code for handling "Income Overview" selection
-		        } else if (selectedOption.equals("Expense Flow")) {
-		        	
-		            // Add code for handling "Expense Flow" selection
-		        } else if (selectedOption.equals("Income Flow")) {
-		        	
-		            // Add code for handling "Income Flow" selection
-		        } else if (selectedOption.equals("Account Analysis")) {
+		            
+		        }   else if (selectedOption.equals("Account Analysis")) {
 		        	AccountAnalysis accountAnalysis = new AccountAnalysis();
-		            accountAnalysis.createChart();
+		  //          accountAnalysis.createChart(createData);
 		        }
 		    }
 		});
@@ -463,35 +457,27 @@ public class mainmain extends JFrame {
 		            Date selectedDate = kalendaryo.getDate();
 		            selectedDateWrapper.setSelectedDate(selectedDate);
 		            String formattedDate = sdf.format(selectedDate);
-
-		            // Perform the database query to retrieve data based on the selected date
 		            Connection connection = null;
 		            try {
 		                connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
 		                BudgeeDAOImpl budgeeDAOImpl = new BudgeeDAOImpl(connection);
-
-		                // Convert the selected date to LocalDate
 		                LocalDate startDate = LocalDate.parse(formattedDate);
-		                // Set the end date as the same as the selected date
 		                LocalDate endDate = startDate;
-
 		                List<Record> records = budgeeDAOImpl.getRecordsByDateRange(startDate, endDate);
-
-		                // Print the retrieved data
+		      
 		                for (Record record : records) {
 		                    System.out.println("Date: " + record.getDate());
-		                    System.out.println("Expense: " + BudgeeDAOImpl.getExpenseTotal());
-		                    System.out.println("Income: " + BudgeeDAOImpl.getIncomeTotal());         
+		                    System.out.println("Expense: " + incomeTotal);
+		                    System.out.println("Income: " + expenseTotal);         
 		                }
 		                
 		                dateLBL.setText(sdf.format(selectedDateWrapper.getSelectedDate()));
-		                incomeLBL.setText("PHP"+BudgeeDAOImpl.getIncomeTotal());
-		                expenseLBL.setText("PHP"+BudgeeDAOImpl.getExpenseTotal());
+		                incomeLBL.setText("PHP"+incomeTotal);
+		                expenseLBL.setText("PHP"+ expenseTotal);
 
 		            } catch (SQLException e1) {
 		                e1.printStackTrace();
 		            } finally {
-		                // Close the database connection
 		                if (connection != null) {
 		                    try {
 		                        connection.close();
@@ -500,6 +486,7 @@ public class mainmain extends JFrame {
 		                    }
 		                }
 		            }
+		           
 		        }
 		    }
 		});
