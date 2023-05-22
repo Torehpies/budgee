@@ -143,6 +143,7 @@ public class mainmain extends JFrame {
 	private BigDecimal expenseTotal = new BigDecimal("0");
 	private BigDecimal incomeTotal = new BigDecimal("0");
 	private List<Record> recordsByDate;
+	private List<Budget> budgetsByDate;
 	
 	private LocalDate startDate = LocalDate.now().withDayOfMonth(1);
 	private LocalDate endDate = LocalDate.now().withDayOfMonth(1);
@@ -186,11 +187,9 @@ public class mainmain extends JFrame {
 		}
 		
 		BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
-		List<Record> records = BudgeeDAOImpl.getAllRecords();
-		
+		List<Record> records = BudgeeDAOImpl.getRecordsByDateRange(startDate, endDate);
 		MainFrameUtils mainFrameUtils = new MainFrameUtils();
-
-		mainFrameUtils.displayAllRecords(records, recordScrollPane);		
+		MainFrameUtils.displayAllRecords(records, recordScrollPane);		
 				
 		
 		JPanel exint = new JPanel();
@@ -302,7 +301,7 @@ public class mainmain extends JFrame {
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
 				user_panel.setVisible(false);
-				System.out.println("pressed records button");
+
 				MainFrameUtils.refreshRecords(recordScrollPane);
 				activeScrollPane = recordScrollPane;
 
@@ -329,6 +328,7 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(false);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
+
 //				activeScrollPane = analyticScrollPane;
 				user_panel.setVisible(false);
 
@@ -355,11 +355,8 @@ public class mainmain extends JFrame {
 				budget_panel.setVisible(true);
 				acc_panel.setVisible(false);
 				categ_panel.setVisible(false);
-				activeScrollPane = budgeted_scrlpn;
 				user_panel.setVisible(false);
-				List<Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate, endDate);
-				
-				mainFrameUtils.displayAllBudget(budgets, activeScrollPane);
+	
 			}
 		});
 		budget_button.setFocusable(false);
@@ -1111,7 +1108,10 @@ public class mainmain extends JFrame {
 				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
 				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
 				LocalDate budgetDate = startDate.withDayOfMonth(1);
-				mainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, budgetDate);
+				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, budgetDate,budgeted_scrlpn);
+				activeScrollPane = budgeted_scrlpn;
+				List<Budget> budgetsByDate = BudgeeDAOImpl.getBudgetsByDateRange(startDate, endDate);
+				MainFrameUtils.displayAllBudget(budgetsByDate, activeScrollPane);
 				Daily.setVisible(false);
 				Weekly.setVisible(false);
 				Monthly.setVisible(true);

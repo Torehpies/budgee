@@ -247,7 +247,7 @@ public class MainFrameUtils {
 		return budgetPanel;
 	}
 	
-	public static JPanel createUnbudgetedPanel(String category, JScrollPane parentPanel, LocalDate dateBudget) {
+	public static JPanel createUnbudgetedPanel(String category, JScrollPane parentPanel, LocalDate dateBudget, JScrollPane budgetedPane) {
 		JPanel unbudgetedPanel = new JPanel();
 		unbudgetedPanel.setBackground(new Color(69, 92, 123));
 		unbudgetedPanel.setBounds(10, 11, 281, 67);
@@ -264,7 +264,7 @@ public class MainFrameUtils {
 		JButton set_bdgt_btn = new JButton("Set Budget");
 		set_bdgt_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SetBudget setbudget = new SetBudget(category, dateBudget, parentPanel);
+				SetBudget setbudget = new SetBudget(category, dateBudget, budgetedPane);
                 setbudget.setVisible(true);
 			}
 		});
@@ -279,23 +279,26 @@ public class MainFrameUtils {
 	}
 	
 	public static void displayAllBudget(List<Budget> budgets, JScrollPane parentPanel_budget) {		
-		JPanel stted_bdgt_pnl = new JPanel();
-		stted_bdgt_pnl.setPreferredSize(new Dimension(447, 600));
-		stted_bdgt_pnl.setLayout(null); 
+		JPanel containerPanel = new JPanel();
+	    containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
+	    javax.swing.border.Border lineBorder = BorderFactory.createLineBorder(Color.GRAY);  
+	    EmptyBorder emptyBorder = new EmptyBorder(0, 0, 5, 0);  
+	    CompoundBorder compoundBorder = new CompoundBorder(lineBorder, emptyBorder);  
 	    
 	    
 		for (Budget budget : budgets) {
 			JPanel budgetPanel = createBudgetPanel(budget, parentPanel_budget);
-			budgetPanel.setPreferredSize(new Dimension(50,100));	
-			stted_bdgt_pnl.add(budgetPanel);
+			budgetPanel.setPreferredSize(new Dimension(50,100));
+			budgetPanel.setBorder(compoundBorder);
+			containerPanel.add(budgetPanel);
 		}
 		
-		parentPanel_budget.setViewportView(stted_bdgt_pnl);
+		parentPanel_budget.setViewportView(containerPanel);
 		parentPanel_budget.revalidate();
 		parentPanel_budget.repaint();
 	}
 	
-	public static void displayUnbudgetedCategories(List<String> unbudgetedCategories, JScrollPane parentPanel, LocalDate budgetDate) {
+	public static void displayUnbudgetedCategories(List<String> unbudgetedCategories, JScrollPane parentPanel, LocalDate budgetDate, JScrollPane budgetedPane) {
 		JPanel containerPanel = new JPanel();
 	    containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 	    javax.swing.border.Border lineBorder = BorderFactory.createLineBorder(Color.GRAY);  
@@ -303,7 +306,7 @@ public class MainFrameUtils {
 	    CompoundBorder compoundBorder = new CompoundBorder(lineBorder, emptyBorder);  
 		
 		for (String category : unbudgetedCategories) {
-			JPanel unbudgetedPanel = createUnbudgetedPanel(category, parentPanel, budgetDate);
+			JPanel unbudgetedPanel = createUnbudgetedPanel(category, parentPanel, budgetDate, budgetedPane);
 			unbudgetedPanel.setPreferredSize(new Dimension(50,60));
 			unbudgetedPanel.setBorder(compoundBorder);
 			containerPanel.add(unbudgetedPanel);

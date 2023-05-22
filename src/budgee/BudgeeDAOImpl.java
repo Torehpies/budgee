@@ -239,6 +239,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        	 BigDecimal spentBudget = resultSet.getBigDecimal("spentBudget");
 
 	             Budget budget = new Budget(id, userId, date, category, limitBudget, spentBudget);
+	             budgets.add(budget);
 	        }
 
 	        resultSet.close();

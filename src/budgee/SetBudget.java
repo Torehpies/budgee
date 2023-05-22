@@ -147,6 +147,9 @@ public class SetBudget extends JFrame {
 				LocalDate startDate = dateBudget;
 				LocalDate endDate = dateBudget.withDayOfMonth(dateBudget.lengthOfMonth());
 				
+				System.out.println(startDate);
+				System.out.println(endDate);
+				
 				UserSession session = UserSession.getInstance();
 				int sessionId = session.getId();
 				Date date = Date.valueOf(dateBudget);
