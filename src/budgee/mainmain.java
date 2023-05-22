@@ -178,8 +178,10 @@ public class mainmain extends JFrame {
 		List<Record> records = BudgeeDAOImpl.getAllRecords();
 		
 		MainFrameUtils mainFrameUtils = new MainFrameUtils();
-		mainFrameUtils.displayAllRecords(records, recordScrollPane);		
 
+		mainFrameUtils.displayAllRecords(records, recordScrollPane);		
+				
+		
 		JButton rec_calcu = new JButton("+");
 		rec_calcu.setFocusable(false);
 		rec_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
@@ -417,6 +419,16 @@ public class mainmain extends JFrame {
 		scrollPane.setViewportView(analytics);
 		analytics.setLayout(null);
 		
+		final JLabel expenseLBL = new JLabel("here goes expense");
+		expenseLBL.setBounds(324, 137, 230, 33);
+		analytics.add(expenseLBL);
+		expenseLBL.setFont(new Font("Quicksand Light", Font.BOLD, 16));
+		
+		final JLabel incomeLBL = new JLabel("here goes income");
+		incomeLBL.setBounds(324, 48, 230, 34);
+		analytics.add(incomeLBL);
+		incomeLBL.setFont(new Font("Quicksand Light", Font.BOLD, 16));
+		
 		final JLabel dateLBL = new JLabel("here goes date");
 		dateLBL.setBounds(324, 216, 230, 33);
 		analytics.add(dateLBL);
@@ -463,11 +475,13 @@ public class mainmain extends JFrame {
 		                // Print the retrieved data
 		                for (Record record : records) {
 		                    System.out.println("Date: " + record.getDate());
-		                    // System.out.println("Income: " + record.balanceUpdate());
+		                    System.out.println("Expense: " + BudgeeDAOImpl.getExpenseTotal());
+		                    System.out.println("Income: " + BudgeeDAOImpl.getIncomeTotal());         
 		                }
-
-		                // Update the JLabel with the selected date
+		                
 		                dateLBL.setText(sdf.format(selectedDateWrapper.getSelectedDate()));
+		                incomeLBL.setText("PHP"+BudgeeDAOImpl.getIncomeTotal());
+		                expenseLBL.setText("PHP"+BudgeeDAOImpl.getExpenseTotal());
 
 		            } catch (SQLException e1) {
 		                e1.printStackTrace();
@@ -495,22 +509,13 @@ public class mainmain extends JFrame {
 		incomeTXT.setBounds(324, 11, 230, 33);
 		analytics.add(incomeTXT);
 		
-		JLabel lblExpense = new JLabel("Expense");
-		lblExpense.setFont(new Font("Quicksand Light", Font.BOLD, 22));
-		lblExpense.setForeground(new Color(252, 187, 109));
-		lblExpense.setBounds(324, 93, 230, 33);
-		analytics.add(lblExpense);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(252, 187, 109));
 		panel.setBounds(324, 49, 230, 33);
 		analytics.add(panel);
 		panel.setLayout(null);
-		
-		JLabel lblHereGoesIncome = new JLabel("here goes income");
-		lblHereGoesIncome.setBounds(0, 0, 230, 34);
-		panel.add(lblHereGoesIncome);
-		lblHereGoesIncome.setFont(new Font("Quicksand Light", Font.BOLD, 16));
+				
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(252, 187, 109));
@@ -518,10 +523,11 @@ public class mainmain extends JFrame {
 		analytics.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel expenseTXT = new JLabel("here goes expense");
-		expenseTXT.setBounds(0, 0, 230, 33);
-		panel_1.add(expenseTXT);
-		expenseTXT.setFont(new Font("Quicksand Light", Font.BOLD, 16));
+		JLabel lblExpense = new JLabel("Expense");
+		lblExpense.setFont(new Font("Quicksand Light", Font.BOLD, 22));
+		lblExpense.setForeground(new Color(252, 187, 109));
+		lblExpense.setBounds(324, 93, 230, 33);
+		analytics.add(lblExpense);
 		
 		JLabel lblDate = new JLabel("Date:");
 		lblDate.setForeground(new Color(252, 187, 109));
@@ -537,8 +543,8 @@ public class mainmain extends JFrame {
 		analytics.add(panel_2);
 		panel_2.setLayout(null);
 
+		layerpanebelow.add(budget_panel, Integer.valueOf(0));
 
-		layerpanebelow.add(budget_panel, Integer.valueOf(5));
 
 
 		JButton budget_calcu = new JButton("+");
