@@ -1777,7 +1777,7 @@ public class mainmain extends JFrame {
 		return startDate;
 	}
 
-	private LocalDate getPanelEndDate() {
+	LocalDate getPanelEndDate() {
 		return endDate;
 	}
 	
