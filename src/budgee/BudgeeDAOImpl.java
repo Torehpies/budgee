@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import budgee.UserSession;
 import budgee.Record;
@@ -167,7 +168,36 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 
 	@Override
 	public void updateBudget(Record record) {
-		
+		 String category = record.getCategory();
+		 BigDecimal balanceUpdate = record.getBalance_update();
+		 Date recordDate = record.getDate();
+		 Calendar calendar = Calendar.getInstance();
+		 calendar.setTime(recordDate);
+		 calendar.set(Calendar.DAY_OF_MONTH, 1);
+		 Date updatedDate = new Date(calendar.getTimeInMillis());
+
+		    try (Connection connection = DatabaseManager.getConnection();
+		         PreparedStatement statement = connection.prepareStatement(
+		                 "UPDATE budgetsTable SET spentBudget = spentBudget + ? WHERE category = ? AND userID = ? AND date = ?" )) {
+
+		        // Set the parameters for the SQL query
+		        statement.setBigDecimal(1, balanceUpdate);
+		        statement.setString(2, category);
+		        statement.setInt(3, sessionId);
+		        statement.setDate(4, updatedDate);
+
+		        // Execute the update query
+		        int rowsUpdated = statement.executeUpdate();
+
+		        if (rowsUpdated > 0) {
+		            System.out.println("Budget updated successfully!");
+		        } else {
+		            System.out.println("Budget not found for category: " + category);
+		        }
+
+		    } catch (SQLException e) {
+		        System.out.println("Error updating budget: " + e.getMessage());
+		    }
 		
 	}
 
