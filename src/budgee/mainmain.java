@@ -361,7 +361,7 @@ public class mainmain extends JFrame {
 
 		layerpanebelow.setLayout(null);
 		layerpanebelow.add(rec_panel, Integer.valueOf(0));
-		layerpanebelow.add(analytic_panel, Integer.valueOf(0));
+		layerpanebelow.add(analytic_panel, Integer.valueOf(5));
 
 
 		JButton calcu_analy = new JButton("+");
@@ -381,13 +381,13 @@ public class mainmain extends JFrame {
 		analytic_panel.add(calcu_analy);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(49, 64, 83));
+		panel.setBackground(new Color(66, 83, 109));
 		panel.setBounds(27, 57, 638, 378);
 		analytic_panel.add(panel);
 		panel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(85, 111, 146));
+		panel_1.setBackground(new Color(49, 64, 83));
 		panel_1.setBounds(10, 22, 618, 164);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
@@ -415,7 +415,8 @@ public class mainmain extends JFrame {
 		ImageIcon cashlogo = new ImageIcon("imgs/dollar1.png");
 		
 		JPanel bg = new JPanel();
-		bg.setBackground(new Color(238, 123, 157));
+		bg.setBorder(new LineBorder(new Color(252, 187, 109), 3));
+		bg.setBackground(new Color(49, 64, 83));
 		bg.setBounds(10, 11, 149, 141);
 		panel_1.add(bg);
 		bg.setLayout(null);
@@ -433,7 +434,7 @@ public class mainmain extends JFrame {
 		panel_1.add(income_anal);
 		
 		JPanel panel_1_1 = new JPanel();
-		panel_1_1.setBackground(new Color(85, 111, 146));
+		panel_1_1.setBackground(new Color(49, 64, 83));
 		panel_1_1.setBounds(10, 197, 618, 164);
 		panel.add(panel_1_1);
 		panel_1_1.setLayout(null);
@@ -447,7 +448,8 @@ public class mainmain extends JFrame {
 		ImageIcon savingslogo = new ImageIcon("imgs/piggy1.png");
 		
 		JPanel bg1 = new JPanel();
-		bg1.setBackground(new Color(236, 104, 143));
+		bg1.setBorder(new LineBorder(new Color(252, 187, 109), 3));
+		bg1.setBackground(new Color(49, 64, 83));
 		bg1.setBounds(10, 12, 149, 141);
 		panel_1_1.add(bg1);
 		bg1.setLayout(null);
