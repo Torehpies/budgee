@@ -50,7 +50,7 @@ public class SetBudget extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SetBudget(String category, LocalDate dateBudget, JScrollPane parentPanel) {
+	public SetBudget(String category, LocalDate dateBudget, JScrollPane parentPanel, JScrollPane unbudgetedPane) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 444, 415);
 		SetBudgetPanel = new JPanel();
@@ -145,10 +145,6 @@ public class SetBudget extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				LocalDate startDate = dateBudget;
-				LocalDate endDate = dateBudget.withDayOfMonth(dateBudget.lengthOfMonth());
-				
-				System.out.println(startDate);
-				System.out.println(endDate);
 				
 				UserSession session = UserSession.getInstance();
 				int sessionId = session.getId();
@@ -161,8 +157,10 @@ public class SetBudget extends JFrame {
 				Connection connection = DatabaseManager.getConnection();
 				BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
 				BudgeeDAOImpl.addBudget(budget);
-				List <Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
-				MainFrameUtils.displayAllBudget(budgets, parentPanel);
+				List <Budget> budgetsAll = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
+				List <String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgetsAll);
+				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudgetedPane, dateBudget, parentPanel);
+				MainFrameUtils.displayAllBudget(budgetsAll, parentPanel);
 				
 				dispose();
 			}

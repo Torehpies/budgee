@@ -578,12 +578,8 @@ import com.toedter.calendar.JDateChooser;
 						
 					}
 					else {
-				
 					
 					String selectedDate = new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate());
-					System.out.println(selectedDate);
-					
-					System.out.println(selectedDate);
 					
 					Date recordDate = Date.valueOf(selectedDate);
 					
@@ -626,6 +622,8 @@ import com.toedter.calendar.JDateChooser;
 					BudgeeDAO.addRecord(record);
 					
 					MainFrameUtils.refreshRecords(parentPanel);
+					
+					dispose();
 					}
 				}
 			});

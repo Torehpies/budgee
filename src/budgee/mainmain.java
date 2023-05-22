@@ -1110,7 +1110,6 @@ public class mainmain extends JFrame {
 				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
 				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
 				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
-				activeScrollPane = budgeted_scrlpn;
 				List<Budget> budgetsByDate = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
 				MainFrameUtils.displayAllBudget(budgetsByDate, activeScrollPane);
 				Daily.setVisible(false);
@@ -1353,8 +1352,6 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.minusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
-	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
-				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
 				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
 				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
 				exint_EX_lbl.setText("-PHP " + expenseTotal);
@@ -1370,9 +1367,17 @@ public class mainmain extends JFrame {
 				expense_cash.setText("PHP"+ SavingsExpenseTotal);
 				income_cash.setText("PHP"+ SavingsIncomeTotal);
 				expense_cash.setText("PHP"+ CashExpenseTotal);
-				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
-				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
-				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
+				
+				if (activeScrollPane == recordScrollPane) {
+					recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
+	            	MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+	            }
+	          else {
+	        	  budgetsByDate = BudgeeDAOImpl.getBudgetsByDateRange(startDate.withDayOfMonth(1));
+					List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgetsByDate);
+					MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
+	        	  MainFrameUtils.displayAllBudget(budgetsByDate, activeScrollPane);
+	          }
 			}
 		});
 		monthly_left.setBounds(10, 11, 41, 34);
@@ -1387,8 +1392,6 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.plusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
-	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
-				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
 				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
 				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
 				exint_EX_lbl.setText("-PHP " + expenseTotal);
@@ -1404,9 +1407,17 @@ public class mainmain extends JFrame {
 				expense_cash.setText("PHP"+ SavingsExpenseTotal);
 				income_cash.setText("PHP"+ SavingsIncomeTotal);
 				expense_cash.setText("PHP"+ CashExpenseTotal);
-				List<Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
-				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
-				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
+				
+				if (activeScrollPane == recordScrollPane) {
+					recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
+	            	MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+	            }
+				else {
+	        	  	budgetsByDate = BudgeeDAOImpl.getBudgetsByDateRange(startDate.withDayOfMonth(1));
+					List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgetsByDate);
+					MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
+					MainFrameUtils.displayAllBudget(budgetsByDate, activeScrollPane);
+				}
 			}
 		});
 		monthly_right.setBounds(406, 11, 41, 34);

@@ -45,12 +45,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 			 preparedStatement.setString(7, record.getCategory());
 			 preparedStatement.setString(8, record.getAccount());
 			 
-			 int affectedRows = preparedStatement.executeUpdate();
+			 preparedStatement.executeUpdate();
 
-	            if (affectedRows > 0) {
-	                System.out.println("Insertion successful");
-	            }
-			 
 			 preparedStatement.close();
 			 connection.close();
 			 
@@ -158,12 +154,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 			 preparedStatement.setBigDecimal(4, budget.getLimitBudget());
 			 preparedStatement.setBigDecimal(5, budget.getSpentBudget());
 		
-			 int affectedRows = preparedStatement.executeUpdate();
+			 preparedStatement.executeUpdate();
 
-	            if (affectedRows > 0) {
-	                System.out.println("Insertion successful");
-	            }
-			 
 			 preparedStatement.close();
 			 connection.close();
 			 
@@ -174,8 +166,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public void updateBudget(Budget budget) {
-		// TODO Auto-generated method stub
+	public void updateBudget(Record record) {
+		
 		
 	}
 

@@ -12,7 +12,7 @@ public interface BudgeeDAO {
     void deleteRecord(int recordId);
     
     void addBudget(Budget budget);
-    void updateBudget(Budget budget);
+    void updateBudget(Record record);
     void deleteBudget(int budgetId);
     
     
@@ -28,7 +28,6 @@ public interface BudgeeDAO {
     List<String> getUnbudgetedCategories(List<Budget> budgets);
     List<Record> getAllRecords();
     List<Record> getRecordsByDateRange(LocalDate startDate, LocalDate endDate);
-
     List<Budget> getBudgetsByDateRange(LocalDate startDate);
 
 }

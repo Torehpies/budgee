@@ -264,7 +264,7 @@ public class MainFrameUtils {
 		JButton set_bdgt_btn = new JButton("Set Budget");
 		set_bdgt_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SetBudget setbudget = new SetBudget(category, dateBudget, budgetedPane);
+				SetBudget setbudget = new SetBudget(category, dateBudget, budgetedPane, parentPanel);
                 setbudget.setVisible(true);
 			}
 		});
