@@ -87,6 +87,8 @@ import javax.swing.BoxLayout;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import java.math.BigDecimal;
+
 import com.toedter.calendar.JCalendar;
 import javax.swing.border.LineBorder;
 
@@ -137,6 +139,9 @@ public class mainmain extends JFrame {
 	
 	private JScrollPane activeScrollPane;
 	
+	private BigDecimal expenseTotal = new BigDecimal("0");
+	private BigDecimal incomeTotal = new BigDecimal("0");
+	private List<Record> recordsByDate;
 	
 	public mainmain() {		
 		
@@ -1234,10 +1239,47 @@ public class mainmain extends JFrame {
 		exint.setBounds(675, 64, 325, 100);
 		exint.setBackground(new Color(66, 83, 109));
 		exint.setForeground(new Color(255, 255, 255));
-		
 
+		JLabel ex_lebel = new JLabel("Expense:");
+		ex_lebel.setHorizontalAlignment(SwingConstants.CENTER);
+		ex_lebel.setForeground(new Color(252, 187, 109));
+		ex_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
+		ex_lebel.setBounds(10, 15, 78, 18);
+		exint.add(ex_lebel);
+
+		JLabel inc_lebel = new JLabel("Income:");
+		inc_lebel.setHorizontalAlignment(SwingConstants.CENTER);
+		inc_lebel.setForeground(new Color(252, 187, 109));
+		inc_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
+		inc_lebel.setBounds(10, 44, 80, 18);
+		exint.add(inc_lebel);
+
+		JLabel tot_lebel = new JLabel("Total:");
+		tot_lebel.setHorizontalAlignment(SwingConstants.CENTER);
+		tot_lebel.setForeground(new Color(252, 187, 109));
+		tot_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
+		tot_lebel.setBounds(10, 71, 78, 18);
+		exint.add(tot_lebel);
 		JLayeredPane layeredPane = new JLayeredPane();
 		layeredPane.setBounds(208, 106, 457, 58);
+		
+		JLabel exint_EX_lbl = new JLabel("-PHP 0");
+		exint_EX_lbl.setForeground(new Color(252, 187, 109));
+		exint_EX_lbl.setBackground(new Color(85, 111, 146));
+		exint_EX_lbl.setBounds(109, 15, 194, 18);
+		exint.add(exint_EX_lbl);
+
+		JLabel exint_inc_lbl = new JLabel("PHP 0");
+		exint_inc_lbl.setForeground(new Color(252, 187, 109));
+		exint_inc_lbl.setBackground(new Color(85, 111, 146));
+		exint_inc_lbl.setBounds(109, 42, 194, 18);
+		exint.add(exint_inc_lbl);
+
+		JLabel exint_total_lbl = new JLabel("PHP " + (incomeTotal.subtract(expenseTotal)));
+		exint_total_lbl.setForeground(new Color(252, 187, 109));
+		exint_total_lbl.setBackground(new Color(85, 111, 146));
+		exint_total_lbl.setBounds(109, 74, 194, 18);
+		exint.add(exint_total_lbl);
 		
 		daily_year_now = LocalDate.now();
         daily_date = new JLabel(formatDate(daily_year_now));
@@ -1261,7 +1303,13 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.minusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
-				MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), activeScrollPane);
+				recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now);
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
 			}
 		});
 		daily_left.setBounds(10, 11, 41, 34);
@@ -1276,7 +1324,13 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				daily_year_now = daily_year_now.plusDays(1);
 				daily_date.setText(formatDate(daily_year_now));
-				MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now), activeScrollPane);
+				recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now);
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
 			}
 		});
 		daily_right.setBounds(406, 11, 41, 34);
@@ -1306,7 +1360,13 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				week_year_now = week_year_now.minusWeeks(1);
 	            weekly_date.setText(getFormattedDateweek());
-	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), activeScrollPane);
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
 			}
 		});
 		weekly_left.setBounds(10, 11, 41, 34);
@@ -1319,9 +1379,15 @@ public class mainmain extends JFrame {
 		weekly_right.setBackground(new Color(85, 111, 146));
 		weekly_right.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 week_year_now = week_year_now.plusWeeks(1);
-	             weekly_date.setText(getFormattedDateweek());
-	             MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6)), activeScrollPane);
+				week_year_now = week_year_now.plusWeeks(1);
+	            weekly_date.setText(getFormattedDateweek());
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(week_year_now, week_year_now.plusDays(6));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
 			}
 		});
 		weekly_right.setBounds(406, 11, 41, 34);
@@ -1350,8 +1416,13 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.minusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
-	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth())), activeScrollPane);
-	            System.out.println(month_year_now.getMonthValue());
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
 			}
 		});
 		monthly_left.setBounds(10, 11, 41, 34);
@@ -1366,7 +1437,13 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.plusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
-	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth())), activeScrollPane);
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
 			}
 		});
 		monthly_right.setBounds(406, 11, 41, 34);
@@ -1396,7 +1473,13 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				year_year_now = year_year_now.minusYears(1);
 	            yearly_date.setText(getFormattedDateyear());
-	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear())), activeScrollPane);
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear()));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
 			}
 		});
 		yearly_left.setBounds(10, 11, 41, 34);
@@ -1411,7 +1494,13 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				year_year_now = year_year_now.plusYears(1);
 	            yearly_date.setText(getFormattedDateyear());
-	            MainFrameUtils.displayAllRecords(BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear())), activeScrollPane);
+	            recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(year_year_now.withDayOfYear(1), year_year_now.withDayOfYear(year_year_now.lengthOfYear()));
+				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
 			}
 		});
 		yearly_right.setBounds(406, 11, 41, 34);
@@ -1493,27 +1582,7 @@ public class mainmain extends JFrame {
 		yearly_butt.setFocusable(false);
 		yearly_butt.setBackground(new Color(85, 111, 146));
 		exint.setLayout(null);
-
-		JLabel ex_lebel = new JLabel("Expense:");
-		ex_lebel.setHorizontalAlignment(SwingConstants.CENTER);
-		ex_lebel.setForeground(new Color(252, 187, 109));
-		ex_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		ex_lebel.setBounds(10, 15, 78, 18);
-		exint.add(ex_lebel);
-
-		JLabel inc_lebel = new JLabel("Income:");
-		inc_lebel.setHorizontalAlignment(SwingConstants.CENTER);
-		inc_lebel.setForeground(new Color(252, 187, 109));
-		inc_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		inc_lebel.setBounds(10, 44, 80, 18);
-		exint.add(inc_lebel);
-
-		JLabel tot_lebel = new JLabel("Total:");
-		tot_lebel.setHorizontalAlignment(SwingConstants.CENTER);
-		tot_lebel.setForeground(new Color(252, 187, 109));
-		tot_lebel.setFont(new Font("Quicksand Light", Font.BOLD, 14));
-		tot_lebel.setBounds(10, 71, 78, 18);
-		exint.add(tot_lebel);
+		
 		frmMain.setLayout(null);
 		frmMain.add(layeredPane);
 
@@ -1523,23 +1592,6 @@ public class mainmain extends JFrame {
 		frmMain.add(weekly_butt);
 		frmMain.add(exint);
 
-		JLabel exint_EX_lbl = new JLabel("-PHP " + BudgeeDAOImpl.getExpenseTotal());
-		exint_EX_lbl.setForeground(new Color(252, 187, 109));
-		exint_EX_lbl.setBackground(new Color(85, 111, 146));
-		exint_EX_lbl.setBounds(109, 15, 194, 18);
-		exint.add(exint_EX_lbl);
-
-		JLabel exint_inc_lbl = new JLabel("PHP " + BudgeeDAOImpl.getIncomeTotal());
-		exint_inc_lbl.setForeground(new Color(252, 187, 109));
-		exint_inc_lbl.setBackground(new Color(85, 111, 146));
-		exint_inc_lbl.setBounds(109, 42, 194, 18);
-		exint.add(exint_inc_lbl);
-
-		JLabel exint_total_lbl = new JLabel("PHP " + (BudgeeDAOImpl.getIncomeTotal()).subtract(BudgeeDAOImpl.getExpenseTotal()));
-		exint_total_lbl.setForeground(new Color(252, 187, 109));
-		exint_total_lbl.setBackground(new Color(85, 111, 146));
-		exint_total_lbl.setBounds(109, 74, 194, 18);
-		exint.add(exint_total_lbl);
 		frmMain.add(categ_button);
 		frmMain.add(acc_button);
 		frmMain.add(budget_button);

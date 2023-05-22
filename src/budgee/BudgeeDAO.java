@@ -15,8 +15,8 @@ public interface BudgeeDAO {
     void updateBudget(Budget budget);
     void deleteBudget(int budgetId);
     
-    BigDecimal getExpenseTotal();
-    BigDecimal getIncomeTotal();
+    BigDecimal getExpenseTotal(List<Record> records);
+    BigDecimal getIncomeTotal(List<Record> records);
     
     List<Budget> getAllBudgets();
     List<Record> getAllRecords();

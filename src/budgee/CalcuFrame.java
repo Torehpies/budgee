@@ -51,6 +51,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.EtchedBorder;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -546,26 +547,26 @@ import com.toedter.calendar.JDateChooser;
 			panel.add(tutuldok_1);
 			
 			JComboBox<String> hourComboBox = new JComboBox<>();
-		    hourComboBox.setBounds(45, 385, 117, 50);
-		    panel.add(hourComboBox);
-		 
-		    for (int hour = 1; hour <= 24; hour++) {
-			 hourComboBox.addItem(String.valueOf(hour));
-	        }
-		 
-		    JComboBox<String> minuteComboBox = new JComboBox<>();
-		    minuteComboBox.setBounds(179, 385, 117, 50);
-		    panel.add(minuteComboBox);
-		 
-		    for (int minute = 0; minute <= 59; minute++) {
-	        String formattedMinute = String.format("%02d", minute);
-	        minuteComboBox.addItem(formattedMinute);
-            }
-		    
-		    hourComboBox.setSelectedItem(1);
-	        minuteComboBox.setSelectedItem("00");
-		    
-		 
+			hourComboBox.setBounds(45, 385, 117, 50);
+			panel.add(hourComboBox);
+
+			for (int hour = 1; hour <= 24; hour++) {
+			    hourComboBox.addItem(String.valueOf(hour));
+			}
+
+			JComboBox<String> minuteComboBox = new JComboBox<>();
+			minuteComboBox.setBounds(179, 385, 117, 50);
+			panel.add(minuteComboBox);
+
+			for (int minute = 0; minute <= 59; minute++) {
+			    String formattedMinute = String.format("%02d", minute);
+			    minuteComboBox.addItem(formattedMinute);
+			}
+
+			LocalTime currentTime = LocalTime.now();
+
+			hourComboBox.setSelectedItem(String.valueOf(currentTime.getHour()));
+			minuteComboBox.setSelectedItem(String.format("%02d",currentTime.getMinute()));
 		        
 			JButton btnSave_1 = new JButton("Save");
 			btnSave_1.addActionListener(new ActionListener() {

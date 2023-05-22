@@ -10,6 +10,9 @@ import java.time.LocalDate;
 
 public class BudgeeDAOImpl implements BudgeeDAO {
 	
+	//LocalDate variables
+	LocalDate startDate = LocalDate.now();
+	LocalDate endDate = LocalDate.now();
 	
 	//UserSession object and variables
 	UserSession session = UserSession.getInstance();
@@ -211,9 +214,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public BigDecimal getExpenseTotal() {
+	public BigDecimal getExpenseTotal(List<Record> records) {
 		BigDecimal expenseTotal = new BigDecimal("0");
-		List<Record> records = getAllRecords();
 		for (Record record : records) {
 			if (record.getAction().equals("Expense")) {
 				expenseTotal = expenseTotal.add(record.getBalance_update());
@@ -223,9 +225,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public BigDecimal getIncomeTotal() {
+	public BigDecimal getIncomeTotal(List<Record> records) {
 		BigDecimal incomeTotal = new BigDecimal("0");
-		List<Record> records = getAllRecords();
 		for (Record record : records) {
 			if (record.getAction().equals("Income")) {
 				incomeTotal = incomeTotal.add(record.getBalance_update());
