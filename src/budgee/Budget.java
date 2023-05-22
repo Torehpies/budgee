@@ -20,11 +20,14 @@ public class Budget {
 		this.spentBudget = spentBudget;
 	}
 	//Class attributes
+	private String expenseCategories[] = {"Bills", "Food", "Tax", "Insurance", "Health", "Shopping"};
 	private int id;
 	private int userId;
 	private String category;
 	private BigDecimal limitBudget;
 	private BigDecimal spentBudget;
+	private boolean isBudgeted;
+	
 	public int getId() {
 		return id;
 	}
@@ -55,6 +58,16 @@ public class Budget {
 	public void setSpentBudget(BigDecimal spentBudget) {
 		this.spentBudget = spentBudget;
 	}
+	public String[] getExpenseCategories() {
+		return expenseCategories;
+	}
+	public boolean isBudgeted() {
+		return isBudgeted;
+	}
+	public void setBudgeted(boolean isBudgeted) {
+		this.isBudgeted = isBudgeted;
+	}
+
 	
 	
 }

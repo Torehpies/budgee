@@ -24,10 +24,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import budgee.DatabaseManager;
+import budgee.mainmain;
 //import javafx.scene.layout.Border;
 
 public class MainFrameUtils {
-	
+
+	private static List<Record> recordsByDate;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -75,7 +77,9 @@ public class MainFrameUtils {
 				BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
 				BudgeeDAOImpl.deleteRecord(record.getId());
 				MainFrameUtils mainFrameUtils = new MainFrameUtils();
-				mainFrameUtils.refreshRecords(parentPanel_rec);
+				mainmain mainFrame = new mainmain();
+				recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(mainFrame.getPanelStartDate(), mainFrame.getPanelEndDate());
+				mainFrameUtils.displayAllRecords(recordsByDate, parentPanel_rec);
 				
 			}
 		});
@@ -86,7 +90,7 @@ public class MainFrameUtils {
 		btn_Del.setBounds(514, 41, 89, 36);
 		recordPanel.add(btn_Del);
 		
-		JLabel lbl_Value = new JLabel("₱" + (record.getBalance_update()).toString());
+		JLabel lbl_Value = new JLabel("PHP " + (record.getBalance_update()).toString());
 		lbl_Value.setForeground(new Color(252, 187, 109));
 		lbl_Value.setFont(new Font("Century Gothic", Font.BOLD, 15));
 		lbl_Value.setBackground(Color.WHITE);
