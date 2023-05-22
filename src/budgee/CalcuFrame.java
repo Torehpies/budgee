@@ -646,11 +646,7 @@ import com.toedter.calendar.JDateChooser;
 			btnCancel_1.setBounds(514, 460, 91, 38);
 			panel.add(btnCancel_1);
 			
-		
 
-			
-			
-			
 			
 			JPanel panel_3 = new JPanel();
 			panel_3.setBackground(new Color(69, 92, 123));
