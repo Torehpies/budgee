@@ -39,21 +39,6 @@ public class NewAccount extends JFrame {
 	private JTextField contactInfo;
 	private JTextField username;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					NewAccount frame = new NewAccount();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	Connection con;
 	PreparedStatement pst;

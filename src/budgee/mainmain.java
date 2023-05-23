@@ -151,11 +151,6 @@ public class mainmain extends JFrame {
 	
 	public mainmain() {		
 		
-		System.out.println(cashIncomeTotal);
-		System.out.println(savingsIncomeTotal);
-		System.out.println(cashExpenseTotal);
-		System.out.println(savingsExpenseTotal);
-		
         setSize(400, 300);
         setLocationRelativeTo(null);
 		setResizable(false);

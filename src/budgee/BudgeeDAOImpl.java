@@ -344,7 +344,6 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		for (Record record : records) {
 			if (record.getAccount().equals("Cash")&& record.getAction().equals("Income")) {
 				cashIncomeTotal = cashIncomeTotal.add(record.getBalance_update());
-				System.out.println("cash income");
 			}
 		}
 		return cashIncomeTotal;
@@ -358,7 +357,6 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		for (Record record : records) {
 			if (record.getAction().equals("Income") && record.getAccount().equals("Savings")) {
 				savingsIncomeTotal = savingsIncomeTotal.add(record.getBalance_update());
-				System.out.println("savings income");
 			}
 		}
 		return savingsIncomeTotal;
@@ -372,7 +370,6 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		for (Record record : records) {
 			if (record.getAction().equals("Expense") && record.getAccount().equals("Cash")) {
 				cashExpenseTotal = cashExpenseTotal.add(record.getBalance_update());
-				System.out.println("cash expense");
 			}
 		}
 		return cashExpenseTotal;
@@ -385,7 +382,6 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		for (Record record : records) {
 			if (record.getAction().equals("Expense")&& record.getAccount().equals("Savings")) {
 				savingsExpenseTotal = savingsExpenseTotal.add(record.getBalance_update());
-				System.out.println("savings expense");
 			}
 		}
 		return savingsExpenseTotal;
