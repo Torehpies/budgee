@@ -132,6 +132,7 @@ public class MainFrameUtils {
 	
 	public static void displayAllRecords(List<Record> records, JScrollPane parentPanel_rec) {		
 		JPanel containerPanel = new JPanel();
+		containerPanel.setBackground(new Color(49, 64, 83));
 	    containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 	    javax.swing.border.Border lineBorder = BorderFactory.createLineBorder(Color.GRAY);  
 	    EmptyBorder emptyBorder = new EmptyBorder(0, 0, 5, 0);  
@@ -163,7 +164,7 @@ public class MainFrameUtils {
 	static JPanel createBudgetPanel(Budget budget, JScrollPane parentPanel_budget) {
 		
 		JPanel budgetPanel = new JPanel();
-		budgetPanel.setBackground(new Color(68, 83, 109));
+		budgetPanel.setBackground(new Color(69, 92, 123));
 		budgetPanel.setBounds(10, 11, 410, 104);
 		budgetPanel.setLayout(null);
 		
@@ -272,6 +273,7 @@ public class MainFrameUtils {
 	
 	public static void displayAllBudget(List<Budget> budgets, JScrollPane parentPanel_budget) {		
 		JPanel containerPanel = new JPanel();
+		containerPanel.setBackground(new Color(49, 64, 83));
 	    containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
 	    javax.swing.border.Border lineBorder = BorderFactory.createLineBorder(Color.GRAY);  
 	    EmptyBorder emptyBorder = new EmptyBorder(0, 0, 5, 0);  
