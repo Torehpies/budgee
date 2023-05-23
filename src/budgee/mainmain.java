@@ -198,9 +198,11 @@ public class mainmain extends JFrame {
 		
 		BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
 		List<Record> records = BudgeeDAOImpl.getRecordsByDateRange(startDate, endDate);
+		recordsByDate = records;
 		List<Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
-		MainFrameUtils.displayAllRecords(records, recordScrollPane);
-		MainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
+		budgetsByDate = budgets;
+//		MainFrameUtils.displayAllRecords(records, recordScrollPane);
+//		MainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
 				
 		
 		JPanel exint = new JPanel();
