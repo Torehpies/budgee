@@ -21,6 +21,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
@@ -108,11 +110,9 @@ public class mainmain extends JFrame {
 	private JButton rec_button;
 	private JButton analytic_button;
 	private JButton budget_button;
-	private JButton user_button;
 	private JPanel analytic_panel;
 	private JPanel budget_panel;
 	private JPanel rec_panel;
-	private JPanel user_panel;
 		
 	private LocalDate daily_year_now;
 	private JLabel daily_date;
@@ -148,6 +148,7 @@ public class mainmain extends JFrame {
 	private LocalDate endDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
 	
 	private JScrollPane unbudgetedPane;
+	private static CalcuFrame win = null;
 	
 	public mainmain() {		
 		
@@ -246,8 +247,13 @@ public class mainmain extends JFrame {
 		rec_calcu.setBackground(new Color(85, 111, 146));
 		rec_calcu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			//TODO	 
 				CalcuFrame win = new CalcuFrame(recordScrollPane);
 				win.setVisible(true);
+				
+//				 if (win == null || !win.isVisible()) {
+//					createCalculator();
+//	                }
 			}
 		});
 		rec_calcu.setBounds(690, 365, 70, 70);
@@ -282,13 +288,9 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(216, 115, 127));
 				analytic_button.setBackground(new Color(85, 111, 146));
 				budget_button.setBackground(new Color(85, 111, 146));
-				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(true);
 				analytic_panel.setVisible(false);
-				budget_panel.setVisible(false);
-				
-				user_panel.setVisible(false);
-
+				budget_panel.setVisible(false);	
 				MainFrameUtils.refreshRecords(recordScrollPane);
 				activeScrollPane = recordScrollPane;
 
@@ -306,14 +308,14 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				rec_button.setBackground(new Color(85, 111, 146));
 				analytic_button.setBackground(new Color(216, 115, 127));
-				user_button.setBackground(new Color(85, 111, 146));
+		
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(true);
 				budget_panel.setVisible(false);
 		
 
 //				activeScrollPane = analyticScrollPane;
-				user_panel.setVisible(false);
+				
 
 			}
 		});
@@ -330,11 +332,11 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(85, 111, 146));
 				analytic_button.setBackground(new Color(85, 111, 146));
 				budget_button.setBackground(new Color(216, 115, 127));
-				user_button.setBackground(new Color(85, 111, 146));
+	
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(true);
-				user_panel.setVisible(false);
+				
 	
 			}
 		});
@@ -525,11 +527,9 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(216, 115, 127));
 				analytic_button.setBackground(new Color(85, 111, 146));
 				budget_button.setBackground(new Color(85, 111, 146));
-				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(true);
 				analytic_panel.setVisible(false);
-				budget_panel.setVisible(false);
-								user_panel.setVisible(false);
+				budget_panel.setVisible(false);					
 				activeScrollPane = recordScrollPane;
 				recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(daily_year_now, daily_year_now);
 				MainFrameUtils.displayAllRecords(recordsByDate, activeScrollPane);
@@ -559,13 +559,13 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(85, 111, 146));
 				analytic_button.setBackground(new Color(216, 115, 127));
 				budget_button.setBackground(new Color(85, 111, 146));
-				user_button.setBackground(new Color(85, 111, 146));
+			
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(true);
 				budget_panel.setVisible(false);
 			
 //				activeScrollPane = analyticScrollPane;
-				user_panel.setVisible(false);
+			
 
 				income_cash.setText("PHP"+ cashIncomeTotal);
 				expense_cash.setText("PHP"+ savingsExpenseTotal);
@@ -588,13 +588,11 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(85, 111, 146));
 				analytic_button.setBackground(new Color(85, 111, 146));
 				budget_button.setBackground(new Color(216, 115, 127));
-				user_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(true);
 			
 				activeScrollPane = budgeted_scrlpn;
-				user_panel.setVisible(false);
 				List<Budget> budgets = BudgeeDAOImpl.getAllBudgets();
 				List<String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgets);
 				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, unbudget_scrlpn, startDate.withDayOfMonth(1),budgeted_scrlpn);
@@ -1030,57 +1028,44 @@ public class mainmain extends JFrame {
 		frmMain.add(analytic_button);
 		frmMain.add(rec_button);
 		frmMain.add(layerpanebelow);
-		
-		user_panel = new JPanel();
-		user_panel.setBackground(new Color(66, 83, 109));
-		user_panel.setBounds(0, 0, 792, 459);
 		Border border = BorderFactory.createLineBorder(new Color(109, 74, 194, 18), 3);
-		user_panel.setBorder(border);
-		layerpanebelow.add(user_panel);
-		user_panel.setLayout(null);
+
+		JLabel logoBudgee = new JLabel("");
+		ImageIcon loglog = new ImageIcon("imgs/budgeeLogoMain.png");
+		logoBudgee.setIcon(loglog);
+		logoBudgee.setBounds(53, 64, 100, 120);
+		frmMain.add(logoBudgee);
 		
-		JLabel user_image = new JLabel("");
-		user_image.setBorder(new LineBorder(new Color(252, 187, 109), 3, true));
-		user_image.setBounds(27, 104, 250, 250);
-		user_panel.add(user_image);
+
+		JLabel usernameLabel = new JLabel(sessionUsername);
+		usernameLabel.setBorder(null);
+		usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		usernameLabel.setForeground(new Color(252, 187, 109));
+		usernameLabel.setFont(new Font("Century Gothic", Font.BOLD, 20));
+		usernameLabel.setBounds(37, 214, 139, 42);
+		frmMain.add(usernameLabel);
 		
-		JButton btnNewButton = new JButton("Change Profile");
-		btnNewButton.setFont(new Font("Quicksand Light", Font.BOLD, 12));
-		btnNewButton.setForeground(new Color(252, 187, 109));
-		btnNewButton.setBackground(new Color(85, 111, 149));
-		btnNewButton.setFocusable(false);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser browseImageFile = new JFileChooser();
-				//Filter Image Extensions
-				FileNameExtensionFilter fnef = new FileNameExtensionFilter("IMAGES", "png", "jpg", "jpeg");
-				browseImageFile.addChoosableFileFilter(fnef);
-				
-				
-				int showOpenDialogue = browseImageFile.showOpenDialog(null);
-				if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
-					File selectedImageFile = browseImageFile.getSelectedFile();
-					String selectedImagePath = selectedImageFile.getAbsolutePath();
-					JOptionPane.showMessageDialog(null, selectedImagePath);
-					//Display Image on Jlabel
-					ImageIcon ii = new ImageIcon(selectedImagePath);
-					//Resize Selected Image
-					Image image = ii.getImage().getScaledInstance(user_image.getWidth(), user_image.getHeight(), Image.SCALE_SMOOTH);
-					user_image.setIcon(new ImageIcon(image));
-					
-				}
-			}
-		});
-		btnNewButton.setBounds(86, 365, 136, 23);
-		user_panel.add(btnNewButton);
+		dateSelectorContainer.add(daily_butt);
+		dateSelectorContainer.add(weekly_butt);
+		dateSelectorContainer.add(monthly_butt);
+		dateSelectorContainer.add(yearly_butt);
+		
+		dateSelectorContainer.setBackground(new Color(49, 64, 83));
+		dateSelectorContainer.setBounds(208, 53, 457, 50);
+		frmMain.add(dateSelectorContainer);
 		
 		JButton logOut_button = new JButton("Log Out");
+		logOut_button.setFont(new Font("Tahoma", Font.BOLD, 15));
+		logOut_button.setForeground(new Color(252, 187, 109));
+		logOut_button.setBackground(new Color(85, 111, 146));
+		logOut_button.setBounds(37, 449, 139, 40);
+		frmMain.add(logOut_button);
 		logOut_button.setFocusable(false);
 		logOut_button.setBorder(null);
 		logOut_button.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	JOptionPane optionPane = new JOptionPane("Are you sure you want to logout?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
-		        JDialog dialog = optionPane.createDialog(user_panel, "Logout Confirmation");
+		        JDialog dialog = optionPane.createDialog( "Logout Confirmation");
 		        dialog.setLocationRelativeTo(null); // Center on screen
 		        dialog.setVisible(true);
 
@@ -1100,57 +1085,25 @@ public class mainmain extends JFrame {
 		        }
 		    }
 		});
-		logOut_button.setBounds(693, 425, 89, 23);
-		user_panel.add(logOut_button);
-
-		JLabel logoBudgee = new JLabel("");
-		ImageIcon loglog = new ImageIcon("imgs/budgeeLogoMain.png");
-		logoBudgee.setIcon(loglog);
-		logoBudgee.setBounds(53, 64, 100, 120);
-		frmMain.add(logoBudgee);
-
-		JLabel usernameLabel = new JLabel(sessionUsername);
-		usernameLabel.setBorder(null);
-		usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		usernameLabel.setForeground(new Color(252, 187, 109));
-		usernameLabel.setFont(new Font("Century Gothic", Font.BOLD, 20));
-		usernameLabel.setBounds(37, 214, 139, 42);
-		frmMain.add(usernameLabel);
-		
-		user_button = new JButton("User");
-		user_button.setBorder(null);
-		user_button.setFocusable(false);
-		user_button.setBackground(new Color(85, 111, 146));
-		user_button.setForeground(new Color(252, 187, 109));
-		user_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
-		user_button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rec_button.setBackground(new Color(85, 111, 146));
-				analytic_button.setBackground(new Color(85, 111, 146));
-				budget_button.setBackground(new Color(85, 111, 146));
-				user_button.setBackground(new Color(216, 115, 127));
-				rec_panel.setVisible(false);
-				analytic_panel.setVisible(false);
-				budget_panel.setVisible(false);
-				user_panel.setVisible(true);
-				income_cash.setText("PHP"+ incomeTotal);
-				expense_cash.setText("PHP"+ expenseTotal);
-			}
-		});
-		user_button.setBounds(37, 447, 139, 40);
-		frmMain.add(user_button);
-		
-		dateSelectorContainer.add(daily_butt);
-		dateSelectorContainer.add(weekly_butt);
-		dateSelectorContainer.add(monthly_butt);
-		dateSelectorContainer.add(yearly_butt);
-		
-		dateSelectorContainer.setBackground(new Color(49, 64, 83));
-		dateSelectorContainer.setBounds(208, 53, 457, 50);
-		frmMain.add(dateSelectorContainer);
 
 	}
 	
+//	 private static void createCalculator() {
+//	        
+//		 CalcuFrame win = new CalcuFrame(recordScrollPane);
+//	        win.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//	        win.addWindowListener(new WindowAdapter() {
+//	            @Override
+//	            public void windowClosing(WindowEvent e) {
+//	                win.dispose(); // Dispose the frame when closing
+//	                win = null; // Reset the reference
+//	            }
+//	        });
+//
+//	        win.setVisible(true);
+//	    }
+	 
+	 
 	JScrollPane getUnbudgetedPane() {
 		return unbudgetedPane;
 	}
@@ -1190,7 +1143,8 @@ public class mainmain extends JFrame {
 //        LocalDate endDate = year_year_now.plusDays(365);
 //        return year_year_now.format(formatter) + " - " + endDate.format(formatter);
     }
-
+	
+	
 	
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {

@@ -62,43 +62,35 @@ import com.toedter.calendar.JDateChooser;
 
 	public class CalcuFrame extends JFrame {
 
-		//Session variables
 		private UserSession session = UserSession.getInstance();
-		private int sessionId = session.getId();
-		
-		private JScrollPane parentPanel;
-		
-		private String recordAction = "income";
-		
+		private int sessionId = session.getId();		
+		private JScrollPane parentPanel;		
+		private String recordAction = "income";	
 		private JPanel contentPane;
 		private JTextField textField;
-		private JLabel lbl1,lbl2;
-		
+		private JLabel lbl1,lbl2;		
 		double first;
 		double second;
 		double result;
 		String operation;
 		String answer;
-		private JTextField txtAddNote;
-		
+		private JTextField txtAddNote;	
 		public static Instant currentTime;
 		public static void timeAndDate()  
 		{      
 		System.out.println(java.time.Clock.systemUTC().instant());
 		currentTime = java.time.Clock.systemUTC().instant();
-		}
-		
+		}		
 		public static String userTable;
 		public static String useText(String text) {
 		String userTable = text;
 		return text;
-		}
+		}		
 		
 		Connection con;
 		PreparedStatement pst;
 		ResultSet rs;
-		private JPasswordField password;
-		
+		private JPasswordField password;		
 		public void Connect() {
 		try {
 		      Class.forName("com.mysql.cj.jdbc.Driver");
@@ -115,19 +107,6 @@ import com.toedter.calendar.JDateChooser;
 		    }
 
 		  
-//		public static void main(String[] args) {
-//			EventQueue.invokeLater(new Runnable() {
-//				public void run() {
-//					try {
-//						CalcuFrame frame = new CalcuFrame();
-//						frame.setVisible(true);
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			});
-//		}
-//		
 		private final JLayeredPane LayeredPanel = new JLayeredPane();
 		
 		
@@ -141,11 +120,9 @@ import com.toedter.calendar.JDateChooser;
 			setBounds(100, 100, 754, 606);
 			contentPane.setLayout(null);
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setLocationRelativeTo(null);
-			
+			setLocationRelativeTo(null);			
 			LayeredPanel.setBounds(0, 53, 748, 516);
-			contentPane.add(LayeredPanel);
-			
+			contentPane.add(LayeredPanel);		
 			
 			JPanel panel = new JPanel();
 			panel.setBackground(new Color(69, 92, 123));
