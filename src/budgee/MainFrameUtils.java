@@ -30,7 +30,6 @@ import budgee.mainmain;
 
 public class MainFrameUtils {
 
-	private static List<Record> recordsByDate; 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -78,7 +77,7 @@ public class MainFrameUtils {
 				BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
 				BudgeeDAOImpl.deleteRecord(record.getId());
 				mainmain mainFrame = new mainmain();
-				recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(mainFrame.getPanelStartDate(), mainFrame.getPanelEndDate());
+				List<Record> recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(mainFrame.getPanelStartDate(), mainFrame.getPanelEndDate());
 				MainFrameUtils.displayAllRecords(recordsByDate, parentPanel_rec);
 				
 			}

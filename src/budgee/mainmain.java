@@ -145,7 +145,7 @@ public class mainmain extends JFrame {
 	private List<Budget> budgetsByDate;
 	
 	private LocalDate startDate = LocalDate.now().withDayOfMonth(1);
-	private LocalDate endDate = LocalDate.now().withDayOfMonth(1);
+	private LocalDate endDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
 	
 	private JScrollPane unbudgetedPane;
 	
