@@ -146,7 +146,7 @@ public class MainFrameUtils {
 	    
 		for (Record record : records) {
 			JPanel recordPanel = createRecordPanel(record, parentPanel_rec);
-			recordPanel.setPreferredSize(new Dimension(50,60));
+			recordPanel.setPreferredSize(new Dimension(50,100));
 			recordPanel.setBorder(compoundBorder);  	
 			containerPanel.add(recordPanel);
 		}
