@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import budgee.UserSession;
 import budgee.Record;
@@ -18,7 +19,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	
 	private List <String> expenseCategories = new ArrayList<>(Arrays.asList("Bills", "Food", "Tax", "Insurance", "Health", "Shopping"));
-	private List<String> unbudgetedCategories;
+	
 	
 	//UserSession object and variables
 	UserSession session = UserSession.getInstance();
@@ -45,12 +46,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 			 preparedStatement.setString(7, record.getCategory());
 			 preparedStatement.setString(8, record.getAccount());
 			 
-			 int affectedRows = preparedStatement.executeUpdate();
+			 preparedStatement.executeUpdate();
 
-	            if (affectedRows > 0) {
-	                System.out.println("Insertion successful");
-	            }
-			 
 			 preparedStatement.close();
 			 connection.close();
 			 
@@ -158,12 +155,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 			 preparedStatement.setBigDecimal(4, budget.getLimitBudget());
 			 preparedStatement.setBigDecimal(5, budget.getSpentBudget());
 		
-			 int affectedRows = preparedStatement.executeUpdate();
+			 preparedStatement.executeUpdate();
 
-	            if (affectedRows > 0) {
-	                System.out.println("Insertion successful");
-	            }
-			 
 			 preparedStatement.close();
 			 connection.close();
 			 
@@ -174,14 +167,43 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public void updateBudget(Budget budget) {
-		// TODO Auto-generated method stub
+	public void updateBudget(Record record) {
+		 String category = record.getCategory();
+		 BigDecimal balanceUpdate = record.getBalance_update();
+		 Date recordDate = record.getDate();
+		 Calendar calendar = Calendar.getInstance();
+		 calendar.setTime(recordDate);
+		 calendar.set(Calendar.DAY_OF_MONTH, 1);
+		 Date updatedDate = new Date(calendar.getTimeInMillis());
+
+		    try (Connection connection = DatabaseManager.getConnection();
+		         PreparedStatement statement = connection.prepareStatement(
+		                 "UPDATE budgetsTable SET spentBudget = spentBudget + ? WHERE category = ? AND userID = ? AND date = ?" )) {
+
+		        // Set the parameters for the SQL query
+		        statement.setBigDecimal(1, balanceUpdate);
+		        statement.setString(2, category);
+		        statement.setInt(3, sessionId);
+		        statement.setDate(4, updatedDate);
+
+		        // Execute the update query
+		        int rowsUpdated = statement.executeUpdate();
+
+		        if (rowsUpdated > 0) {
+		            System.out.println("Budget updated successfully!");
+		        } else {
+		            System.out.println("Budget not found for category: " + category);
+		        }
+
+		    } catch (SQLException e) {
+		        System.out.println("Error updating budget: " + e.getMessage());
+		    }
 		
 	}
 
 	@Override
 	public void deleteBudget(int budgetId) {
-		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts.recordsTable WHERE id = ? AND userID = ?")) {
+		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts.budgetsTable WHERE id = ? AND userID = ?")) {
 			statement.setInt(1,  budgetId);
 			statement.setInt(2, sessionId);
 			statement.executeUpdate();
@@ -221,12 +243,12 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        return budgets;
 	}
 	
-	public List <Budget> getBudgetsByDateRange(java.time.LocalDate startDate, java.time.LocalDate endDate) {
+	public List <Budget> getBudgetsByDateRange(LocalDate startDate) {
 	    try {
 	        Connection conn = DatabaseManager.getConnection();
 	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM budgetsTable WHERE date >= ? AND date <= ?");
-	        stmt.setDate(1, java.sql.Date.valueOf(startDate));
-	        stmt.setDate(2, java.sql.Date.valueOf(endDate));
+	        stmt.setDate(1, java.sql.Date.valueOf(startDate.withDayOfMonth(1)));
+	        stmt.setDate(2, java.sql.Date.valueOf(startDate.withDayOfMonth(startDate.lengthOfMonth())));
 	        ResultSet resultSet = stmt.executeQuery();
 
 	        List<Budget> budgets = new ArrayList<>();
@@ -239,6 +261,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        	 BigDecimal spentBudget = resultSet.getBigDecimal("spentBudget");
 
 	             Budget budget = new Budget(id, userId, date, category, limitBudget, spentBudget);
+	             budgets.add(budget);
 	        }
 
 	        resultSet.close();
@@ -257,16 +280,16 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	@Override
 	public List<String> getUnbudgetedCategories(List<Budget> budgets){
 		List<String> unbudgetedCategories = new ArrayList<>();
+		List<String> budgetedCategories = new ArrayList<>();
 		
 		 for (Budget budget : budgets) {
-			 String category = budget.getCategory();
-			 if (!expenseCategories.contains(category)) {
-				 unbudgetedCategories.add(category);
-			 }
+			 budgetedCategories.add(budget.getCategory());
 		 }
 		 
-		 if (unbudgetedCategories.isEmpty()) {
-			 unbudgetedCategories.addAll(expenseCategories);
+		 for (String category : expenseCategories) {
+			 if (!budgetedCategories.contains(category)) {
+				 unbudgetedCategories.add(category);
+			 }
 		 }
 	
 		return unbudgetedCategories;
@@ -305,6 +328,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		for (Record record : records) {
 			if (record.getAccount().equals("Cash")&& record.getAction().equals("Income")) {
 				cashIncomeTotal = cashIncomeTotal.add(record.getBalance_update());
+				System.out.println("cash income");
 			}
 		}
 		return cashIncomeTotal;
@@ -318,6 +342,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		for (Record record : records) {
 			if (record.getAction().equals("Income") && record.getAccount().equals("Savings")) {
 				savingsIncomeTotal = savingsIncomeTotal.add(record.getBalance_update());
+				System.out.println("savings income");
 			}
 		}
 		return savingsIncomeTotal;
@@ -331,6 +356,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		for (Record record : records) {
 			if (record.getAction().equals("Expense") && record.getAccount().equals("Cash")) {
 				cashExpenseTotal = cashExpenseTotal.add(record.getBalance_update());
+				System.out.println("cash expense");
 			}
 		}
 		return cashExpenseTotal;
@@ -343,6 +369,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		for (Record record : records) {
 			if (record.getAction().equals("Expense")&& record.getAccount().equals("Savings")) {
 				savingsExpenseTotal = savingsExpenseTotal.add(record.getBalance_update());
+				System.out.println("savings expense");
 			}
 		}
 		return savingsExpenseTotal;
