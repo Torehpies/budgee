@@ -103,7 +103,7 @@ public class LoginFrameUwU {
 		frmLoginBudgee.getContentPane().add(budgeeLabel);
 		
 		
-		JButton loginBTN = new JButton("login");
+		JButton loginBTN = new JButton("Login");
 		loginBTN.setForeground(new Color(252, 187, 109));
 		loginBTN.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		loginBTN.addActionListener(new ActionListener() {

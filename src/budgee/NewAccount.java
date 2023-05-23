@@ -26,6 +26,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
 import java.sql.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class NewAccount extends JFrame {
 
@@ -44,6 +46,7 @@ public class NewAccount extends JFrame {
 	PreparedStatement pst;
 	ResultSet rs;
 	private JPasswordField password;
+	private final Action action = new SwingAction();
 
 	public void Connect() {
 		try {
@@ -146,6 +149,7 @@ public class NewAccount extends JFrame {
 //		registerFrame.add(budgeeLogo);
 
 		final JButton register = new JButton("Create Account");
+		register.setBorder(null);
 		register.setBounds(31, 419, 270, 36);
 		register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -235,6 +239,32 @@ public class NewAccount extends JFrame {
 		password.setBackground(new Color(66, 83, 109));
 		password.setMargin(new Insets(10, 10, 10, 10));
 		registerFrame.add(password);
+		
+		JButton returnBTN = new JButton("return");
+		returnBTN.setBorder(null);
+		returnBTN.setFocusable(false);
+		returnBTN.setForeground(new Color(252, 187, 109));
+		returnBTN.setBackground(new Color(66, 83, 109));
+		returnBTN.setFont(new Font("Tahoma", Font.BOLD, 15));
+		returnBTN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginFrameUwU window = new LoginFrameUwU();
+				window.frmLoginBudgee.setVisible(true);
+				
+				dispose();
+			}
+		});
+		returnBTN.setAction(action);
+		returnBTN.setBounds(32, 466, 270, 35);
+		registerFrame.add(returnBTN);
 
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "return");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
 	}
 }
