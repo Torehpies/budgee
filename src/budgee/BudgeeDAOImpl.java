@@ -167,7 +167,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public void updateBudget(Record record) {
+	public void updateAddBudget(Record record) {
 		 String category = record.getCategory();
 		 BigDecimal balanceUpdate = record.getBalance_update();
 		 Date recordDate = record.getDate();
@@ -187,13 +187,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		        statement.setDate(4, updatedDate);
 
 		        // Execute the update query
-		        int rowsUpdated = statement.executeUpdate();
-
-		        if (rowsUpdated > 0) {
-		            System.out.println("Budget updated successfully!");
-		        } else {
-		            System.out.println("Budget not found for category: " + category);
-		        }
+		        statement.executeUpdate();
 
 		    } catch (SQLException e) {
 		        System.out.println("Error updating budget: " + e.getMessage());
@@ -201,6 +195,28 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		
 	}
 
+	@Override
+	public void updateDeductBudget(String recordCategory, BigDecimal recordBalance) {
+		 
+		
+		    try (Connection connection = DatabaseManager.getConnection();
+		         PreparedStatement statement = connection.prepareStatement(
+		                 "UPDATE budgetsTable SET spentBudget = spentBudget - ? WHERE userID = ? AND category = ?" )) {
+
+		        // Set the parameters for the SQL query
+		        statement.setBigDecimal(1, recordBalance);
+		        statement.setInt(2, sessionId);
+		        statement.setString(3, recordCategory);
+
+		        // Execute the update query
+		        statement.executeUpdate();
+
+		    } catch (SQLException e) {
+		        System.out.println("Error updating budget: " + e.getMessage());
+		    }
+		
+	}
+	
 	@Override
 	public void deleteBudget(int budgetId) {
 		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts.budgetsTable WHERE id = ? AND userID = ?")) {
