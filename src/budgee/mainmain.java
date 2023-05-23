@@ -109,6 +109,7 @@ public class mainmain extends JFrame {
 	private JButton rec_button;
 	private JButton analytic_button;
 	private JButton budget_button;
+	private JButton logOut_button;
 	private JPanel analytic_panel;
 	private JPanel budget_panel;
 	private JPanel rec_panel;
@@ -536,6 +537,7 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(216, 115, 127));
 				analytic_button.setBackground(new Color(85, 111, 146));
 				budget_button.setBackground(new Color(85, 111, 146));
+				logOut_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(true);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(false);					
@@ -568,6 +570,7 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(85, 111, 146));
 				analytic_button.setBackground(new Color(216, 115, 127));
 				budget_button.setBackground(new Color(85, 111, 146));
+				logOut_button.setBackground(new Color(85, 111, 146));
 			
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(true);
@@ -597,6 +600,7 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(85, 111, 146));
 				analytic_button.setBackground(new Color(85, 111, 146));
 				budget_button.setBackground(new Color(216, 115, 127));
+				logOut_button.setBackground(new Color(85, 111, 146));
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(false);
 				budget_panel.setVisible(true);
@@ -1063,16 +1067,20 @@ public class mainmain extends JFrame {
 		dateSelectorContainer.setBounds(208, 53, 457, 50);
 		frmMain.add(dateSelectorContainer);
 		
-		JButton logOut_button = new JButton("Log Out");
-		logOut_button.setFont(new Font("Tahoma", Font.BOLD, 15));
+		logOut_button = new JButton("Log Out");
+		logOut_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		logOut_button.setForeground(new Color(252, 187, 109));
 		logOut_button.setBackground(new Color(85, 111, 146));
-		logOut_button.setBounds(37, 449, 139, 40);
+		logOut_button.setBounds(37, 575, 139, 40);
 		frmMain.add(logOut_button);
 		logOut_button.setFocusable(false);
 		logOut_button.setBorder(null);
 		logOut_button.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+		    	rec_button.setBackground(new Color(85, 111, 146));
+				analytic_button.setBackground(new Color(85, 111, 146));
+				budget_button.setBackground(new Color(85, 111, 146));
+				logOut_button.setBackground(new Color(216, 115, 127));
 		    	JOptionPane optionPane = new JOptionPane("Are you sure you want to logout?", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
 		        JDialog dialog = optionPane.createDialog( "Logout Confirmation");
 		        dialog.setLocationRelativeTo(null); // Center on screen

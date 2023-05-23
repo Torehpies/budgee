@@ -31,7 +31,6 @@ public class LoginFrameUwU {
 	private JTextField user;
 	private JLabel budgeeLogo;
 	private JLabel budgeeLabel;
-	private JButton resetBTN;
 	private JButton newAccBTN;
 	private JPasswordField pass;
 
@@ -145,24 +144,10 @@ public class LoginFrameUwU {
 		    }
 		});
 		
-		loginBTN.setBounds(270, 396, 89, 23);
+		loginBTN.setBounds(270, 396, 192, 23);
 		loginBTN.setFocusable(false);
 		loginBTN.setBackground(new Color(66, 83, 109));
 		frmLoginBudgee.getContentPane().add(loginBTN);
-		
-		resetBTN = new JButton("reset");
-		resetBTN.setBackground(new Color(66, 83, 109));
-		resetBTN.setForeground(new Color(252, 187, 109));
-		resetBTN.setFont(new Font("Segoe UI Historic", Font.BOLD, 12));
-		resetBTN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				user.setText("");
-				pass.setText("");
-			}
-		});
-		resetBTN.setBounds(373, 397, 89, 23);
-		resetBTN.setFocusable(false);
-		frmLoginBudgee.getContentPane().add(resetBTN);
 		
 		
 		newAccBTN = new JButton("Create new account");
