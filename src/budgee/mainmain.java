@@ -162,6 +162,12 @@ public class mainmain extends JFrame {
 		setLocationRelativeTo(null);
 
 		setContentPane(frmMain);
+		ImageIcon icon = new ImageIcon("imgs/budgeeLogoMain.png");
+		Image image = icon.getImage();
+
+		 // Set the frame icon
+		 setIconImage(image);
+		
 
 		JLayeredPane layerpanebelow = new JLayeredPane();
 		layerpanebelow.setBounds(208, 182, 792, 460);

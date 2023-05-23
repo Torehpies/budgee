@@ -45,7 +45,12 @@ public class LoginFrameUwU {
 
 	public LoginFrameUwU() {
 		initialize();		
+		setIcon();
 	}
+	 private void setIcon() {
+	        ImageIcon icon = new ImageIcon("imgs/budgeeLogoMain.png");
+	        frmLoginBudgee.setIconImage(icon.getImage());
+	    }
 	
 
 	public String getTableID(int sessionId) {
