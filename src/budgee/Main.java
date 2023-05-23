@@ -5,5 +5,4 @@ public class Main {
 		LoginFrameUwU window = new LoginFrameUwU();
 		window.frmLoginBudgee.setVisible(true);
 	}
-
 }
