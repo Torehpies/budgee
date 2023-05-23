@@ -51,7 +51,7 @@ public class SetBudget extends JFrame {
 	 * Create the frame.
 	 */
 	public SetBudget(String category, LocalDate dateBudget, JScrollPane parentPanel) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 444, 415);
 		SetBudgetPanel = new JPanel();
 		SetBudgetPanel.setBackground(new Color(66, 83, 109));
