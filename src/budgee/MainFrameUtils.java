@@ -77,10 +77,9 @@ public class MainFrameUtils {
 				Connection connection = DatabaseManager.getConnection();
 				BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
 				BudgeeDAOImpl.deleteRecord(record.getId());
-				MainFrameUtils mainFrameUtils = new MainFrameUtils();
 				mainmain mainFrame = new mainmain();
 				recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(mainFrame.getPanelStartDate(), mainFrame.getPanelEndDate());
-				mainFrameUtils.displayAllRecords(recordsByDate, parentPanel_rec);
+				MainFrameUtils.displayAllRecords(recordsByDate, parentPanel_rec);
 				
 			}
 		});
@@ -209,9 +208,12 @@ public class MainFrameUtils {
 				
 				Connection connection = DatabaseManager.getConnection();
 				BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
-				BudgeeDAOImpl.deleteRecord(budget.getId());
-				MainFrameUtils mainFrameUtils_budget = new MainFrameUtils();
-				mainFrameUtils_budget.refreshBudgets(parentPanel_budget);
+				BudgeeDAOImpl.deleteBudget(budget.getId());
+				mainmain mainFrame = new mainmain();
+				List <Budget> budgetsByDate = BudgeeDAOImpl.getBudgetsByDateRange(mainFrame.getPanelStartDate());
+				MainFrameUtils.displayAllBudget(budgetsByDate, parentPanel_budget);
+				List <String> unbudgetedCategories = BudgeeDAOImpl.getUnbudgetedCategories(budgetsByDate);
+				MainFrameUtils.displayUnbudgetedCategories(unbudgetedCategories, mainFrame.getUnbudgetedPane(), mainFrame.getPanelStartDate(), parentPanel_budget);
 				
 			}
 		});

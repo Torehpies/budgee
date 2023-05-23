@@ -153,6 +153,8 @@ public class mainmain extends JFrame {
 	private LocalDate startDate = LocalDate.now().withDayOfMonth(1);
 	private LocalDate endDate = LocalDate.now().withDayOfMonth(1);
 	
+	private JScrollPane unbudgetedPane;
+	
 	public mainmain() {		
 		
         setSize(400, 300);
@@ -562,6 +564,8 @@ public class mainmain extends JFrame {
 		unbudget_scrlpn.setBounds(467, 62, 315, 246);
 	    unbudget_scrlpn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		budget_panel.add(unbudget_scrlpn);
+		
+		unbudgetedPane = unbudget_scrlpn;
 
 //		JPanel unstted_bdgt_pnl = new JPanel();
 //		unstted_bdgt_pnl.setPreferredSize(new Dimension(200, 485));
@@ -1717,6 +1721,10 @@ public class mainmain extends JFrame {
 		dateSelectorContainer.setBounds(208, 53, 457, 50);
 		frmMain.add(dateSelectorContainer);
 
+	}
+	
+	JScrollPane getUnbudgetedPane() {
+		return unbudgetedPane;
 	}
 	
 	LocalDate getPanelStartDate() {

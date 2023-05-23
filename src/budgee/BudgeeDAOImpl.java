@@ -203,7 +203,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 
 	@Override
 	public void deleteBudget(int budgetId) {
-		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts.recordsTable WHERE id = ? AND userID = ?")) {
+		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts.budgetsTable WHERE id = ? AND userID = ?")) {
 			statement.setInt(1,  budgetId);
 			statement.setInt(2, sessionId);
 			statement.executeUpdate();
