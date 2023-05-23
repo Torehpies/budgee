@@ -79,7 +79,7 @@ public class SetBudget extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(66, 83, 109));
-		panel.setBounds(50, 70, 332, 101);
+		panel.setBounds(39, 70, 355, 101);
 		SetBudgetPanel.add(panel);
 		panel.setLayout(null);
 		
@@ -92,12 +92,12 @@ public class SetBudget extends JFrame {
 		SetCateg.setForeground(new Color(252, 187, 129));
 		SetCateg.setHorizontalAlignment(SwingConstants.CENTER);
 		SetCateg.setFont(new Font("Quicksand Light", Font.BOLD, 35));
-		SetCateg.setBounds(10, 28, 312, 43);
+		SetCateg.setBounds(20, 30, 312, 43);
 		panel.add(SetCateg);
 		
 		JLabel lblCateg = new JLabel("Category");
 		lblCateg.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCateg.setForeground(new Color(85, 111, 146));
+		lblCateg.setForeground(new Color(93, 122, 162));
 		lblCateg.setBackground(new Color(85, 111, 146));
 		lblCateg.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		lblCateg.setBounds(132, 11, 69, 19);
@@ -107,7 +107,7 @@ public class SetBudget extends JFrame {
 		lblLimit.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLimit.setForeground(new Color(252, 187, 129));
 		lblLimit.setFont(new Font("Quicksand Light", Font.BOLD, 20));
-		lblLimit.setBounds(50, 204, 60, 31);
+		lblLimit.setBounds(35, 204, 99, 31);
 		SetBudgetPanel.add(lblLimit);
 		
 		SetLimit = new JTextField();
@@ -115,7 +115,7 @@ public class SetBudget extends JFrame {
 		SetLimit.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		SetLimit.setForeground(new Color(252, 187, 129));
 		SetLimit.setBackground(new Color(66, 83, 109));
-		SetLimit.setBounds(113, 198, 269, 48);
+		SetLimit.setBounds(140, 198, 254, 48);
 		SetBudgetPanel.add(SetLimit);
 		SetLimit.setColumns(10);
 		
@@ -123,8 +123,8 @@ public class SetBudget extends JFrame {
 		
 		JLabel lblMonth = new JLabel("Month:");
 		lblMonth.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMonth.setBackground(new Color(85, 111, 146));
-		lblMonth.setForeground(new Color(85, 111, 146));
+		lblMonth.setBackground(new Color(252, 187, 109));
+		lblMonth.setForeground(new Color(93, 122, 162));
 		lblMonth.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		lblMonth.setBounds(115, 268, 71, 31);
 		SetBudgetPanel.add(lblMonth);
@@ -132,7 +132,7 @@ public class SetBudget extends JFrame {
 		JLabel SetMonth = new JLabel(dateBudget.getMonth() + ", " + dateBudget.getYear());
 		SetMonth.setHorizontalAlignment(SwingConstants.CENTER);
 		SetMonth.setBackground(new Color(85, 111, 146));
-		SetMonth.setForeground(new Color(85, 111, 146));
+		SetMonth.setForeground(new Color(93, 122, 162));
 		SetMonth.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 		SetMonth.setBounds(196, 268, 113, 31);
 		SetBudgetPanel.add(SetMonth);
@@ -151,6 +151,7 @@ public class SetBudget extends JFrame {
 		SetBudgetPanel.add(btnCancel);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
