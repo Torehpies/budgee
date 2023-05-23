@@ -493,10 +493,10 @@ import com.toedter.calendar.JDateChooser;
 			panel_1.add(lbl1);
 			
 			txtAddNote = new JTextField();
+			txtAddNote.setText("      Add note");
 			txtAddNote.setHorizontalAlignment(SwingConstants.LEFT);
 			txtAddNote.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 			txtAddNote.setForeground(Color.BLACK);
-			txtAddNote.setText("Add Note");
 			txtAddNote.setBounds(45, 107, 662, 93);
 			panel.add(txtAddNote);
 			txtAddNote.setColumns(10);

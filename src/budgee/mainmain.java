@@ -553,6 +553,7 @@ public class mainmain extends JFrame {
 				exint_EX_lbl.setText("-PHP " + expenseTotal);
 				exint_inc_lbl.setText("PHP " + incomeTotal);
 				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				
 				layeredPane.setVisible(true);
 				dateSelectorContainer.setVisible(true);
 			}
@@ -576,13 +577,25 @@ public class mainmain extends JFrame {
 				analytic_panel.setVisible(true);
 				budget_panel.setVisible(false);
 			
+				List <Record> recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(startDate, startDate);
 //				activeScrollPane = analyticScrollPane;
-			
+				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
+				
+				cashExpenseTotal = BudgeeDAOImpl.getCashExpenseTotal(recordsByDate);
+				cashIncomeTotal = BudgeeDAOImpl.getCashIncomeTotal(recordsByDate);
+				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
+				savingsIncomeTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
 
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
+				
 				income_cash.setText("PHP"+ cashIncomeTotal);
-				expense_cash.setText("PHP"+ savingsExpenseTotal);
-				income_cash.setText("PHP"+ savingsIncomeTotal);
+				expense_savings.setText("PHP"+ savingsExpenseTotal);
+				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);
+
 				dateSelectorContainer.setVisible(true);
 				layeredPane.setVisible(true);
 			}
@@ -691,8 +704,8 @@ public class mainmain extends JFrame {
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
 				savingsIncomeTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
 				income_cash.setText("PHP"+ cashIncomeTotal);
-				expense_cash.setText("PHP"+ savingsExpenseTotal);
-				income_cash.setText("PHP"+ savingsIncomeTotal);
+				expense_savings.setText("PHP"+ savingsExpenseTotal);
+				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);				
 			}
 		});
@@ -737,8 +750,8 @@ public class mainmain extends JFrame {
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
 				savingsIncomeTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
 				income_cash.setText("PHP"+ cashIncomeTotal);
-				expense_cash.setText("PHP"+ savingsExpenseTotal);
-				income_cash.setText("PHP"+ savingsIncomeTotal);
+				expense_savings.setText("PHP"+ savingsExpenseTotal);
+				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);
 			}
 		});
@@ -768,8 +781,8 @@ public class mainmain extends JFrame {
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
 				savingsIncomeTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
 				income_cash.setText("PHP"+ cashIncomeTotal);
-				expense_cash.setText("PHP"+ savingsExpenseTotal);
-				income_cash.setText("PHP"+ savingsIncomeTotal);
+				expense_savings.setText("PHP"+ savingsExpenseTotal);
+				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);
 			}
 		});
@@ -799,6 +812,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.minusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
+	            List<Record> recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
 				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
 				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
 				exint_EX_lbl.setText("-PHP " + expenseTotal);
@@ -809,10 +823,10 @@ public class mainmain extends JFrame {
 				cashExpenseTotal = BudgeeDAOImpl.getCashExpenseTotal(recordsByDate);
 				cashIncomeTotal = BudgeeDAOImpl.getCashIncomeTotal(recordsByDate);
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
-				savingsExpenseTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
+				savingsIncomeTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
 				income_cash.setText("PHP"+ cashIncomeTotal);
-				expense_cash.setText("PHP"+ savingsExpenseTotal);
-				income_cash.setText("PHP"+ savingsIncomeTotal);
+				expense_savings.setText("PHP"+ savingsExpenseTotal);
+				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);
 				
 				if (activeScrollPane == recordScrollPane) {
@@ -840,6 +854,7 @@ public class mainmain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				month_year_now = month_year_now.plusMonths(1);
 	            monthly_date.setText(getFormattedDatemonth());
+	            List<Record> recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(month_year_now.withDayOfMonth(1), month_year_now.withDayOfMonth(month_year_now.lengthOfMonth()));
 				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
 				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
 				exint_EX_lbl.setText("-PHP " + expenseTotal);
@@ -852,8 +867,8 @@ public class mainmain extends JFrame {
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
 				income_cash.setText("PHP"+ cashIncomeTotal);
-				expense_cash.setText("PHP"+ savingsExpenseTotal);
-				income_cash.setText("PHP"+ savingsExpenseTotal);
+				expense_savings.setText("PHP"+ savingsExpenseTotal);
+				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);
 				
 				if (activeScrollPane == recordScrollPane) {
@@ -909,8 +924,8 @@ public class mainmain extends JFrame {
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
 				savingsIncomeTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
 				income_cash.setText("PHP"+ cashIncomeTotal);
-				expense_cash.setText("PHP"+ savingsExpenseTotal);
-				income_cash.setText("PHP"+ savingsIncomeTotal);
+				expense_savings.setText("PHP"+ savingsExpenseTotal);
+				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);
 			}
 		});
@@ -940,8 +955,8 @@ public class mainmain extends JFrame {
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
 				savingsIncomeTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
 				income_cash.setText("PHP"+ cashIncomeTotal);
-				expense_cash.setText("PHP"+ savingsExpenseTotal);
-				income_cash.setText("PHP"+ savingsIncomeTotal);
+				expense_savings.setText("PHP"+ savingsExpenseTotal);
+				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);
 			}
 		});
