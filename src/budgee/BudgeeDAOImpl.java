@@ -251,6 +251,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        return null;
 	    }
 	}
+	
+	
 
 	@Override
 	public List<String> getUnbudgetedCategories(List<Budget> budgets){
@@ -294,54 +296,56 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	
 	
+	
+	
 	//
 	@Override
 	public BigDecimal getCashIncomeTotal(List<Record> records) {
-		BigDecimal CashIncomeTotal = new BigDecimal("0");
+		BigDecimal cashIncomeTotal = new BigDecimal("0");
 		for (Record record : records) {
-			if (record.getAction().equals("Income") && record.getAccount().equals("Cash")) {
-				CashIncomeTotal = CashIncomeTotal.add(record.getBalance_update());
+			if (record.getAccount().equals("Cash")&& record.getAction().equals("Income")) {
+				cashIncomeTotal = cashIncomeTotal.add(record.getBalance_update());
 			}
 		}
-		return CashIncomeTotal;
+		return cashIncomeTotal;
 	}
 	
 	
 	//
 	@Override
 	public BigDecimal getSavingsIncomeTotal(List<Record> records) {
-		BigDecimal SavingsIncomeTotal = new BigDecimal("0");
+		BigDecimal savingsIncomeTotal = new BigDecimal("0");
 		for (Record record : records) {
 			if (record.getAction().equals("Income") && record.getAccount().equals("Savings")) {
-				SavingsIncomeTotal = SavingsIncomeTotal.add(record.getBalance_update());
+				savingsIncomeTotal = savingsIncomeTotal.add(record.getBalance_update());
 			}
 		}
-		return SavingsIncomeTotal;
+		return savingsIncomeTotal;
 	}
 	
 	
 	//gumagana sabi ni mark
 	@Override
 	public BigDecimal getCashExpenseTotal(List<Record> records) {
-		BigDecimal CashExpenseTotal = new BigDecimal("0");
+		BigDecimal cashExpenseTotal = new BigDecimal("0");
 		for (Record record : records) {
 			if (record.getAction().equals("Expense") && record.getAccount().equals("Cash")) {
-				CashExpenseTotal = CashExpenseTotal.add(record.getBalance_update());
+				cashExpenseTotal = cashExpenseTotal.add(record.getBalance_update());
 			}
 		}
-		return CashExpenseTotal;
+		return cashExpenseTotal;
 	}
 	
 	//
 	@Override
 	public BigDecimal getSavingsExpenseTotal(List<Record> records) {
-		BigDecimal SavingsExpenseTotal = new BigDecimal("0");
+		BigDecimal savingsExpenseTotal = new BigDecimal("0");
 		for (Record record : records) {
 			if (record.getAction().equals("Expense")&& record.getAccount().equals("Savings")) {
-				SavingsExpenseTotal = SavingsExpenseTotal.add(record.getBalance_update());
+				savingsExpenseTotal = savingsExpenseTotal.add(record.getBalance_update());
 			}
 		}
-		return SavingsExpenseTotal;
+		return savingsExpenseTotal;
 	}
 	
 	
