@@ -347,8 +347,8 @@ public class mainmain extends JFrame {
 
 		layerpanebelow.setLayout(null);
 
-		layerpanebelow.add(rec_panel);
-		layerpanebelow.add(analytic_panel, Integer.valueOf(11));
+		layerpanebelow.add(rec_panel, Integer.valueOf(4));
+		layerpanebelow.add(analytic_panel);
 
 
 		JButton calcu_analy = new JButton("+");
@@ -469,7 +469,7 @@ public class mainmain extends JFrame {
 		income_savings.setForeground(new Color(0, 234, 117));
 		income_savings.setFont(new Font("Rockwell Nova", Font.BOLD, 17));
 
-		layerpanebelow.add(budget_panel, Integer.valueOf(5));
+		layerpanebelow.add(budget_panel);
 
 		JButton budget_calcu = new JButton("+");
 		budget_calcu.setFont(new Font("Quicksand Light", Font.BOLD, 50));
