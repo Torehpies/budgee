@@ -76,13 +76,16 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 
 	@Override
 	public List<Record> getAllRecords() {
-		 List<Record> records = new ArrayList<>();
+		
+		 	
+		 try {
+		 	 List<Record> records = new ArrayList<>();
+	            Connection conn = DatabaseManager.getConnection();
+		        PreparedStatement stmt = conn.prepareStatement("SELECT id, userID, date, time, balanceUpdate, notes, action, category, account FROM recordsTable WHERE userID = ?");
+		        stmt.setInt(1, sessionId);
+		        ResultSet resultSet = stmt.executeQuery();
 
-	        String selectQuery = "SELECT id, userID, date, time, balanceUpdate, notes, action, category, account FROM budgee_accounts.recordsTable WHERE userID = " + sessionId;
-
-	        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
-	            ResultSet resultSet = preparedStatement.executeQuery();
-
+	        
 	            while (resultSet.next()) {
 	                int id = resultSet.getInt("id");
 	                int userId = resultSet.getInt("userID");
@@ -98,22 +101,29 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	                records.add(record);
 	            }
 
+	            
 	            resultSet.close();
+	            stmt.close();
+		        conn.close();
+
+	            return records;
 	        } catch (SQLException e) {
 	            // Handle any exceptions that may occur during the execution of the query
 	            e.printStackTrace();
+	            return null;
 	        }
 
-	        return records;
+	        
 	}
 
 	@Override
 	public List<Record> getRecordsByDateRange(java.time.LocalDate startDate, java.time.LocalDate endDate) {
 	    try {
 	        Connection conn = DatabaseManager.getConnection();
-	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM recordsTable WHERE date >= ? AND date <= ?");
+	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM recordsTable WHERE date >= ? AND date <= ? AND userID = ?");
 	        stmt.setDate(1, java.sql.Date.valueOf(startDate));
 	        stmt.setDate(2, java.sql.Date.valueOf(endDate));
+	        stmt.setInt(3, sessionId);
 	        ResultSet resultSet = stmt.executeQuery();
 
 	        List<Record> records = new ArrayList<>();
@@ -262,9 +272,10 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	public List <Budget> getBudgetsByDateRange(LocalDate startDate) {
 	    try {
 	        Connection conn = DatabaseManager.getConnection();
-	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM budgetsTable WHERE date >= ? AND date <= ?");
+	        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM budgetsTable WHERE date >= ? AND date <= ? AND userID = ?");
 	        stmt.setDate(1, java.sql.Date.valueOf(startDate.withDayOfMonth(1)));
 	        stmt.setDate(2, java.sql.Date.valueOf(startDate.withDayOfMonth(startDate.lengthOfMonth())));
+	        stmt.setInt(3, sessionId);
 	        ResultSet resultSet = stmt.executeQuery();
 
 	        List<Budget> budgets = new ArrayList<>();
