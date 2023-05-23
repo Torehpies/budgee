@@ -513,7 +513,7 @@ public class mainmain extends JFrame {
 		
 		rec_button = new JButton("Record");
 		rec_button.setBorder(null);
-		rec_button.setBounds(37, 247, 139, 40);
+		rec_button.setBounds(37, 267, 139, 40);
 		rec_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		rec_button.setForeground(new Color(252, 187, 109));
 		rec_button.setBackground(new Color(85, 111, 146));
@@ -547,7 +547,7 @@ public class mainmain extends JFrame {
 		
 		analytic_button = new JButton("Analytics");
 		analytic_button.setBorder(null);
-		analytic_button.setBounds(37, 307, 139, 40);
+		analytic_button.setBounds(37, 327, 139, 40);
 		analytic_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		analytic_button.setForeground(new Color(252, 187, 109));
 		analytic_button.setBackground(new Color(85, 111, 146));
@@ -576,7 +576,7 @@ public class mainmain extends JFrame {
 		
 		budget_button = new JButton("Budget");
 		budget_button.setBorder(null);
-		budget_button.setBounds(37, 368, 139, 40);
+		budget_button.setBounds(37, 388, 139, 40);
 		budget_button.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 		budget_button.setForeground(new Color(252, 187, 109));
 		budget_button.setBackground(new Color(85, 111, 146));
@@ -1106,9 +1106,11 @@ public class mainmain extends JFrame {
 		frmMain.add(logoBudgee);
 
 		JLabel usernameLabel = new JLabel(sessionUsername);
-		usernameLabel.setForeground(new Color(255, 255, 255));
-		usernameLabel.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		usernameLabel.setBounds(53, 11, 123, 42);
+		usernameLabel.setBorder(null);
+		usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		usernameLabel.setForeground(new Color(252, 187, 109));
+		usernameLabel.setFont(new Font("Century Gothic", Font.BOLD, 20));
+		usernameLabel.setBounds(37, 214, 139, 42);
 		frmMain.add(usernameLabel);
 		
 		user_button = new JButton("User");
@@ -1131,7 +1133,7 @@ public class mainmain extends JFrame {
 				expense_cash.setText("PHP"+ expenseTotal);
 			}
 		});
-		user_button.setBounds(37, 427, 139, 40);
+		user_button.setBounds(37, 447, 139, 40);
 		frmMain.add(user_button);
 		
 		dateSelectorContainer.add(daily_butt);
