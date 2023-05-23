@@ -167,7 +167,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public void updateBudget(Record record) {
+	public void updateAddBudget(Record record) {
 		 String category = record.getCategory();
 		 BigDecimal balanceUpdate = record.getBalance_update();
 		 Date recordDate = record.getDate();
@@ -187,13 +187,7 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		        statement.setDate(4, updatedDate);
 
 		        // Execute the update query
-		        int rowsUpdated = statement.executeUpdate();
-
-		        if (rowsUpdated > 0) {
-		            System.out.println("Budget updated successfully!");
-		        } else {
-		            System.out.println("Budget not found for category: " + category);
-		        }
+		        statement.executeUpdate();
 
 		    } catch (SQLException e) {
 		        System.out.println("Error updating budget: " + e.getMessage());
@@ -201,6 +195,28 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 		
 	}
 
+	@Override
+	public void updateDeductBudget(String recordCategory, BigDecimal recordBalance) {
+		 
+		
+		    try (Connection connection = DatabaseManager.getConnection();
+		         PreparedStatement statement = connection.prepareStatement(
+		                 "UPDATE budgetsTable SET spentBudget = spentBudget - ? WHERE userID = ? AND category = ?" )) {
+
+		        // Set the parameters for the SQL query
+		        statement.setBigDecimal(1, recordBalance);
+		        statement.setInt(2, sessionId);
+		        statement.setString(3, recordCategory);
+
+		        // Execute the update query
+		        statement.executeUpdate();
+
+		    } catch (SQLException e) {
+		        System.out.println("Error updating budget: " + e.getMessage());
+		    }
+		
+	}
+	
 	@Override
 	public void deleteBudget(int budgetId) {
 		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM budgee_accounts.budgetsTable WHERE id = ? AND userID = ?")) {
@@ -274,6 +290,8 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	        return null;
 	    }
 	}
+	
+	
 
 	@Override
 	public List<String> getUnbudgetedCategories(List<Budget> budgets){
@@ -317,54 +335,56 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	
 	
 	
+	
+	
 	//
 	@Override
 	public BigDecimal getCashIncomeTotal(List<Record> records) {
-		BigDecimal CashIncomeTotal = new BigDecimal("0");
+		BigDecimal cashIncomeTotal = new BigDecimal("0");
 		for (Record record : records) {
-			if (record.getAction().equals("Income") && record.getAccount().equals("Cash")) {
-				CashIncomeTotal = CashIncomeTotal.add(record.getBalance_update());
+			if (record.getAccount().equals("Cash")&& record.getAction().equals("Income")) {
+				cashIncomeTotal = cashIncomeTotal.add(record.getBalance_update());
 			}
 		}
-		return CashIncomeTotal;
+		return cashIncomeTotal;
 	}
 	
 	
 	//
 	@Override
 	public BigDecimal getSavingsIncomeTotal(List<Record> records) {
-		BigDecimal SavingsIncomeTotal = new BigDecimal("0");
+		BigDecimal savingsIncomeTotal = new BigDecimal("0");
 		for (Record record : records) {
 			if (record.getAction().equals("Income") && record.getAccount().equals("Savings")) {
-				SavingsIncomeTotal = SavingsIncomeTotal.add(record.getBalance_update());
+				savingsIncomeTotal = savingsIncomeTotal.add(record.getBalance_update());
 			}
 		}
-		return SavingsIncomeTotal;
+		return savingsIncomeTotal;
 	}
 	
 	
 	//gumagana sabi ni mark
 	@Override
 	public BigDecimal getCashExpenseTotal(List<Record> records) {
-		BigDecimal CashExpenseTotal = new BigDecimal("0");
+		BigDecimal cashExpenseTotal = new BigDecimal("0");
 		for (Record record : records) {
 			if (record.getAction().equals("Expense") && record.getAccount().equals("Cash")) {
-				CashExpenseTotal = CashExpenseTotal.add(record.getBalance_update());
+				cashExpenseTotal = cashExpenseTotal.add(record.getBalance_update());
 			}
 		}
-		return CashExpenseTotal;
+		return cashExpenseTotal;
 	}
 	
 	//
 	@Override
 	public BigDecimal getSavingsExpenseTotal(List<Record> records) {
-		BigDecimal SavingsExpenseTotal = new BigDecimal("0");
+		BigDecimal savingsExpenseTotal = new BigDecimal("0");
 		for (Record record : records) {
 			if (record.getAction().equals("Expense")&& record.getAccount().equals("Savings")) {
-				SavingsExpenseTotal = SavingsExpenseTotal.add(record.getBalance_update());
+				savingsExpenseTotal = savingsExpenseTotal.add(record.getBalance_update());
 			}
 		}
-		return SavingsExpenseTotal;
+		return savingsExpenseTotal;
 	}
 	
 	

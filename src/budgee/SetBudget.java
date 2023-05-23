@@ -34,31 +34,13 @@ public class SetBudget extends JFrame {
 	private JPanel SetBudgetPanel;
 	private JTextField SetLimit;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					SetBudget frame = new SetBudget();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 	public SetBudget(String category, LocalDate dateBudget, JScrollPane parentPanel, JScrollPane unbudgetedPane) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 444, 415);
 		SetBudgetPanel = new JPanel();
 		SetBudgetPanel.setBackground(new Color(66, 83, 109));
 		SetBudgetPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 
 		 ImageIcon icon = new ImageIcon("imgs/budgeeLogoMain.png");
 		 Image image = icon.getImage();

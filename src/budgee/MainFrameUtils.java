@@ -24,6 +24,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import java.math.BigDecimal;
+
 import budgee.DatabaseManager;
 import budgee.mainmain;
 //import javafx.scene.layout.Border;
@@ -35,6 +37,9 @@ public class MainFrameUtils {
 	 */
 	static JPanel createRecordPanel(Record record, JScrollPane parentPanel_rec) {
 	
+		String recordCategory = record.getCategory();
+		BigDecimal recordBalance = new BigDecimal((record.getBalance_update()).toString());
+		
 		JPanel recordPanel = new JPanel();
 		recordPanel.setBackground(new Color(68, 83, 109));
 		recordPanel.setBounds(10, 26, 613, 100);
@@ -78,6 +83,7 @@ public class MainFrameUtils {
 				BudgeeDAOImpl.deleteRecord(record.getId());
 				mainmain mainFrame = new mainmain();
 				List<Record> recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(mainFrame.getPanelStartDate(), mainFrame.getPanelEndDate());
+				BudgeeDAOImpl.updateDeductBudget(recordCategory, recordBalance);
 				MainFrameUtils.displayAllRecords(recordsByDate, parentPanel_rec);
 				
 			}

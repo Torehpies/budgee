@@ -12,7 +12,8 @@ public interface BudgeeDAO {
     void deleteRecord(int recordId);
     
     void addBudget(Budget budget);
-    void updateBudget(Record record);
+    void updateAddBudget(Record record);
+    void updateDeductBudget(String recordCategory, BigDecimal recordBalance);
     void deleteBudget(int budgetId);
     
     
@@ -29,5 +30,4 @@ public interface BudgeeDAO {
     List<Record> getAllRecords();
     List<Record> getRecordsByDateRange(LocalDate startDate, LocalDate endDate);
     List<Budget> getBudgetsByDateRange(LocalDate startDate);
-
 }

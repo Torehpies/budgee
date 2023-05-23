@@ -89,7 +89,6 @@ public class LoginFrameUwU {
 		user.setMargin(new Insets(10, 10, 10, 10));
 		frmLoginBudgee.getContentPane().add(user);
 		
-
 		
 		budgeeLogo = new JLabel("");
 		ImageIcon logo = new ImageIcon("imgs/budgeeLogo1.png");
