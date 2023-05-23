@@ -100,7 +100,6 @@ public class mainmain extends JFrame {
 
 	private UserSession session = UserSession.getInstance();
 	private String sessionUsername = session.getUsername();
-	private MainFrameUtils mainFrameUtils = new MainFrameUtils();
 	
 	private JPanel frmMain;
 	private final Action action = new SwingAction();
@@ -148,6 +147,7 @@ public class mainmain extends JFrame {
 	private LocalDate endDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
 	
 	private JScrollPane unbudgetedPane;
+	private JScrollPane budgetedPane;
 	
 	public mainmain() {		
 		
@@ -179,6 +179,9 @@ public class mainmain extends JFrame {
 		
 		activeScrollPane = recordScrollPane;
 		
+		JScrollPane budgeted_scrlpn = new JScrollPane();
+		JScrollPane unbudget_scrlpn = new JScrollPane();
+		
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
@@ -189,8 +192,9 @@ public class mainmain extends JFrame {
 		
 		BudgeeDAOImpl BudgeeDAOImpl = new BudgeeDAOImpl(connection);
 		List<Record> records = BudgeeDAOImpl.getRecordsByDateRange(startDate, endDate);
-		MainFrameUtils mainFrameUtils = new MainFrameUtils();
-		MainFrameUtils.displayAllRecords(records, recordScrollPane);		
+		List<Budget> budgets = BudgeeDAOImpl.getBudgetsByDateRange(startDate);
+		MainFrameUtils.displayAllRecords(records, recordScrollPane);
+		MainFrameUtils.displayAllBudget(budgets, budgeted_scrlpn);
 				
 		
 		JPanel exint = new JPanel();
@@ -259,9 +263,7 @@ public class mainmain extends JFrame {
 		reclebel.setForeground(new Color(252, 187, 109));
 		rec_panel.add(reclebel);
 		
-		JScrollPane budgeted_scrlpn = new JScrollPane();
-		JScrollPane unbudget_scrlpn = new JScrollPane();
-		
+
 		analytic_panel = new JPanel();
 		analytic_panel.setBackground(new Color(66, 83, 109));
 		analytic_panel.setBounds(0, 0, 792, 459);
@@ -1153,6 +1155,10 @@ public class mainmain extends JFrame {
 	
 	JScrollPane getUnbudgetedPane() {
 		return unbudgetedPane;
+	}
+	
+	JScrollPane getBudgetedPane() {
+		return budgetedPane;
 	}
 	
 	LocalDate getPanelStartDate() {
