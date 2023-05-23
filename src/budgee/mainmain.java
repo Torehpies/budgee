@@ -147,6 +147,10 @@ public class mainmain extends JFrame {
 	private LocalDate startDate = LocalDate.now().withDayOfMonth(1);
 	private LocalDate endDate = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
 	
+	private LocalDate startDateAnal = LocalDate.now();
+	private LocalDate endDateAnal = LocalDate.now();
+	
+	
 	private JScrollPane unbudgetedPane;
 	private JScrollPane budgetedPane;
 	
@@ -571,31 +575,25 @@ public class mainmain extends JFrame {
 				rec_button.setBackground(new Color(85, 111, 146));
 				analytic_button.setBackground(new Color(216, 115, 127));
 				budget_button.setBackground(new Color(85, 111, 146));
-				logOut_button.setBackground(new Color(85, 111, 146));
-			
+				logOut_button.setBackground(new Color(85, 111, 146));		
 				rec_panel.setVisible(false);
 				analytic_panel.setVisible(true);
-				budget_panel.setVisible(false);
-			
-				List <Record> recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(startDate, startDate);
+				budget_panel.setVisible(false);		
+				List <Record> recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(startDateAnal, startDateAnal);
 //				activeScrollPane = analyticScrollPane;
 				expenseTotal = BudgeeDAOImpl.getExpenseTotal(recordsByDate);
-				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);
-				
+				incomeTotal = BudgeeDAOImpl.getIncomeTotal(recordsByDate);			
 				cashExpenseTotal = BudgeeDAOImpl.getCashExpenseTotal(recordsByDate);
 				cashIncomeTotal = BudgeeDAOImpl.getCashIncomeTotal(recordsByDate);
 				savingsExpenseTotal = BudgeeDAOImpl.getSavingsExpenseTotal(recordsByDate);
 				savingsIncomeTotal = BudgeeDAOImpl.getSavingsIncomeTotal(recordsByDate);
-
-				exint_EX_lbl.setText("-PHP " + expenseTotal);
-				exint_inc_lbl.setText("PHP " + incomeTotal);
-				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));
-				
 				income_cash.setText("PHP"+ cashIncomeTotal);
 				expense_savings.setText("PHP"+ savingsExpenseTotal);
 				income_savings.setText("PHP"+ savingsIncomeTotal);
 				expense_cash.setText("PHP"+ cashExpenseTotal);
-
+				exint_EX_lbl.setText("-PHP " + expenseTotal);
+				exint_inc_lbl.setText("PHP " + incomeTotal);
+				exint_total_lbl.setText("PHP " + (incomeTotal.subtract(expenseTotal)));			
 				dateSelectorContainer.setVisible(true);
 				layeredPane.setVisible(true);
 			}
@@ -634,9 +632,7 @@ public class mainmain extends JFrame {
 			}
 		});
 		budget_button.setFocusable(false);
-
-		
-		
+	
 		daily_year_now = LocalDate.now();
         daily_date = new JLabel(formatDate(daily_year_now));
         daily_date.setHorizontalAlignment(SwingConstants.CENTER);
