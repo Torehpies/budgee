@@ -38,6 +38,8 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 import javax.swing.JComboBox;
 
@@ -120,7 +122,14 @@ import com.toedter.calendar.JDateChooser;
 			setBounds(100, 100, 754, 606);
 			contentPane.setLayout(null);
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setLocationRelativeTo(null);			
+			setLocationRelativeTo(null);
+			
+			 ImageIcon icon = new ImageIcon("imgs/budgeeLogoMain.png");
+			 Image image = icon.getImage();
+
+			 // Set the frame icon
+			 setIconImage(image);
+
 			LayeredPanel.setBounds(0, 53, 748, 516);
 			contentPane.add(LayeredPanel);		
 			
