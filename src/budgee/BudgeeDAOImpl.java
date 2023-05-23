@@ -196,17 +196,17 @@ public class BudgeeDAOImpl implements BudgeeDAO {
 	}
 
 	@Override
-	public void updateDeductBudget(String recordCategory, BigDecimal recordBalance) {
-		 
-		
+	public void updateDeductBudget(String recordCategory, BigDecimal recordBalance, Date recordDate) {
+		Date updatedDate = Date.valueOf((recordDate.toLocalDate()).withDayOfMonth(1));
 		    try (Connection connection = DatabaseManager.getConnection();
 		         PreparedStatement statement = connection.prepareStatement(
-		                 "UPDATE budgetsTable SET spentBudget = spentBudget - ? WHERE userID = ? AND category = ?" )) {
+		                 "UPDATE budgetsTable SET spentBudget = spentBudget - ? WHERE userID = ? AND category = ? AND date = ?" )) {
 
 		        // Set the parameters for the SQL query
 		        statement.setBigDecimal(1, recordBalance);
 		        statement.setInt(2, sessionId);
 		        statement.setString(3, recordCategory);
+		        statement.setDate(4, updatedDate);
 
 		        // Execute the update query
 		        statement.executeUpdate();

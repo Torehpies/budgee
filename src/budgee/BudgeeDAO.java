@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
 import java.time.LocalDate;
+import java.sql.Date;
 
 public interface BudgeeDAO {
 	
@@ -13,7 +14,7 @@ public interface BudgeeDAO {
     
     void addBudget(Budget budget);
     void updateAddBudget(Record record);
-    void updateDeductBudget(String recordCategory, BigDecimal recordBalance);
+    void updateDeductBudget(String recordCategory, BigDecimal recordBalance, Date recordDate);
     void deleteBudget(int budgetId);
     
     

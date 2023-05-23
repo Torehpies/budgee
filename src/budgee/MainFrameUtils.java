@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 import budgee.DatabaseManager;
 import budgee.mainmain;
@@ -39,6 +40,7 @@ public class MainFrameUtils {
 	
 		String recordCategory = record.getCategory();
 		BigDecimal recordBalance = new BigDecimal((record.getBalance_update()).toString());
+		Date recordDate = record.getDate();
 		
 		JPanel recordPanel = new JPanel();
 		recordPanel.setBackground(new Color(68, 83, 109));
@@ -83,7 +85,7 @@ public class MainFrameUtils {
 				BudgeeDAOImpl.deleteRecord(record.getId());
 				mainmain mainFrame = new mainmain();
 				List<Record> recordsByDate = BudgeeDAOImpl.getRecordsByDateRange(mainFrame.getPanelStartDate(), mainFrame.getPanelEndDate());
-				BudgeeDAOImpl.updateDeductBudget(recordCategory, recordBalance);
+				BudgeeDAOImpl.updateDeductBudget(recordCategory, recordBalance, recordDate);
 				MainFrameUtils.displayAllRecords(recordsByDate, parentPanel_rec);
 				
 			}
