@@ -31,7 +31,6 @@ public class SetBudget extends JFrame {
 	private JPanel SetBudgetPanel;
 	private JTextField SetLimit;
 
-<<<<<<< HEAD
 	/**
 	 * Launch the application.
 	 */
