@@ -8,9 +8,12 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -58,6 +61,12 @@ public class SetBudget extends JFrame {
 		SetBudgetPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
+		 ImageIcon icon = new ImageIcon("imgs/budgeeLogoMain.png");
+		 Image image = icon.getImage();
+
+		 // Set the frame icon
+		 setIconImage(image);
+		 
 		setContentPane(SetBudgetPanel);
 		SetBudgetPanel.setLayout(null);
 		
