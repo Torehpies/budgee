@@ -38,6 +38,8 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 import javax.swing.JComboBox;
 
@@ -62,43 +64,35 @@ import com.toedter.calendar.JDateChooser;
 
 	public class CalcuFrame extends JFrame {
 
-		//Session variables
 		private UserSession session = UserSession.getInstance();
-		private int sessionId = session.getId();
-		
-		private JScrollPane parentPanel;
-		
-		private String recordAction = "income";
-		
+		private int sessionId = session.getId();		
+		private JScrollPane parentPanel;		
+		private String recordAction = "income";	
 		private JPanel contentPane;
 		private JTextField textField;
-		private JLabel lbl1,lbl2;
-		
+		private JLabel lbl1,lbl2;		
 		double first;
 		double second;
 		double result;
 		String operation;
 		String answer;
-		private JTextField txtAddNote;
-		
+		private JTextField txtAddNote;	
 		public static Instant currentTime;
 		public static void timeAndDate()  
 		{      
 		System.out.println(java.time.Clock.systemUTC().instant());
 		currentTime = java.time.Clock.systemUTC().instant();
-		}
-		
+		}		
 		public static String userTable;
 		public static String useText(String text) {
 		String userTable = text;
 		return text;
-		}
+		}		
 		
 		Connection con;
 		PreparedStatement pst;
 		ResultSet rs;
-		private JPasswordField password;
-		
+		private JPasswordField password;		
 		public void Connect() {
 		try {
 		      Class.forName("com.mysql.cj.jdbc.Driver");
@@ -115,19 +109,6 @@ import com.toedter.calendar.JDateChooser;
 		    }
 
 		  
-//		public static void main(String[] args) {
-//			EventQueue.invokeLater(new Runnable() {
-//				public void run() {
-//					try {
-//						CalcuFrame frame = new CalcuFrame();
-//						frame.setVisible(true);
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			});
-//		}
-//		
 		private final JLayeredPane LayeredPanel = new JLayeredPane();
 		
 		
@@ -143,15 +124,21 @@ import com.toedter.calendar.JDateChooser;
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setLocationRelativeTo(null);
 			
+			 ImageIcon icon = new ImageIcon("imgs/budgeeLogoMain.png");
+			 Image image = icon.getImage();
+
+			 // Set the frame icon
+			 setIconImage(image);
+
 			LayeredPanel.setBounds(0, 53, 748, 516);
-			contentPane.add(LayeredPanel);
-			
+			contentPane.add(LayeredPanel);		
 			
 			JPanel panel = new JPanel();
 			panel.setBackground(new Color(69, 92, 123));
 			panel.setBounds(0, 0, 748, 516);
 			LayeredPanel.add(panel);
 			JButton btnEqual = new JButton("=");
+			btnEqual.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btnEqual.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnEqual.setBackground(new Color(71, 86, 122));
 			btnEqual.setFocusable(false);
@@ -199,6 +186,7 @@ import com.toedter.calendar.JDateChooser;
 				}});
 			
 			JButton btnDot = new JButton(".");
+			btnDot.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btnDot.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnDot.setBackground(new Color(71, 86, 122));
 			btnDot.setFocusable(false);
@@ -213,6 +201,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn3 = new JButton("3");
+			btn3.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn3.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn3.setBackground(new Color(71, 86, 122));
 			btn3.setFocusable(false);
@@ -227,6 +216,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn2 = new JButton("2");
+			btn2.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn2.setBackground(new Color(71, 86, 122));
 			btn2.setFocusable(false);
@@ -241,6 +231,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn0 = new JButton("0");
+			btn0.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn0.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn0.setBackground(new Color(71, 86, 122));
 			btn0.setFocusable(false);
@@ -255,6 +246,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btnDash = new JButton("-");
+			btnDash.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btnDash.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnDash.setBackground(new Color(71, 86, 122));
 			btnDash.setFocusable(false);
@@ -272,6 +264,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn1 = new JButton("1");
+			btn1.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn1.setBackground(new Color(71, 86, 122));
 			btn1.setFocusable(false);
@@ -286,6 +279,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btnMulti = new JButton("x");
+			btnMulti.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btnMulti.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnMulti.setBackground(new Color(71, 86, 122));
 			btnMulti.setFocusable(false);
@@ -301,6 +295,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn6 = new JButton("6");
+			btn6.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn6.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn6.setBackground(new Color(71, 86, 122));
 			btn6.setForeground(new Color(252, 187, 109));
@@ -315,6 +310,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn5 = new JButton("5");
+			btn5.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn5.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn5.setBackground(new Color(71, 86, 122));
 			btn5.setForeground(new Color(252, 187, 109));
@@ -329,6 +325,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn4 = new JButton("4");
+			btn4.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn4.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn4.setForeground(new Color(252, 187, 109));
 			btn4.setBackground(new Color(71, 86, 122));
@@ -343,6 +340,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btnDivide = new JButton("÷");
+			btnDivide.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btnDivide.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnDivide.setForeground(new Color(252, 187, 109));
 			btnDivide.setBackground(new Color(71, 86, 122));
@@ -358,6 +356,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btnPlus = new JButton("+");
+			btnPlus.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btnPlus.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnPlus.setForeground(new Color(252, 187, 109));
 			btnPlus.setBackground(new Color(71, 86, 122));
@@ -374,6 +373,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn7 = new JButton("7");
+			btn7.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn7.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn7.setForeground(new Color(252, 187, 109));
 			btn7.setBackground(new Color(71, 86, 122));
@@ -388,6 +388,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn8 = new JButton("8");
+			btn8.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn8.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn8.setForeground(new Color(252, 187, 109));
 			btn8.setBackground(new Color(71, 86, 122));
@@ -402,6 +403,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btn9 = new JButton("9");
+			btn9.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btn9.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btn9.setForeground(new Color(252, 187, 109));
 			btn9.setBackground(new Color(71, 86, 122));
@@ -415,6 +417,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btnC = new JButton("C");
+			btnC.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btnC.setForeground(new Color(71, 86, 122));
 			btnC.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnC.setBackground(new Color(216, 115, 127));
@@ -429,6 +432,7 @@ import com.toedter.calendar.JDateChooser;
 			});
 			
 			JButton btnDEL = new JButton("DEL");
+			btnDEL.setFont(new Font("Quicksand Light", Font.BOLD, 13));
 			btnDEL.setForeground(new Color(71, 86, 122));
 			btnDEL.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 			btnDEL.setBackground(new Color(216, 115, 127));
@@ -479,7 +483,7 @@ import com.toedter.calendar.JDateChooser;
 			textField.setBounds(10, 45, 300, 45);
 			panel_1.add(textField);
 			textField.setHorizontalAlignment(SwingConstants.RIGHT);
-			textField.setFont(new Font("Tahoma", Font.BOLD, 20));
+			textField.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 			textField.setColumns(10);
 			
 			lbl1 = new JLabel(" ");
@@ -489,10 +493,10 @@ import com.toedter.calendar.JDateChooser;
 			panel_1.add(lbl1);
 			
 			txtAddNote = new JTextField();
+			txtAddNote.setText("      Add note");
 			txtAddNote.setHorizontalAlignment(SwingConstants.LEFT);
-			txtAddNote.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			txtAddNote.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 			txtAddNote.setForeground(Color.BLACK);
-			txtAddNote.setText("Add Note");
 			txtAddNote.setBounds(45, 107, 662, 93);
 			panel.add(txtAddNote);
 			txtAddNote.setColumns(10);
@@ -523,15 +527,15 @@ import com.toedter.calendar.JDateChooser;
 			JLabel lblAcc = new JLabel("Account");
 			lblAcc.setForeground(new Color(255, 255, 255));
 			lblAcc.setHorizontalAlignment(SwingConstants.CENTER);
-			lblAcc.setFont(new Font("Stencil", Font.PLAIN, 20));
+			lblAcc.setFont(new Font("Quicksand Light", Font.BOLD, 20));
 			lblAcc.setBounds(45, 42, 318, 17);
 			panel.add(lblAcc);
 			
 			JLabel lblCategory = new JLabel("Category");
 			lblCategory.setForeground(new Color(255, 255, 255));
 			lblCategory.setHorizontalAlignment(SwingConstants.CENTER);
-			lblCategory.setFont(new Font("Stencil", Font.PLAIN, 20));
-			lblCategory.setBounds(385, 40, 318, 21);
+			lblCategory.setFont(new Font("Quicksand Light", Font.BOLD, 20));
+			lblCategory.setBounds(385, 39, 318, 23);
 			panel.add(lblCategory);
 			
 			JDateChooser dateChooser = new JDateChooser();
@@ -547,6 +551,7 @@ import com.toedter.calendar.JDateChooser;
 			panel.add(tutuldok_1);
 			
 			JComboBox<String> hourComboBox = new JComboBox<>();
+			hourComboBox.setFont(new Font("Quicksand Light", Font.BOLD, 11));
 			hourComboBox.setBounds(45, 385, 117, 50);
 			panel.add(hourComboBox);
 
@@ -555,6 +560,7 @@ import com.toedter.calendar.JDateChooser;
 			}
 
 			JComboBox<String> minuteComboBox = new JComboBox<>();
+			minuteComboBox.setFont(new Font("Quicksand Light", Font.BOLD, 11));
 			minuteComboBox.setBounds(179, 385, 117, 50);
 			panel.add(minuteComboBox);
 
@@ -578,12 +584,8 @@ import com.toedter.calendar.JDateChooser;
 						
 					}
 					else {
-				
 					
 					String selectedDate = new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate());
-					System.out.println(selectedDate);
-					
-					System.out.println(selectedDate);
 					
 					Date recordDate = Date.valueOf(selectedDate);
 					
@@ -601,9 +603,9 @@ import com.toedter.calendar.JDateChooser;
 
 					if (accountObject == null) {
 						int lastIndex = accounts.getItemCount() - 1;
-						recordAccount = (accounts.getItemAt(lastIndex).toString()).toLowerCase();
+						recordAccount = accounts.getItemAt(lastIndex).toString();
 					} else {
-						recordAccount = (accountObject.toString()).toLowerCase();
+						recordAccount = accountObject.toString();
 					}
 
 					Object categoryObject = category.getSelectedItem();
@@ -612,10 +614,10 @@ import com.toedter.calendar.JDateChooser;
 					if (categoryObject == null) {
 
 						int lastIndex = category.getItemCount() - 1;
-						recordCategory = (category.getItemAt(lastIndex).toString()).toLowerCase();
+						recordCategory = category.getItemAt(lastIndex).toString();
 					} else {
 
-						recordCategory = (categoryObject.toString()).toLowerCase();
+						recordCategory = categoryObject.toString();
 					}
 					
 					Record record = new Record(sessionId, recordDate, recordTime, recordBalanceUpdate, 
@@ -624,10 +626,13 @@ import com.toedter.calendar.JDateChooser;
 					Connection connection = DatabaseManager.getConnection();				
 					BudgeeDAOImpl BudgeeDAO = new BudgeeDAOImpl(connection);
 					BudgeeDAO.addRecord(record);
+					BudgeeDAO.updateAddBudget(record);
 					
 					MainFrameUtils.refreshRecords(parentPanel);
-				}
+					
+					dispose();
 					}
+				}
 			});
 			
 			btnSave_1.setFocusable(false);
@@ -661,7 +666,7 @@ import com.toedter.calendar.JDateChooser;
 			JButton btnExpense = new JButton("Expense");
 			JButton btnIncome = new JButton("Income");
 			
-			btnIncome.setFont(new Font("Tahoma", Font.BOLD, 15));
+			btnIncome.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 			btnIncome.setForeground(new Color(252, 187, 109));
 			btnIncome.setFocusable(false);
 			btnIncome.setBackground(new Color(69, 92, 123));
@@ -688,7 +693,7 @@ import com.toedter.calendar.JDateChooser;
 
 		
 			btnExpense.setForeground(new Color(71, 86, 122));
-			btnExpense.setFont(new Font("Tahoma", Font.BOLD, 15));
+			btnExpense.setFont(new Font("Quicksand Light", Font.BOLD, 15));
 			btnExpense.setBackground(new Color(252, 187, 109));
 			btnExpense.addActionListener(new ActionListener() {
 			    public void actionPerformed(ActionEvent e) {

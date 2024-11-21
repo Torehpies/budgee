@@ -22,6 +22,8 @@ import java.sql.*;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginFrameUwU {
 
@@ -29,7 +31,6 @@ public class LoginFrameUwU {
 	private JTextField user;
 	private JLabel budgeeLogo;
 	private JLabel budgeeLabel;
-	private JButton resetBTN;
 	private JButton newAccBTN;
 	private JPasswordField pass;
 
@@ -43,7 +44,12 @@ public class LoginFrameUwU {
 
 	public LoginFrameUwU() {
 		initialize();		
+		setIcon();
 	}
+	 private void setIcon() {
+	        ImageIcon icon = new ImageIcon("imgs/budgeeLogoMain.png");
+	        frmLoginBudgee.setIconImage(icon.getImage());
+	    }
 	
 
 	public String getTableID(int sessionId) {
@@ -82,7 +88,6 @@ public class LoginFrameUwU {
 		user.setMargin(new Insets(10, 10, 10, 10));
 		frmLoginBudgee.getContentPane().add(user);
 		
-
 		
 		budgeeLogo = new JLabel("");
 		ImageIcon logo = new ImageIcon("imgs/budgeeLogo1.png");
@@ -98,79 +103,51 @@ public class LoginFrameUwU {
 		frmLoginBudgee.getContentPane().add(budgeeLabel);
 		
 		
-		JButton loginBTN = new JButton("login");
+		JButton loginBTN = new JButton("Login");
 		loginBTN.setForeground(new Color(252, 187, 109));
 		loginBTN.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		loginBTN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-					Connection connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
-					Statement statement=connection.createStatement();
-					
-					String loginQuery = "SELECT * FROM budgee_accounts.accounts1 where username='" + user.getText()
-							+ "' and password='" + pass.getText() + "'";
-					ResultSet resultLoginQuery = statement.executeQuery(loginQuery);	
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            Class.forName("com.mysql.cj.jdbc.Driver");
+		            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/budgee_accounts", "root", "");
 
-					if (resultLoginQuery != null) {
-			
-						int sessionId = 0;
-						String sessionUsername = "";
-						
-						while(resultLoginQuery.next()) {
-							sessionId = resultLoginQuery.getInt("ID");
-							sessionUsername = resultLoginQuery.getString("username");
-						}
-						//Setting session variables
-						UserSession session = UserSession.getInstance();
-						session.setId(sessionId);
-						session.setUsername(sessionUsername);
-						
-						PreparedStatement pst = connection.prepareStatement("SELECT ID FROM budgee_accounts.accounts1 "
-							+ "WHERE username='" + user.getText() + "' and password='" + pass.getText() + "'");
-						ResultSet rs3 = pst.executeQuery();
-						
-						mainmain main = new mainmain();
-						main.setVisible(true);
-						frmLoginBudgee.dispose();
-						JOptionPane.showMessageDialog(null,"Login Sucessfully... ");
-						
-						resultLoginQuery.close();
-						statement.close();
-						connection.close();
+		            String loginQuery = "SELECT * FROM budgee_accounts.accounts1 WHERE username=? AND password=?";
+		            PreparedStatement statement = connection.prepareStatement(loginQuery);
+		            statement.setString(1, user.getText());
+		            statement.setString(2, pass.getText());
+		            ResultSet resultLoginQuery = statement.executeQuery();
 
-					}
-						
-					else {
-						JOptionPane.showMessageDialog(null,"Login Denied... ");
-						resultLoginQuery.close();
-						statement.close();
-						connection.close();
-					}
-				}catch(Exception e1) {System.out.print(e1);}
-				
-			}		
+		            if (resultLoginQuery.next()) {
+		                int sessionId = resultLoginQuery.getInt("ID");
+		                String sessionUsername = resultLoginQuery.getString("username");
+
+		                // Setting session variables
+		                UserSession session = UserSession.getInstance();
+		                session.setId(sessionId);
+		                session.setUsername(sessionUsername);
+
+		                mainmain main = new mainmain();
+		                main.setVisible(true);
+		                frmLoginBudgee.dispose();
+		                JOptionPane.showMessageDialog(null, "Login Successfully...");
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Login Denied...");
+		            }
+
+		            resultLoginQuery.close();
+		            statement.close();
+		            connection.close();
+		        } catch (Exception e1) {
+		            JOptionPane.showMessageDialog(null, "An error occurred during login: " + e1.getMessage(), "Login Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
 		});
 		
-		loginBTN.setBounds(270, 396, 89, 23);
+		loginBTN.setBounds(270, 396, 192, 23);
 		loginBTN.setFocusable(false);
 		loginBTN.setBackground(new Color(66, 83, 109));
 		frmLoginBudgee.getContentPane().add(loginBTN);
-		
-		resetBTN = new JButton("reset");
-		resetBTN.setBackground(new Color(66, 83, 109));
-		resetBTN.setForeground(new Color(252, 187, 109));
-		resetBTN.setFont(new Font("Segoe UI Historic", Font.BOLD, 12));
-		resetBTN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				user.setText("");
-				pass.setText("");
-			}
-		});
-		resetBTN.setBounds(373, 397, 89, 23);
-		resetBTN.setFocusable(false);
-		frmLoginBudgee.getContentPane().add(resetBTN);
 		
 		
 		newAccBTN = new JButton("Create new account");
@@ -189,6 +166,14 @@ public class LoginFrameUwU {
 		frmLoginBudgee.getContentPane().add(newAccBTN);
 		
 		pass = new JPasswordField();
+		pass.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		            loginBTN.doClick();
+		        }
+			}
+		});
 		pass.setForeground(new Color(252, 187, 109));
 		pass.setBackground(new Color(66, 83, 109));
 		pass.setBounds(211, 341, 307, 37);
